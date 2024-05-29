@@ -1,0 +1,13 @@
+import { View, Text, TextInput } from 'react-native'
+import React from 'react'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import SignUp from './app/SignUp/SignUp';
+import Homepage from './app/homepage/Homepage';
+
+export default function App() {
+  return (
+    <View>
+     <Homepage></Homepage>
+   </View>
+  )
+}
