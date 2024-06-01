@@ -42,7 +42,7 @@ const Data = [
     }
 ]
 
-const newData = [ 
+const newData = [
     {
         id: 1,
         title: 'Dorothy Perkins',
@@ -98,11 +98,11 @@ export default function Homepage() {
                 </View>
                 <Text style={{ fontSize: 11 }}>{v.title}</Text>
                 <Text style={{ fontSize: 16, color: 'black' }}>{v.subtitle}</Text>
-                <View style = {style.priceview}>
-                <Text style = {style.pricetext}>{v.price}$</Text>
-                <Text style = {style.disscounttext}>{v.disscount}$</Text>
+                <View style={style.priceview}>
+                    <Text style={style.pricetext}>{v.price}$</Text>
+                    <Text style={style.disscounttext}>{v.disscount}$</Text>
                 </View>
-               
+
             </View>
         </View>
     )
@@ -110,11 +110,11 @@ export default function Homepage() {
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
         >
             <StatusBar
                 barStyle="dark-content"
-                translucent backgroundColor='transparent' 
+                translucent backgroundColor='transparent'
             />
 
             <ImageBackground
@@ -173,6 +173,34 @@ export default function Homepage() {
 
             </View>
 
+            <View>           
+             <View>
+                <ImageBackground source={require('../../assets/image/newcollection.png')} style={style.backgroundimage2}></ImageBackground>
+
+                <View>
+                    <Text style={style.collectiontext}>New Collection</Text>
+                </View>
+
+
+            </View>
+
+            <View>
+                <View>
+                    <ImageBackground source={require('../../assets/image/summersale.png')} style={style.summerimage}></ImageBackground>
+                    <View>
+                        <Text style={style.summertext}>Summer Sale</Text>
+                    </View>
+                    <View style= {style.summerimage}>
+                        <ImageBackground source={require('../../assets/image/Blackimage.png')} style = {style.blackImage}></ImageBackground>
+                        <View>
+                            <Text style = {style.blackImage}>Black</Text>
+                        </View>
+                    </View>
+                </View>   
+            </View>
+            </View>
+
+
         </ScrollView>
     )
 }
@@ -180,8 +208,8 @@ export default function Homepage() {
 
 const style = StyleSheet.create({
 
-    container :{
-        marginHorizontal : horizontalScale(16)
+    container: {
+        marginHorizontal: horizontalScale(16)
     },
 
     product: {
@@ -199,7 +227,7 @@ const style = StyleSheet.create({
     rating: {
         flexDirection: 'row',
         color: '#FFBA49',
-        marginBottom : 8
+        marginBottom: 8
     },
 
     backgroundimage: {
@@ -247,25 +275,71 @@ const style = StyleSheet.create({
         color: 'black'
     },
 
-    viewalltext : {
+    viewalltext: {
         fontFamily: 'Metropolis-Regular',
         fontSize: 13,
         color: 'black'
     },
 
-    priceview : {
-        flexDirection : 'row'
+    priceview: {
+        flexDirection: 'row'
     },
 
-    pricetext : {
-        textDecorationLine : 'line-through',
-        fontFamily : 'Metropolis-Regular'
+    pricetext: {
+        textDecorationLine: 'line-through',
+        fontFamily: 'Metropolis-Regular'
     },
 
-    disscounttext : {
-        marginLeft :9,
-        color :'red',
-        fontFamily : 'Metropolis-Regular'
+    disscounttext: {
+        marginLeft: 9,
+        color: 'red',
+        fontFamily: 'Metropolis-Regular',
+        marginBottom : verticalScale(40)
+    },
+
+    backgroundimage2: {
+        height: verticalScale(400),
+        position: 'relative'
+    },
+
+    collectiontext: {
+        position: 'absolute',
+        color: 'white',
+        fontSize: moderateScale(30),
+        fontFamily: 'Metropolis-Black',
+        bottom: moderateScale(70),
+        right : horizontalScale(20)
+
+    },
+
+    summerimage : {
+        width : 187,
+        height: 186,
+        position : 'relative'
+        
+    },
+
+    summertext : {
+        width : '50%',
+        position : 'absolute',
+        color : 'red',
+        bottom : verticalScale(60),
+        fontSize : moderateScale(32),
+        fontFamily : 'Metropolis-Black',
+        left : moderateScale(25)
+    },
+
+    blackImage : {
+        width : '100%',
+        height :  250,
+        position : 'relative'
+    },
+
+    blacktext : {
+        position : 'absolute',
+        color :'white',
+        bottom : 50,
+        fontSize : 50
     }
 
 
