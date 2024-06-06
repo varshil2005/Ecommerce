@@ -173,7 +173,7 @@ export default function Homepage() {
 
             </View>
 
-            <View>           
+        <View style = {{marginTop : verticalScale(40)}}>
              <View>
                 <ImageBackground source={require('../../assets/image/newcollection.png')} style={style.backgroundimage2}></ImageBackground>
 
@@ -183,23 +183,38 @@ export default function Homepage() {
 
 
             </View>
+          
 
-            <View>
-                <View>
-                    <ImageBackground source={require('../../assets/image/summersale.png')} style={style.summerimage}></ImageBackground>
+            <View style = {style.collectionview}>
+                <View style = {{width : '50%'}}>
+                    <View style = {{height : '50%'}}>
+                    <TouchableOpacity><ImageBackground source={require('../../assets/image/summersale.png')} style={style.summerimage}></ImageBackground></TouchableOpacity>
                     <View>
                         <Text style={style.summertext}>Summer Sale</Text>
                     </View>
-                    <View style= {style.summerimage}>
-                        <ImageBackground source={require('../../assets/image/Blackimage.png')} style = {style.blackImage}></ImageBackground>
+
+                    </View>
+                    
+                    <View style = {{height : '50%'}}>                       
+                        <TouchableOpacity><ImageBackground source={require('../../assets/image/Blackimage.png')} style = {style.blackImage}></ImageBackground></TouchableOpacity>
                         <View>
-                            <Text style = {style.blackImage}>Black</Text>
+                            <Text style = {style.blacktext}>Black</Text>
                         </View>
                     </View>
-                </View>   
-            </View>
-            </View>
+                </View>
+ 
+                
+                <View style = {{width : '50%'}}>
+                    <ImageBackground source={require('../../assets/image/menhoodies.png')} style = {style.menhoddies}></ImageBackground>
+                    <View>
+                        <Text>Men's hoodies</Text>
+                    </View>
+                </View>
+          
+            
+                </View>
 
+            </View>
 
         </ScrollView>
     )
@@ -294,11 +309,10 @@ const style = StyleSheet.create({
         marginLeft: 9,
         color: 'red',
         fontFamily: 'Metropolis-Regular',
-        marginBottom : verticalScale(40)
     },
 
     backgroundimage2: {
-        height: verticalScale(400),
+        height: 400,
         position: 'relative'
     },
 
@@ -307,20 +321,26 @@ const style = StyleSheet.create({
         color: 'white',
         fontSize: moderateScale(30),
         fontFamily: 'Metropolis-Black',
-        bottom: moderateScale(70),
+        bottom: moderateScale(65),
         right : horizontalScale(20)
 
     },
 
+    collectionview : {
+        flexDirection : 'row',
+        width : '100%',
+        height : 400
+    },
+
     summerimage : {
-        width : 187,
-        height: 186,
-        position : 'relative'
+        width : '100%',
+        height: '100%',
+        position : 'relative',
         
     },
 
     summertext : {
-        width : '50%',
+        width : '80%',
         position : 'absolute',
         color : 'red',
         bottom : verticalScale(60),
@@ -331,16 +351,24 @@ const style = StyleSheet.create({
 
     blackImage : {
         width : '100%',
-        height :  250,
+        height :  '100%',
         position : 'relative'
     },
 
     blacktext : {
         position : 'absolute',
         color :'white',
-        bottom : 50,
-        fontSize : 50
-    }
+        bottom : verticalScale(30),
+        fontSize : 34,
+        fontFamily : 'Metropolis-Black',
+        left : moderateScale(25)
+    },
+
+    menhoddies : {
+        width : '100%',
+        height : '100%',
+        position : 'relative'
+    },
 
 
 })
