@@ -1,30 +1,40 @@
-import { View, StatusBar, ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import React, { useCallback } from 'react'
+import { View, StatusBar, ScrollView, Text, StyleSheet, TouchableOpacity , document} from 'react-native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { horizontalScale, moderateScale, verticalScale } from '../../assets/metrics/Metrics';
 import { RangeSlider } from '@react-native-assets/slider';
 import CheckBox from 'react-native-check-box'
-
-
-
+import { useEffect, useState } from 'react';
 
 
 
 export default function Filter() {
+    const [min, setmin] = useState(0);
+    const [max, setmax] = useState(200);
+     const [price, setprice] = useState(78)
+
+     const [pressbutton, setpressbutton] = useState("white");
+
+     const changecolor = color => {
+      setpressbutton(color)
+     }
+
+     useEffect(()=> {
+        document.style.backgroundColor= pressbutton
+     } , [pressbutton])
+   
     return (
         <View style={style.mainContainer}>
             <View style={style.bodyContainer}>
                 <ScrollView >
+                    <StatusBar
+                        barStyle="dark-content"
+                        translucent backgroundColor='white'
+                    />
 
-                    <View style={{ backgroundColor: 'white', height: 70, paddingTop: verticalScale(20) }}>
-                        <StatusBar
-                            barStyle="dark-content"
-                            translucent backgroundColor='white'
-                        />
-                        <View style={style.titlebar}>
-                            <MaterialIcons name='chevron-left' size={30} color='black'></MaterialIcons>
-                            <Text style={style.filtertext}>Filters</Text>
-                        </View>
+
+                    <View style={style.titlebar}>
+                        <MaterialIcons name='chevron-left' size={30} color='black'></MaterialIcons>
+                        <Text style={style.filtertext}>Filters</Text>
                     </View>
 
 
@@ -32,17 +42,36 @@ export default function Filter() {
 
                     <View style={style.viewstyle}>
                         <RangeSlider style={style.Slider}
+                            // step={1}
+                            // minimumValue={min}
+                            // maximumValue={max}
+                            // value={distance}
+                            // onValueChange={val => setdistance(val)}
+                            // thumbTintColor='rgb(252, 228, 149)'
+                            // maximumTrackTintColor='#d3d3d3'
+                            // minimumTrackTintColor='rgb(252, 228, 149)'
+
+                            step={1}
                             range={[78, 143]}
-                            minimumValue={0}
-                            maximumValue={200}
+                            minimumValue={min}
+                            maximumValue={max}
                             inboundColor='#DB3022'
                             thumbTintColor='#DB3022'
                             inverted={false}
                             enabled={true}
                             trackHeight={5}
+                            allowOverlap={false}
                             thumbSize={25}
+                             value = {price}
+                             onValueChange={val => setprice(val)}
+                             
 
                         />
+                        <View style={style.textCon}>
+                            <Text style={style.colorYellow}>
+                                {price  + '$'}
+                            </Text>
+                        </View>
 
                     </View>
 
@@ -67,8 +96,8 @@ export default function Filter() {
 
                     <Text style={style.text}>Category</Text>
                     <View style={style.categoryview}>
-                        <TouchableOpacity style={style.category1}><Text style={style.categorytext}>All</Text></TouchableOpacity>
-                        <TouchableOpacity style={style.category2}><Text style={style.categorytext}>Women</Text></TouchableOpacity>
+                        <TouchableOpacity style={style.category1}><Text style={style.categorytext} >All</Text></TouchableOpacity>
+                        <TouchableOpacity style={style.category2} onPress= {() => changecolor("red")}><Text style={style.categorytext} >Women</Text></TouchableOpacity>
                         <TouchableOpacity style={style.category2}><Text style={style.categorytext}>Men</Text></TouchableOpacity>
                         <TouchableOpacity style={style.category2}><Text style={style.categorytext}>Boys</Text></TouchableOpacity>
                         <TouchableOpacity style={style.category2}><Text style={style.categorytext}>Girls</Text></TouchableOpacity>
@@ -131,9 +160,6 @@ export default function Filter() {
                         </View>
 
                     </View>
-
-                   
-
                 </ScrollView>
 
 
@@ -141,9 +167,12 @@ export default function Filter() {
             </View>
 
             <View style={style.applayview}>
-                        <Text>fixed</Text>
+                <View style={style.buttonview}>
+                    <TouchableOpacity style={style.discardbutton}><Text style={style.buttontext1}>Discard</Text></TouchableOpacity>
+                    <TouchableOpacity style={style.applybutton} ><Text style={style.buttontext2}>Apply</Text></TouchableOpacity>
+                </View>
 
-                    </View>
+            </View>
 
         </View>
 
@@ -164,19 +193,18 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 20,
-        width: '100%',
         paddingLeft: horizontalScale(16),
-
+        paddingTop: verticalScale(15),
+        backgroundColor: 'white'
 
     },
 
     filtertext: {
-        marginLeft: horizontalScale(120),
+        // marginLeft: horizontalScale(120),
         fontSize: moderateScale(18),
         fontFamily: 'Metropolis-Black',
         color: 'black',
-
-
+        marginHorizontal: 'auto'
     },
 
     text: {
@@ -216,44 +244,44 @@ const style = StyleSheet.create({
 
     circle1: {
 
-        height: 36,
-        width: 36,
+        height: verticalScale(36),
+        width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: 'black'
     },
     circle2: {
 
-        height: 36,
-        width: 36,
+        height: verticalScale(36),
+        width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: '#F6F6F6'
     },
     circle3: {
 
-        height: 36,
-        width: 36,
+        height: verticalScale(36),
+        width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: '#B82222'
     },
     circle4: {
 
-        height: 36,
-        width: 36,
+        height: verticalScale(36),
+        width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: '#BEA9A9'
     },
     circle5: {
 
-        height: 36,
-        width: 36,
+        height: verticalScale(36),
+        width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: '#E2BB8D'
     },
 
     circle6: {
 
-        height: 36,
-        width: 36,
+        height: verticalScale(36),
+        width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: '#151867'
     },
@@ -269,8 +297,8 @@ const style = StyleSheet.create({
     },
 
     size1: {
-        width: 40,
-        height: 40,
+        width: horizontalScale(40),
+        height: verticalScale(40),
         borderRadius: 9,
         marginRight: verticalScale(20),
         // backgroundColor: 'red',
@@ -302,8 +330,8 @@ const style = StyleSheet.create({
 
 
     category1: {
-        width: 100,
-        height: 40,
+        width: horizontalScale(100),
+        height: verticalScale(40),
         borderWidth: 0.5,
         borderColor: 'black',
         borderRadius: 8,
@@ -313,13 +341,14 @@ const style = StyleSheet.create({
     },
 
     category2: {
-        width: 100,
-        height: 40,
+        width: horizontalScale(100),
+        height: verticalScale(40),
         backgroundColor: 'white',
         borderWidth: 0.5,
         borderColor: 'black',
         borderRadius: 8,
         marginRight: horizontalScale(10),
+        
     },
 
     categorytext: {
@@ -336,12 +365,12 @@ const style = StyleSheet.create({
     },
 
     righticon: {
-        marginRight: 10,
+        marginRight: horizontalScale(10),
         color: 'black',
     },
 
     SearchBar: {
-        width: '90%',
+        width: horizontalScale('90%'),
         paddingLeft: horizontalScale(16),
         marginTop: verticalScale(20),
 
@@ -366,9 +395,9 @@ const style = StyleSheet.create({
 
     applayview: {
         width: '100%',
-        height: 50,
-        flex: 1,
-        backgroundColor: 'red',
+        flex: 1.5,
+        backgroundColor: 'white',
+        marginTop: verticalScale(15)
 
     },
 
@@ -379,6 +408,50 @@ const style = StyleSheet.create({
 
     bodyContainer: {
         flex: 10
+    },
+
+    discardbutton: {
+        width: horizontalScale(160),
+        borderWidth: 1,
+        borderColor: 'black',
+        height: verticalScale(40),
+        borderRadius: 20,
+        paddingTop: verticalScale(8)
+
+    },
+
+    applybutton: {
+        width: horizontalScale(160),
+        height: verticalScale(40),
+        backgroundColor: '#DB3022',
+        borderRadius: 20,
+        paddingTop: verticalScale(8)
+
+    },
+
+    buttonview: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: verticalScale(25)
+    },
+
+    buttontext1: {
+        textAlign: 'center',
+        fontFamily: 'Metropolis-Regular',
+        color: 'black'
+
+    },
+    buttontext2: {
+        textAlign: 'center',
+        fontFamily: 'Metropolis-Regular',
+        color: 'white'
+    },
+
+    colorYellow: {
+        color: 'black',
+        fontSize : 20,
+        
+
     }
 
 
