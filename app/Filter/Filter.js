@@ -1,27 +1,30 @@
-import { View, StatusBar, ScrollView, Text, StyleSheet, TouchableOpacity , document} from 'react-native'
+import React, { useState } from 'react';
+import { View, StatusBar, ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { horizontalScale, moderateScale, verticalScale } from '../../assets/metrics/Metrics';
-import { RangeSlider } from '@react-native-assets/slider';
-import CheckBox from 'react-native-check-box'
-import { useEffect, useState } from 'react';
-
-
+import Slider from '@react-native-assets/slider';
+import CheckBox from 'react-native-check-box';
 
 export default function Filter() {
-    const [min, setmin] = useState(0);
-    const [max, setmax] = useState(200);
-     const [price, setprice] = useState(78)
+    const [price, setPrice] = useState(78);
+    const [selectedSize, setSelectedSize] = useState(null);
+    const [selectedCategory, setselectedCategory] = useState(null);
+    const [selctbrand, setselctbrand] = useState(null)
 
-     const [pressbutton, setpressbutton] = useState("white");
+    const size = ['XS' , 'S' , 'M' , 'L' , 'XL'];
 
-     const changecolor = color => {
-      setpressbutton(color)
-     }
+    const selectSize = (size) => {
+        setSelectedSize(size);
+    };
 
-     useEffect(()=> {
-        document.style.backgroundColor= pressbutton
-     } , [pressbutton])
-   
+    
+
+    const categories = ['All', 'Women', 'Men', 'Boys', 'Girls'];
+
+    const selectCategory = (category) => {
+        setselectedCategory(category);
+    };
+
     return (
         <View style={style.mainContainer}>
             <View style={style.bodyContainer}>
@@ -31,48 +34,29 @@ export default function Filter() {
                         translucent backgroundColor='white'
                     />
 
-
                     <View style={style.titlebar}>
                         <MaterialIcons name='chevron-left' size={30} color='black'></MaterialIcons>
                         <Text style={style.filtertext}>Filters</Text>
                     </View>
 
-
                     <Text style={style.text}>Price range</Text>
-
                     <View style={style.viewstyle}>
-                        <RangeSlider style={style.Slider}
-                            // step={1}
-                            // minimumValue={min}
-                            // maximumValue={max}
-                            // value={distance}
-                            // onValueChange={val => setdistance(val)}
-                            // thumbTintColor='rgb(252, 228, 149)'
-                            // maximumTrackTintColor='#d3d3d3'
-                            // minimumTrackTintColor='rgb(252, 228, 149)'
-
+                        <Slider
+                            style={style.Slider}
                             step={1}
-                            range={[78, 143]}
-                            minimumValue={min}
-                            maximumValue={max}
-                            inboundColor='#DB3022'
-                            thumbTintColor='#DB3022'
-                            inverted={false}
-                            enabled={true}
-                            trackHeight={5}
-                            allowOverlap={false}
-                            thumbSize={25}
-                             value = {price}
-                             onValueChange={val => setprice(val)}
-                             
-
+                            minimumValue={0}
+                            maximumValue={200}
+                            minimumTrackTintColor="#DB3022"
+                            maximumTrackTintColor="#d3d3d3"
+                            thumbTintColor="#DB3022"
+                            value={price}
+                            onValueChange={val => setPrice(val)}
                         />
                         <View style={style.textCon}>
                             <Text style={style.colorYellow}>
-                                {price  + '$'}
+                                {price + '$'}
                             </Text>
                         </View>
-
                     </View>
 
                     <Text style={style.text}>Colors</Text>
@@ -87,20 +71,49 @@ export default function Filter() {
 
                     <Text style={style.text}>Sizes</Text>
                     <View style={style.sizeview}>
-                        <TouchableOpacity style={style.size1}><Text style={style.sizetext}>XS</Text></TouchableOpacity>
-                        <TouchableOpacity style={style.size1}><Text style={style.sizetext}>S</Text></TouchableOpacity>
-                        <TouchableOpacity style={style.size1}><Text style={style.sizetext}>M</Text></TouchableOpacity>
-                        <TouchableOpacity style={style.size1}><Text style={style.sizetext}>L</Text></TouchableOpacity>
-                        <TouchableOpacity style={style.size1}><Text style={style.sizetext}>XL</Text></TouchableOpacity>
+                    {size.map((size) => (
+                            <TouchableOpacity
+                                key={size}
+                                style={[
+                                    style.sizeButton,
+                                    selectedSize === size && style.selectedSizeButton,
+                                ]}
+                                onPress={() => selectSize(size)}
+                            >
+                                <Text
+                                    style={[
+                                        style.sizetext,
+                                        selectedSize === size && style.selectedSizetext,
+                                    ]}
+                                >
+                                    {size}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+  
                     </View>
 
                     <Text style={style.text}>Category</Text>
                     <View style={style.categoryview}>
-                        <TouchableOpacity style={style.category1}><Text style={style.categorytext} >All</Text></TouchableOpacity>
-                        <TouchableOpacity style={style.category2} onPress= {() => changecolor("red")}><Text style={style.categorytext} >Women</Text></TouchableOpacity>
-                        <TouchableOpacity style={style.category2}><Text style={style.categorytext}>Men</Text></TouchableOpacity>
-                        <TouchableOpacity style={style.category2}><Text style={style.categorytext}>Boys</Text></TouchableOpacity>
-                        <TouchableOpacity style={style.category2}><Text style={style.categorytext}>Girls</Text></TouchableOpacity>
+                        {categories.map((category) => (
+                            <TouchableOpacity
+                                key={category}
+                                style={[
+                                    style.categoryButton,
+                                    selectedCategory === category && style.selectedCategoryButton,
+                                ]}
+                                onPress={() => selectCategory(category)}
+                            >
+                                <Text
+                                    style={[
+                                        style.categorytext,
+                                        selectedCategory === category && style.selectedCategorytext,
+                                    ]}
+                                >
+                                    {category}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
                     </View>
 
                     <View>
@@ -109,11 +122,7 @@ export default function Filter() {
                                 <Text style={style.text}>Brand</Text>
                                 <Text style={{ paddingLeft: 16, fontFamily: 'Metropolis-Regular', fontSize: 11 }}>addidas,Originals,Jack & Jones , s.Oliver</Text>
                             </View>
-
                             <MaterialIcons name='keyboard-arrow-right' size={30} style={style.righticon}></MaterialIcons>
-
-
-
                         </View>
 
                         <View>
@@ -158,12 +167,8 @@ export default function Filter() {
                                 <CheckBox style={style.CheckBox}></CheckBox>
                             </View>
                         </View>
-
                     </View>
                 </ScrollView>
-
-
-
             </View>
 
             <View style={style.applayview}>
@@ -171,24 +176,15 @@ export default function Filter() {
                     <TouchableOpacity style={style.discardbutton}><Text style={style.buttontext1}>Discard</Text></TouchableOpacity>
                     <TouchableOpacity style={style.applybutton} ><Text style={style.buttontext2}>Apply</Text></TouchableOpacity>
                 </View>
-
             </View>
-
         </View>
-
-    )
+    );
 }
 
-
 const style = StyleSheet.create({
-
     container: {
         paddingTop: 30,
-
     },
-
-
-
     titlebar: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -196,17 +192,13 @@ const style = StyleSheet.create({
         paddingLeft: horizontalScale(16),
         paddingTop: verticalScale(15),
         backgroundColor: 'white'
-
     },
-
     filtertext: {
-        // marginLeft: horizontalScale(120),
         fontSize: moderateScale(18),
         fontFamily: 'Metropolis-Black',
         color: 'black',
         marginHorizontal: 'auto'
     },
-
     text: {
         fontSize: moderateScale(16),
         fontFamily: 'Metropolis-Black',
@@ -214,22 +206,17 @@ const style = StyleSheet.create({
         marginTop: verticalScale(10),
         paddingLeft: horizontalScale(16),
     },
-
     viewstyle: {
         marginTop: verticalScale(35),
         backgroundColor: 'white',
         textAlign: 'center',
         paddingVertical: verticalScale(30),
         paddingLeft: horizontalScale(16),
-
     },
-
     Slider: {
         width: '94%',
         backgroundColor: 'white',
-
     },
-
     circleview: {
         marginTop: verticalScale(35),
         backgroundColor: 'white',
@@ -240,52 +227,42 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around'
     },
-
-
     circle1: {
-
         height: verticalScale(36),
         width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: 'black'
     },
     circle2: {
-
         height: verticalScale(36),
         width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: '#F6F6F6'
     },
     circle3: {
-
         height: verticalScale(36),
         width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: '#B82222'
     },
     circle4: {
-
         height: verticalScale(36),
         width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: '#BEA9A9'
     },
     circle5: {
-
         height: verticalScale(36),
         width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: '#E2BB8D'
     },
-
     circle6: {
-
         height: verticalScale(36),
         width: horizontalScale(36),
         borderRadius: 30,
         backgroundColor: '#151867'
     },
-
     sizeview: {
         marginTop: verticalScale(35),
         backgroundColor: 'white',
@@ -294,28 +271,29 @@ const style = StyleSheet.create({
         paddingLeft: horizontalScale(16),
         paddingRight: horizontalScale(16),
         flexDirection: 'row',
+        flexWrap: 'wrap',
     },
-
-    size1: {
+    sizeButton: {
         width: horizontalScale(40),
         height: verticalScale(40),
         borderRadius: 9,
         marginRight: verticalScale(20),
-        // backgroundColor: 'red',
         borderWidth: 0.5,
         borderColor: 'black',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white'
     },
-
-
-
+    selectedSizeButton: {
+        backgroundColor: '#DB3022',
+    },
     sizetext: {
         textAlign: 'center',
-        paddingTop: verticalScale(10),
         color: 'black',
-
     },
-
-
+    selectedSizetext: {
+        color: 'white',
+    },
     categoryview: {
         marginTop: verticalScale(35),
         backgroundColor: 'white',
@@ -325,11 +303,8 @@ const style = StyleSheet.create({
         paddingRight: horizontalScale(16),
         flexDirection: 'row',
         flexWrap: 'wrap',
-
     },
-
-
-    category1: {
+    categoryButton: {
         width: horizontalScale(100),
         height: verticalScale(40),
         borderWidth: 0.5,
@@ -337,79 +312,62 @@ const style = StyleSheet.create({
         borderRadius: 8,
         marginRight: horizontalScale(10),
         marginBottom: verticalScale(9),
-        backgroundColor: '#DB3022'
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white'
     },
-
-    category2: {
-        width: horizontalScale(100),
-        height: verticalScale(40),
-        backgroundColor: 'white',
-        borderWidth: 0.5,
-        borderColor: 'black',
-        borderRadius: 8,
-        marginRight: horizontalScale(10),
-        
+    selectedCategoryButton: {
+        backgroundColor: '#DB3022',
     },
-
     categorytext: {
         color: 'black',
         textAlign: 'center',
-        paddingTop: verticalScale(9),
         fontFamily: 'Metropolis-Regular'
     },
-
+    selectedCategorytext: {
+        color: 'white',
+    },
     brandview: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-
     righticon: {
         marginRight: horizontalScale(10),
         color: 'black',
     },
-
     SearchBar: {
         width: horizontalScale('90%'),
         paddingLeft: horizontalScale(16),
         marginTop: verticalScale(20),
-
     },
-
     brandname: {
         paddingLeft: horizontalScale(16),
         color: 'black',
         fontSize: moderateScale(16),
         fontFamily: 'Metropolis-Regular'
     },
-
     brandfilter: {
         marginTop: verticalScale(20),
         flexDirection: 'row',
         justifyContent: 'space-between',
-
     },
     CheckBox: {
         marginRight: horizontalScale(16),
     },
-
     applayview: {
         width: '100%',
         flex: 1.5,
         backgroundColor: 'white',
         marginTop: verticalScale(15)
-
     },
-
     mainContainer: {
         flex: 1,
         flexDirection: 'column'
     },
-
     bodyContainer: {
         flex: 10
     },
-
     discardbutton: {
         width: horizontalScale(160),
         borderWidth: 1,
@@ -417,84 +375,31 @@ const style = StyleSheet.create({
         height: verticalScale(40),
         borderRadius: 20,
         paddingTop: verticalScale(8)
-
     },
-
     applybutton: {
         width: horizontalScale(160),
         height: verticalScale(40),
         backgroundColor: '#DB3022',
         borderRadius: 20,
         paddingTop: verticalScale(8)
-
     },
-
     buttonview: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         marginTop: verticalScale(25)
     },
-
     buttontext1: {
         textAlign: 'center',
         fontFamily: 'Metropolis-Regular',
         color: 'black'
-
     },
     buttontext2: {
         textAlign: 'center',
         fontFamily: 'Metropolis-Regular',
         color: 'white'
     },
-
     colorYellow: {
         color: 'black',
-        fontSize : 20,
-        
-
+        fontSize: 20,
     }
-
-
-})
-
-
-
-
-
-
-// import { View, Text, StyleSheet, ScrollView, Button } from 'react-native'
-// import React from 'react'
-//
-// export default function filter() {
-//   return (
-//     <View style={styles.mainContainer}>
-//     <View style={styles.bodyContainer}>
-//       <ScrollView >
-//         <View style={{ height: 250, backgroundColor: 'red' }}>
-//         </View>
-//         <View style={{ height: 250, backgroundColor: 'blue' }}>
-//         </View>
-//         <View style={{ height: 250, backgroundColor: 'green' }}>
-//         </View>
-//       </ScrollView>
-//     </View>
-//     <View style={styles.headerContainer}>
-//       <Button style={{ backgroundColor: 'blue', alignSelf:'center' }}
-//         title="THIS IS A BUTTON" />
-//     </View>
-//   </View>
-//   )
-// }
-//
-// const styles = StyleSheet.create({
-//     mainContainer: {
-//         flex: 1,
-//         flexDirection: 'column'
-//       },
-//        headerContainer: {
-//         flex: 1,
-//       },
-//       bodyContainer: {
-//         flex: 10
-//       }
-// })
+});
