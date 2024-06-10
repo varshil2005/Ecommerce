@@ -5,6 +5,7 @@ import { horizontalScale, moderateScale, verticalScale } from '../../assets/metr
 import Slider from '@react-native-assets/slider';
 import CheckBox from 'react-native-check-box';
 
+
 export default function Filter() {
     const [price, setPrice] = useState(78);
     const [selectedSize, setSelectedSize] = useState(null);
