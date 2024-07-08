@@ -15,7 +15,11 @@
     "react-native": "0.74.1",
     "react-native-check-box": "^2.1.7",
     "react-native-search-bar": "^3.5.1",
+    "react-native-slider": "^0.11.0",
     "react-native-vector-icons": "^10.1.0",
+    "react-redux": "^9.1.2",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
     "rn-range-slider": "^2.2.2"
   },
   "devDependencies": {

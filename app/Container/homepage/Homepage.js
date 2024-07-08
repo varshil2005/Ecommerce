@@ -1,6 +1,6 @@
 import { View, Text, ImageBackground, StatusBar, TouchableOpacity, ScrollView, Image, StyleSheet, FlatList } from 'react-native'
 import React from 'react'
-import { horizontalScale, moderateScale, verticalScale } from '../../assets/metrics/Metrics'
+import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const Data = [
@@ -8,7 +8,7 @@ const Data = [
         id: 1,
         title: 'Dorothy Perkins',
         subtitle: 'Evening  Dress',
-        image: require('../../assets/image/imges2.webp'),
+        // image: require('../../assets/image/imges2.webp'),
         price: 20,
         disscount: 10
 
@@ -17,7 +17,7 @@ const Data = [
         id: 2,
         title: 'Dorothy Perkins',
         subtitle: 'Evening  Dress',
-        image: require('../../assets/image/imges2.webp'),
+        // image: require('../../assets/image/imges2.webp'),
         price: 20,
         disscount: 10
 
@@ -26,7 +26,7 @@ const Data = [
         id: 3,
         title: 'Dorothy Perkins',
         subtitle: 'Evening  Dress',
-        image: require('../../assets/image/imges2.webp'),
+        // image: require('../../assets/image/imges2.webp'),
         price: 20,
         disscount: 10
 
@@ -35,7 +35,7 @@ const Data = [
         id: 4,
         title: 'Dorothy Perkins',
         subtitle: 'Evening  Dress',
-        image: require('../../assets/image/imges2.webp'),
+        // image: require('../../assets/image/imges2.webp'),
         price: 20,
         disscount: 10
 
@@ -47,7 +47,7 @@ const newData = [
         id: 1,
         title: 'Dorothy Perkins',
         subtitle: 'Evening  Dress',
-        image: require('../../assets/image/newproduct.jpg'),
+        // image: require('../../assets/image/newproduct.jpg'),
         price: 20,
         disscount: 10
 
@@ -56,7 +56,7 @@ const newData = [
         id: 2,
         title: 'Dorothy Perkins',
         subtitle: 'Evening  Dress',
-        image: require('../../assets/image/newproduct.jpg'),
+        // image: require('../../assets/image/newproduct.jpg'),
         price: 20,
         disscount: 10
 
@@ -65,7 +65,7 @@ const newData = [
         id: 3,
         title: 'Dorothy Perkins',
         subtitle: 'Evening  Dress',
-        image: require('../../assets/image/newproduct.jpg'),
+        // image: require('../../assets/image/newproduct.jpg'),
         price: 20,
         disscount: 10
 
@@ -74,7 +74,7 @@ const newData = [
         id: 4,
         title: 'Dorothy Perkins',
         subtitle: 'Evening  Dress',
-        image: require('../../assets/image/newproduct.jpg'),
+        // image: require('../../assets/image/newproduct.jpg'),
         price: 20,
         disscount: 10
 
@@ -117,10 +117,10 @@ export default function Homepage() {
                 translucent backgroundColor='transparent'
             />
 
-            <ImageBackground
+            {/* <ImageBackground
                 style={style.backgroundimage}
                 source={require('../../assets/image/pexels-godisable-jacob-226636-896293.jpg')}>
-            </ImageBackground>
+            </ImageBackground> */}
 
             <View style={{ width: '70%' }}>
                 <Text style={style.title}>Fashion Sale</Text>
@@ -175,7 +175,7 @@ export default function Homepage() {
 
         <View style = {{marginTop : verticalScale(40)}}>
              <View>
-                <ImageBackground source={require('../../assets/image/newcollection.png')} style={style.backgroundimage2}></ImageBackground>
+                {/* <ImageBackground source={require('../../assets/image/newcollection.png')} style={style.backgroundimage2}></ImageBackground> */}
 
                 <View>
                     <Text style={style.collectiontext}>New Collection</Text>
@@ -188,7 +188,7 @@ export default function Homepage() {
             <View style = {style.collectionview}>
                 <View style = {{width : '50%'}}>
                     <View style = {{height : '50%'}}>
-                    <TouchableOpacity><ImageBackground source={require('../../assets/image/summersale.png')} style={style.summerimage}></ImageBackground></TouchableOpacity>
+                    {/* <TouchableOpacity><ImageBackground source={require('../../assets/image/summersale.png')} style={style.summerimage}></ImageBackground></TouchableOpacity> */}
                     <View>
                         <Text style={style.summertext}>Summer Sale</Text>
                     </View>
@@ -196,7 +196,7 @@ export default function Homepage() {
                     </View>
                     
                     <View style = {{height : '50%'}}>                       
-                        <TouchableOpacity><ImageBackground source={require('../../assets/image/Blackimage.png')} style = {style.blackImage}></ImageBackground></TouchableOpacity>
+                        {/* <TouchableOpacity><ImageBackground source={require('../../assets/image/Blackimage.png')} style = {style.blackImage}></ImageBackground></TouchableOpacity> */}
                         <View>
                             <Text style = {style.blacktext}>Black</Text>
                         </View>
@@ -205,7 +205,7 @@ export default function Homepage() {
  
                 
                 <View style = {{width : '50%'}}>
-                    <ImageBackground source={require('../../assets/image/menhoodies.png')} style = {style.menhoddies}></ImageBackground>
+                    {/* <ImageBackground source={require('../../assets/image/menhoodies.png')} style = {style.menhoddies}></ImageBackground> */}
                     <View>
                         <Text>Men's hoodies</Text>
                     </View>

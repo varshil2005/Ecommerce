@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, StatusBar, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { horizontalScale, moderateScale, verticalScale } from '../../assets/metrics/Metrics';
+import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics';
 import CheckBox from 'react-native-check-box';
 import Foundation from 'react-native-vector-icons/Foundation';
 
@@ -115,7 +115,7 @@ export default function Rating() {
                     <View style={style.reviewtextView}>
                         <Text style={style.ratingText1}>8 reviews</Text>
                         <View style={{ flexDirection: 'row', alignContent: 'center' }}>
-                            <CheckBox style={{ color: 'gray', marginRight: horizontalScale(5) }}></CheckBox>
+                            {/* <CheckBox style={{ color: 'gray', marginRight: horizontalScale(5) }}></CheckBox> */}
                             <Text style={style.ratingText2}>With photo</Text>
                         </View>
 
@@ -123,7 +123,7 @@ export default function Rating() {
 
 
                     <View style={style.reviewview}>
-                        <Image source={require('../../assets/image/reviewimage.png')} style={style.reviewerimage}></Image>
+                        {/* <Image source={require('../../assets/image/reviewimage.png')} style={style.reviewerimage}></Image> */}
                         <View style={style.review}>
                             <Text style={style.reviewerName}>Helene Moore</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: verticalScale(7) }}>
@@ -154,7 +154,7 @@ export default function Rating() {
                     </View>
 
                     <View style={style.reviewview}>
-                        <Image source={require('../../assets/image/reviewimage.png')} style={style.reviewerimage}></Image>
+                        {/* <Image source={require('../../assets/image/reviewimage.png')} style={style.reviewerimage}></Image> */}
                         <View style={style.review}>
                             <Text style={style.reviewerName}>Helene Moore</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: verticalScale(7) }}>

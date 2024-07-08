@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StatusBar, ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { horizontalScale, moderateScale, verticalScale } from '../../assets/metrics/Metrics';
+import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics';
 import Slider from '@react-native-assets/slider';
 import CheckBox from 'react-native-check-box';
 
@@ -42,7 +42,7 @@ export default function Filter() {
 
                     <Text style={style.text}>Price range</Text>
                     <View style={style.viewstyle}>
-                        <Slider
+                        {/* <Slider
                             style={style.Slider}
                             step={1}
                             minimumValue={0}
@@ -52,7 +52,7 @@ export default function Filter() {
                             thumbTintColor="#DB3022"
                             value={price}
                             onValueChange={val => setPrice(val)}
-                        />
+                        /> */}
                         <View style={style.textCon}>
                             <Text style={style.colorYellow}>
                                 {price + '$'}
