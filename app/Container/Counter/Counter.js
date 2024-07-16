@@ -3,6 +3,7 @@ import React, { startTransition, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { decrement, increment } from '../Redux/Slice/counter.slice';
 import { fetchcategory } from '../Redux/Slice/category.slice';
+import firestore from '@react-native-firebase/firestore';
 
 
 export default function Counter() {
@@ -11,7 +12,7 @@ export default function Counter() {
     useEffect(() => {
       dispatch(fetchcategory())
     } ,[])
-    
+
     const category = useSelector(state => state.category);
     console.log(category);
 

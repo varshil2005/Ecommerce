@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import firestore from '@react-native-firebase/firestore';
 
 const initialstate = {
     isLoading: false,
@@ -44,8 +45,10 @@ const initialstate = {
     name: 'category',
     initialState: initialstate,
     extraReducers: (builder) => {
-        builder.addCase(fetchcategory.fulfilled, (state,action))
-        state.categorydata =action.payload;
+        builder.addCase(fetchcategory.fulfilled, (state, action) => {
+            // Add user to the state array
+            state.categorydata = action.payload
+          })
     }
   });
 
