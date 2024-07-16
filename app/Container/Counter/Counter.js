@@ -1,11 +1,19 @@
 import { View, Text, TouchableOpacity } from 'react-native'
-import React, { startTransition } from 'react'
+import React, { startTransition, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Decrement, increment } from '../Redux/Action/counter.action';
+import { decrement, increment } from '../Redux/Slice/counter.slice';
+import { fetchcategory } from '../Redux/Slice/category.slice';
+
 
 export default function Counter() {
     const  dispatch = useDispatch();
-    const counter = useSelector(state => state.count);
+
+    useEffect(() => {
+      dispatch(fetchcategory())
+    } ,[])
+    
+    const category = useSelector(state => state.category);
+    console.log(category);
 
 
     const handleInc = () => {
@@ -13,7 +21,7 @@ export default function Counter() {
     }
 
     const handleDec = () => {
-        dispatch(Decrement());
+        dispatch(decrement());
     }
   return (
     <View>
@@ -22,7 +30,7 @@ export default function Counter() {
         <Text>+</Text>
       </TouchableOpacity>
 
-    <Text>{counter.count}</Text>
+    {/* <Text>{counter.count}</Text> */}
       <TouchableOpacity onPress={handleDec}>
         <Text>-</Text>
       </TouchableOpacity>
