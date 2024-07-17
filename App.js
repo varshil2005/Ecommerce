@@ -13,7 +13,7 @@ export default function App() {
   return (
     // <Filter />
     <Provider store={store}>
-    <Counter/>
+   <Homepage/>
     </Provider>
    
   )

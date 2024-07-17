@@ -7,14 +7,14 @@ import firestore from '@react-native-firebase/firestore';
 
 
 export default function Counter() {
-    const  dispatch = useDispatch();
+    // const  dispatch = useDispatch();
 
-    useEffect(() => {
-      dispatch(fetchcategory())
-    } ,[])
+    // useEffect(() => {
+    //   dispatch(fetchcategory())
+    // } ,[])
 
-    const category = useSelector(state => state.category);
-    console.log(category);
+    // const category = useSelector(state => state.category);
+    // console.log(category);
 
 
     const handleInc = () => {
