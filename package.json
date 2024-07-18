@@ -17,6 +17,7 @@
     "react": "18.2.0",
     "react-native": "0.74.1",
     "react-native-check-box": "^2.1.7",
+    "react-native-collapsible": "^1.6.1",
     "react-native-search-bar": "^3.5.1",
     "react-native-slider": "^0.11.0",
     "react-native-vector-icons": "^10.1.0",

@@ -238,6 +238,7 @@ export default function Homepage() {
             <Text style={style.blacktext}>{v.name}</Text>
           </View>
         </View>
+        
         }
               
 
