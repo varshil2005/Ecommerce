@@ -56,7 +56,7 @@ const Data2 = [
         price: 9
     }
 ]
-export default function FavoritesPage() {
+export default function FavoritesPage( {route , navigation}) {
     const ProductCard = ({ v }) => (
 
         <View style={styles.CategorisView}>
@@ -124,7 +124,7 @@ export default function FavoritesPage() {
                 data={Data2}
                 numColumns={2}
                 columnWrapperStyle={{ justifyContent: 'space-between' }}
-                renderItem={({ item }) => <TouchableOpacity><ProductData v={item} /></TouchableOpacity>}
+                renderItem={({ item }) => <TouchableOpacity onPress={() => navigation.navigate("Product")}><ProductData v={item} /></TouchableOpacity>}
                 keyExtractor={item => item.id}
             // horizontal={true}
             />

@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5F5F5',
     paddingHorizontal: horizontalScale(19),
-    paddingTop: horizontalScale(13)
+    paddingTop: horizontalScale(25)
   },
   leftarow:{
  justifyContent: 'space-between',

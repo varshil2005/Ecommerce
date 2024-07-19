@@ -90,7 +90,7 @@ const newData = [
   },
 ];
 
-export default function Homepage() {
+export default function Homepage( {route , navigation}) {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -102,7 +102,7 @@ export default function Homepage() {
 
   const ProductCart = ({v}) => (
     <View>
-      <View style={{marginHorizontal: horizontalScale(14)}}>
+      <TouchableOpacity style={{marginHorizontal: horizontalScale(14)}} onPress={() => navigation.navigate("Product")}>
         <Image source={v.image} style={style.product}></Image>
         <View style={style.rating}>
           <MaterialIcons
@@ -132,7 +132,7 @@ export default function Homepage() {
           <Text style={style.pricetext}>{v.price}$</Text>
           <Text style={style.disscounttext}>{v.disscount}$</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 
