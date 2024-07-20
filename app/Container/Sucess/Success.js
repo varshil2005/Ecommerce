@@ -12,7 +12,7 @@ import {
   horizontalScale,
   moderateScale,
   verticalScale,
-} from '../../../assets/Metrics';
+} from '../../../assets/metrics/Metrics';
 
 export default function Success() {
   return (

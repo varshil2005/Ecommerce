@@ -61,7 +61,7 @@ const data2 = [
     ratting: 3
   }
 ]
-export default function Womens_top() {
+export default function Womens_top( {route , navigation}) {
 
   const ProductCard = ({ v }) => (
 
@@ -71,7 +71,7 @@ export default function Womens_top() {
     </TouchableOpacity>
   );
   const NewProductCard = ({ v }) => (
-    <TouchableOpacity style={styles.olldeta}>
+    <TouchableOpacity style={styles.olldeta} onPress={() => navigation.navigate("Product")}>
       <Image source={v.image} style={styles.img} />
       <View style={styles.pullovertext}>
         <Text style={styles.protext}>{v.title}</Text>

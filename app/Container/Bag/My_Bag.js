@@ -13,7 +13,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React from 'react';
-import { horizontalScale, moderateScale, verticalScale } from '../../../assets/Metrics';
+import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics';
 
 const data = [
   {
@@ -21,14 +21,14 @@ const data = [
     title: 'Pullover',
     color: 'Black',
     size: 'L',
-    image: require('../../../assets/image/my_bag_fashion_img.png'),
+    image: require('../../../assets/image/newproduct.jpg'),
     price: 51,
   },
   {
     id: 1,
     title: 'T-Shirt',
     color: 'Gray',
-    image: require('../../../assets/image/mybag_fashion_men_img.png'),
+    image: require('../../../assets/image/newproduct.jpg'),
     size: 'L',
     price: 30,
   },
@@ -36,7 +36,7 @@ const data = [
     id: 1,
     title: 'Sport Dress',
     color: 'Black',
-    image: require('../../../assets/image/mybag_fashion_girl_img.png'),
+    image: require('../../../assets/image/newproduct.jpg'),
     size: 'M',
     price: 43,
   },
@@ -161,7 +161,7 @@ const Styles = StyleSheet.create({
   feather: {
     alignItems: 'flex-end',
     marginHorizontal: horizontalScale(15),
-    marginTop: verticalScale(10),
+    marginTop: verticalScale(40),
   },
   bag: {
     color: '#222222',

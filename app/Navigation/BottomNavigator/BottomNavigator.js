@@ -3,10 +3,17 @@ import React from 'react'
 import {NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Foundation from 'react-native-vector-icons/Foundation';
 import Homepage from '../../Container/homepage/Homepage';
 import Womens_top from '../../Container/Womentops/Womens_top';
 import FavoritesPage from '../../Container/Favorite Page/FavoritesPage';
-import { favouritestack, homestack } from '../StckNavigation';
+import { favouritestack, homestack, profilestack } from '../StckNavigation';
+import My_Bag from '../../Container/Bag/My_Bag';
+import My_Orders from '../../Container/order/My_Order';
+import My_Profile from '../../Container/Profile/My_Profile';
+import My_Order from '../../Container/Profile/My_Profile';
+import Success from '../../Container/Sucess/Success';
+import My_profile from '../../Container/order/My_Order';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,24 +26,41 @@ export default function BottomNavigator() {
           headerShown :false,
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={"gray"} size={size} />
+            <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
         }}/>
     <Tab.Screen name="Shop" component={Womens_top} options={{
           headerShown :false,
           tabBarLabel: 'Shop',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="shopping" color={"gray"} size={size} />
+            <Foundation name="shopping-cart" color={color} size={size} />
           ),
         }}/>
+        <Tab.Screen name="Bag" component={My_Bag} options={{
+          headerShown :false,
+          tabBarLabel: 'Bag',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="shopping" color={color} size={size} />
+          ),
+        }} />
     {/* <Tab.Screen name="Bag" component={FavoritesPage} /> */}
     <Tab.Screen name="Favourite" component={favouritestack} options={{
           headerShown :false,
           tabBarLabel: 'Favourite',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="heart-outline" color={"gray"} size={size} />
+            <MaterialCommunityIcons name="heart-outline" color={color} size={size} />
           ),
         }} />
+
+<Tab.Screen name="Profile" component={profilestack} options={{
+          headerShown :false,
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+        }} />
+
+
 
     
     </Tab.Navigator>
