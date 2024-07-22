@@ -288,10 +288,10 @@ export default function My_profile( {route , navigation}) {
           </View>
 
           <View style={Styles.dataHead}>
-            <View>
+            <TouchableOpacity onPress={() => navigation.navigate("shippingaddress")}>
               <Text style={Styles.data1}>Shipping addresses</Text>
               <Text style={Styles.data2}>3 ddresses</Text>
-            </View>
+            </TouchableOpacity>
 
             <View>
               <TouchableOpacity>
@@ -339,10 +339,10 @@ export default function My_profile( {route , navigation}) {
           </View>
 
           <View style={Styles.dataHead}>
-            <View>
+            <TouchableOpacity onPress={() => navigation.navigate("rating")}>
               <Text style={Styles.data1}>My reviews</Text>
               <Text style={Styles.data2}>Reviews for 4 items</Text>
-            </View>
+            </TouchableOpacity >
 
             <View>
               <TouchableOpacity>

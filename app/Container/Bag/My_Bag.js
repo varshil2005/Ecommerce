@@ -42,7 +42,7 @@ const data = [
   },
 ];
 
-export default function My_Bag() {
+export default function My_Bag( {route , navigation}) {
   const DataCity = ({v}) => (
     <TouchableOpacity>
       <View style={{paddingHorizontal: 26, marginVertical: 15}}>
@@ -148,7 +148,7 @@ export default function My_Bag() {
         </View>
 
         <View style={Styles.checkoutBtn}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("shippingaddress")}>
             <Text style={Styles.checkoutText}>Check out</Text>
           </TouchableOpacity>
         </View>

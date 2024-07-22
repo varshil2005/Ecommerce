@@ -46,7 +46,7 @@ const Data = [
   },
 ];
 
-const DataStructure = ({v}) => (
+const DataStructure = ({v ,n}) => (
   <TouchableOpacity>
     <View style={Styles.orderDatamainBody}>
       <View style={{marginTop: 6}}>
@@ -74,7 +74,7 @@ const DataStructure = ({v}) => (
 
         <View style={Styles.detailBtnHead}>
           <View style={Styles.detaildBtn}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => n.navigate("OrderDetails")}>
               <Text style={Styles.detaildBtnText}>Details</Text>
             </TouchableOpacity>
           </View>
@@ -89,7 +89,7 @@ const DataStructure = ({v}) => (
   </TouchableOpacity>
 );
 
-export default function My_Order() {
+export default function My_Order({route , navigation}) {
   return (
     <ScrollView>
       <StatusBar backgroundColor="#F4F4F4" barStyle="dark-content" />
@@ -120,7 +120,7 @@ export default function My_Order() {
 
         <FlatList
           data={Data}
-          renderItem={({item}) => <DataStructure v={item} />}
+          renderItem={({item}) => <DataStructure v={item} n ={navigation} />}
           keyExtractor={item => item.id}
         />
       </View>

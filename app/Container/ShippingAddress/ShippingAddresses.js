@@ -3,6 +3,7 @@ import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { horizontalScale, moderateScale } from '../../../assets/metrics/Metrics';
+import { NavigationContainer } from '@react-navigation/native';
 
 const useaddresses = [
     {
@@ -28,7 +29,7 @@ const useaddresses = [
     },
 ];
 
-export default function ShippingAddresses() {
+export default function ShippingAddresses( {route , navigation}) {
     const ShippingAddresses = ({ v }) => (
         <View style={styles.olldeta}>
             <Text style={styles.addtext1}>{v.name}</Text>
@@ -61,10 +62,19 @@ export default function ShippingAddresses() {
                 renderItem={({ item }) => <ShippingAddresses v={item} />}
                 keyExtractor={item => item.id}
             />
+            <View style ={{flexDirection : 'row' , justifyContent: 'space-between'}}>
             <View style={styles.btnView}>
                  <TouchableOpacity style={styles.addButton}>
                 <MaterialCommunityIcons name="plus-circle" size={35} color="black" />
             </TouchableOpacity>
+            </View>
+
+            <View style={styles.btnView}>
+                 <TouchableOpacity style={styles.orderButton} onPress={() => navigation.navigate("Sucess")}>
+                <Text style = {{ color : 'white' , textAlign : 'center'}}>Place Order</Text>
+            </TouchableOpacity>
+            </View>
+
             </View>
            
         </ScrollView>
@@ -132,6 +142,14 @@ const styles = StyleSheet.create({
     },
     addButton: {
         paddingTop:16
+    },
+    orderButton: {
+        marginTop : 10,
+        width : 100,
+        paddingTop:10,
+        backgroundColor : 'red',
+        textAlign : 'center',
+       
     },
     btnView:{
         flexDirection:'row',

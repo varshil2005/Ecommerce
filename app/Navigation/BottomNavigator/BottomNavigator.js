@@ -7,13 +7,9 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import Homepage from '../../Container/homepage/Homepage';
 import Womens_top from '../../Container/Womentops/Womens_top';
 import FavoritesPage from '../../Container/Favorite Page/FavoritesPage';
-import { favouritestack, homestack, profilestack } from '../StckNavigation';
+import { bagstack, favouritestack, homestack, profilestack } from '../StckNavigation';
 import My_Bag from '../../Container/Bag/My_Bag';
-import My_Orders from '../../Container/order/My_Order';
-import My_Profile from '../../Container/Profile/My_Profile';
-import My_Order from '../../Container/Profile/My_Profile';
-import Success from '../../Container/Sucess/Success';
-import My_profile from '../../Container/order/My_Order';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -36,7 +32,7 @@ export default function BottomNavigator() {
             <Foundation name="shopping-cart" color={color} size={size} />
           ),
         }}/>
-        <Tab.Screen name="Bag" component={My_Bag} options={{
+        <Tab.Screen name="Bag" component={bagstack} options={{
           headerShown :false,
           tabBarLabel: 'Bag',
           tabBarIcon: ({ color, size }) => (

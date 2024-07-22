@@ -14,7 +14,7 @@ import {
   verticalScale,
 } from '../../../assets/metrics/Metrics';
 
-export default function Success() {
+export default function Success( {route , navigation}) {
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
@@ -34,7 +34,7 @@ export default function Success() {
       <Text style={Styles.TextThankyou}>Thank you for choosing our app!</Text>
 
       <View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
           <Text style={Styles.continueShpBtn}>CONTINUE SHOPPING</Text>
         </TouchableOpacity>
       </View>
