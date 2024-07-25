@@ -127,14 +127,14 @@ export default function My_Bag( {route , navigation}) {
       <View>
         <StatusBar backgroundColor="transparent" barStyle="dark-content" />
 
-        <View style={Styles.feather}>
+        {/* <View style={Styles.feather}>
           <TouchableOpacity>
             <Feather name="search" size={25} color="#222222" />
           </TouchableOpacity>
         </View>
         <View>
           <Text style={Styles.bag}>My Bag</Text>
-        </View>
+        </View> */}
 
         <FlatList
           data={data}

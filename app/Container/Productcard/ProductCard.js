@@ -101,11 +101,11 @@ export default function ProductCard( {route , navigation}) {
                         barStyle="dark-content"
                     />
                 <ScrollView style={styles.container}>
-                    <View style={styles.ArrowView}>
+                    {/* <View style={styles.ArrowView}>
                         <Text style={styles.KeyboardArrow}><MaterialIcons name="keyboard-arrow-left" size={50} color="black" /></Text>
                         <Text style={styles.ArrowText}>Short dress</Text>
                         <TouchableOpacity><MaterialIcons name="share" size={30} color="black" style={{ marginTop: 27 }} /></TouchableOpacity>
-                    </View>
+                    </View> */}
 
 
                     <ScrollView horizontal>
@@ -244,7 +244,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: horizontalScale(17),
-        backgroundColor: '#F9F9F9'
+        backgroundColor: '#F9F9F9',
+        marginTop : 20,
     },
     ArrowView: {
         width: '100%',

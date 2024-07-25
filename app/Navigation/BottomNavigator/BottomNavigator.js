@@ -17,43 +17,53 @@ export default function BottomNavigator() {
 
   return (
    
-    <Tab.Navigator>
+    <Tab.Navigator 
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Home') {
+          iconName = focused
+            ? 'home'
+            : 'home-outline';
+        } else if (route.name === 'Shop') {
+          iconName = focused ? 'cart' : 'cart-outline';
+        } else if (route.name === 'Bag') {
+          iconName = focused ? 'shopping' : 'shopping-outline';
+        } else if (route.name === 'Profile') {
+          iconName = focused ? 'account' : 'account-outline';
+        } else if (route.name === 'Favourite') {
+          iconName = focused ? 'heart' : 'heart-outline';
+        }
+
+        // You can return any component that you like here!
+        return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
+      },
+      tabBarActiveTintColor: 'tomato',
+      tabBarInactiveTintColor: 'gray',
+    })}
+    >
     <Tab.Screen name="Home" component={homestack} options={{
           headerShown :false,
           tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
         }}/>
     <Tab.Screen name="Shop" component={Womens_top} options={{
           headerShown :false,
           tabBarLabel: 'Shop',
-          tabBarIcon: ({ color, size }) => (
-            <Foundation name="shopping-cart" color={color} size={size} />
-          ),
         }}/>
         <Tab.Screen name="Bag" component={bagstack} options={{
           headerShown :false,
           tabBarLabel: 'Bag',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="shopping" color={color} size={size} />
-          ),
         }} />
     {/* <Tab.Screen name="Bag" component={FavoritesPage} /> */}
     <Tab.Screen name="Favourite" component={favouritestack} options={{
           headerShown :false,
           tabBarLabel: 'Favourite',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="heart-outline" color={color} size={size} />
-          ),
         }} />
 
 <Tab.Screen name="Profile" component={profilestack} options={{
           headerShown :false,
           tabBarLabel: 'Profile',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
         }} />
 
 
