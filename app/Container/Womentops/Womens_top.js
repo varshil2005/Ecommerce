@@ -100,11 +100,11 @@ export default function Womens_top( {route , navigation}) {
         animated={true}
         backgroundColor={'transparent'}
       />
-      <View style={styles.leftarow}>
+      {/* <View style={styles.leftarow}>
         <TouchableOpacity><FontAwesome name="angle-left" size={45} color="black" /></TouchableOpacity>
         <TouchableOpacity><Fontisto style={{ paddingTop: 9 }} name="search" size={25} color="black" /></TouchableOpacity>
       </View>
-      <Text style={styles.fonts}>Women's tops</Text>
+      <Text style={styles.fonts}>Women's tops</Text> */}
 
       <FlatList
         data={data}
@@ -114,7 +114,7 @@ export default function Womens_top( {route , navigation}) {
       />
 
       <View style={styles.fontsicon}>
-        <TouchableOpacity style={styles.filtertoch}><Ionicons name="filter" size={26} color="black" /><Text style={styles.filter}>filters</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.filtertoch} onPress={() => navigation.navigate("Filter")}><Ionicons name="filter" size={26} color="black" /><Text style={styles.filter}>filters</Text></TouchableOpacity>
         <TouchableOpacity style={styles.filtertoch}><FontAwesome name="arrows-v" size={26} color="black" /><Text style={styles.filter}>price:lowest to high</Text></TouchableOpacity>
         <TouchableOpacity style={styles.filtertoch}><FontAwesome name="th" size={26} color="black" /></TouchableOpacity>
       </View>

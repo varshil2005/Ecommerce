@@ -13,15 +13,15 @@ export default function Rating() {
             <View style={style.bodyContainer}>
                 <ScrollView style={style.container}>
 
-
-                    <View>
-                        <StatusBar
+                <StatusBar
                             barStyle="dark-content"
                             translucent backgroundColor='transparent'
                         />
+                    {/* <View>
+                      
                         <MaterialIcons name='chevron-left' size={30} color='black'></MaterialIcons>
                         <Text style={style.headingtext}>Rating&Reviews</Text>
-                    </View>
+                    </View> */}
 
                     <View style={style.ratingview}>
                         <View>
@@ -123,7 +123,7 @@ export default function Rating() {
 
 
                     <View style={style.reviewview}>
-                        {/* <Image source={require('../../assets/image/reviewimage.png')} style={style.reviewerimage}></Image> */}
+                        <Image source={require('../../../assets/image/reviewimage.png')} style={style.reviewerimage}></Image>
                         <View style={style.review}>
                             <Text style={style.reviewerName}>Helene Moore</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: verticalScale(7) }}>
@@ -154,7 +154,7 @@ export default function Rating() {
                     </View>
 
                     <View style={style.reviewview}>
-                        {/* <Image source={require('../../assets/image/reviewimage.png')} style={style.reviewerimage}></Image> */}
+                        <Image source={require('../../../assets/image/reviewimage.png')} style={style.reviewerimage}></Image>
                         <View style={style.review}>
                             <Text style={style.reviewerName}>Helene Moore</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: verticalScale(7) }}>
@@ -209,7 +209,7 @@ export default function Rating() {
 
 const style = StyleSheet.create({
     container: {
-        marginTop: verticalScale(40),
+        marginTop: verticalScale(18),
         marginLeft: horizontalScale(16)
     },
 

@@ -148,7 +148,7 @@ export default function My_Bag( {route , navigation}) {
         </View>
 
         <View style={Styles.checkoutBtn}>
-          <TouchableOpacity onPress={() => navigation.navigate("shippingaddress")}>
+          <TouchableOpacity onPress={() => navigation.navigate("addshippingaddress")}>
             <Text style={Styles.checkoutText}>Check out</Text>
           </TouchableOpacity>
         </View>

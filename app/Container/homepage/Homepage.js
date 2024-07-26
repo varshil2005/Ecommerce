@@ -152,7 +152,7 @@ export default function Homepage( {route , navigation}) {
       <View style={{width: '70%'}}>
         <Text style={style.title}>Fashion Sale</Text>
 
-        <TouchableOpacity style={style.checkbutton}>
+        <TouchableOpacity style={style.checkbutton} onPress={() => navigation.navigate("category")}>
           <Text style={style.checktext}>Check</Text>
         </TouchableOpacity>
       </View>

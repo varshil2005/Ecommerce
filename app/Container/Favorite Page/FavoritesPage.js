@@ -100,11 +100,11 @@ export default function FavoritesPage( {route , navigation}) {
                 translucent backgroundColor="transparent"
                 barStyle="dark-content"
             />
-            <View style={styles.ArrowView}>
+            {/* <View style={styles.ArrowView}>
 
                 <Text style={styles.ArrowText}>Favorites</Text>
                 <TouchableOpacity><MaterialIcons name="search" size={30} color="black" style={{ marginTop: 25 }} /></TouchableOpacity>
-            </View>
+            </View> */}
             <View style={{ backgroundColor: 'white', marginBottom: 25 }}>
                 <FlatList
                     data={data}
@@ -141,7 +141,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: horizontalScale(5),
-        backgroundColor: '#F9F9F9'
+        backgroundColor: '#F9F9F9',
+        marginTop : 10
     },
     ArrowView: {
         width: '100%',

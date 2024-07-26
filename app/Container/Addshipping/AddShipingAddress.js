@@ -3,7 +3,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics'
 import React from 'react'
 
-export default function AddShipingAddress() {
+export default function AddShipingAddress( {route,navigation}) {
     return (
         <ScrollView style={styles.container}>
             <StatusBar
@@ -11,10 +11,10 @@ export default function AddShipingAddress() {
                 translucent backgroundColor="transparent"
                 barStyle="dark-content"
             />
-            <View style={styles.ArrowView}>
+            {/* <View style={styles.ArrowView}>
                 <Text style={styles.KeyboardArrow}><MaterialIcons name="keyboard-arrow-left" size={50} color="black" /></Text>
                 <Text style={styles.ArrowText}>Add shipping address</Text>
-            </View>
+            </View> */}
             <View>
                 <TextInput
                     style={styles.input}
@@ -56,7 +56,7 @@ export default function AddShipingAddress() {
 
                 </View>
             </View>
-            <TouchableOpacity style={styles.ButtonView}><View style={styles.ButtonUnderView}>
+            <TouchableOpacity style={styles.ButtonView} onPress={() => navigation.navigate("shippingaddress")}><View style={styles.ButtonUnderView}>
                 <Text style={styles.AddCart}>SAVE ADDRESS</Text>
             </View>
             </TouchableOpacity>

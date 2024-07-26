@@ -7,7 +7,7 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import Homepage from '../../Container/homepage/Homepage';
 import Womens_top from '../../Container/Womentops/Womens_top';
 import FavoritesPage from '../../Container/Favorite Page/FavoritesPage';
-import { bagstack, favouritestack, homestack, profilestack } from '../StckNavigation';
+import { bagstack, favouritestack, homestack, profilestack, shopstack } from '../StckNavigation';
 import My_Bag from '../../Container/Bag/My_Bag';
 
 
@@ -22,17 +22,17 @@ export default function BottomNavigator() {
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
 
-        if (route.name === 'Home') {
+        if (route.name === 'HomeTab') {
           iconName = focused
             ? 'home'
             : 'home-outline';
-        } else if (route.name === 'Shop') {
+        } else if (route.name === 'ShopTab') {
           iconName = focused ? 'cart' : 'cart-outline';
-        } else if (route.name === 'Bag') {
+        } else if (route.name === 'BagTab') {
           iconName = focused ? 'shopping' : 'shopping-outline';
-        } else if (route.name === 'Profile') {
+        } else if (route.name === 'ProfileTab') {
           iconName = focused ? 'account' : 'account-outline';
-        } else if (route.name === 'Favourite') {
+        } else if (route.name === 'FavouriteTab') {
           iconName = focused ? 'heart' : 'heart-outline';
         }
 
@@ -43,25 +43,25 @@ export default function BottomNavigator() {
       tabBarInactiveTintColor: 'gray',
     })}
     >
-    <Tab.Screen name="Home" component={homestack} options={{
+    <Tab.Screen name="HomeTab" component={homestack} options={{
           headerShown :false,
           tabBarLabel: 'Home',
         }}/>
-    <Tab.Screen name="Shop" component={Womens_top} options={{
+    <Tab.Screen name="ShopTab" component={shopstack} options={{
           headerShown :false,
           tabBarLabel: 'Shop',
         }}/>
-        <Tab.Screen name="Bag" component={bagstack} options={{
+        <Tab.Screen name="BagTab" component={bagstack} options={{
           headerShown :false,
           tabBarLabel: 'Bag',
         }} />
     {/* <Tab.Screen name="Bag" component={FavoritesPage} /> */}
-    <Tab.Screen name="Favourite" component={favouritestack} options={{
+    <Tab.Screen name="FavouriteTab" component={favouritestack} options={{
           headerShown :false,
           tabBarLabel: 'Favourite',
         }} />
 
-<Tab.Screen name="Profile" component={profilestack} options={{
+<Tab.Screen name="ProfileTab" component={profilestack} options={{
           headerShown :false,
           tabBarLabel: 'Profile',
         }} />

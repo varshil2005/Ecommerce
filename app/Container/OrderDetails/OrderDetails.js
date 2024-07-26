@@ -98,11 +98,11 @@ export default function OrderDetails() {
         backgroundColor={'transparent'}
       />
 
-      <View style={styles.Ordertext}>
+      {/* <View style={styles.Ordertext}>
       <TouchableOpacity><FontAwesome name="angle-left" size={45} color="black" /></TouchableOpacity>
         <Text style={styles.Ordertext2}>Order Details</Text>
         <TouchableOpacity><Fontisto style={styles.searchicon} name="search" size={22} color="black" /></TouchableOpacity> 
-      </View>
+      </View> */}
 
 
 

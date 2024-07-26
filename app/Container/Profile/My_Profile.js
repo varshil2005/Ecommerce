@@ -247,13 +247,13 @@ export default function My_profile( {route , navigation}) {
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
 
       <View style={Styles.container}>
-        <View style={Styles.search}>
+        {/* <View style={Styles.search}>
           <TouchableOpacity>
             <EvilIcons name="search" size={32} color="#222222" />
           </TouchableOpacity>
         </View>
 
-        <Text style={Styles.myProfile}>My Profile</Text>
+        <Text style={Styles.myProfile}>My Profile</Text> */}
 
         <View style={Styles.profileHead}>
           <Image

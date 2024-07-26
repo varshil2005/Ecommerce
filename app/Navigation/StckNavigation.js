@@ -11,12 +11,16 @@ import My_Order from '../Container/order/My_Order';
 import ShippingAddresses from '../Container/ShippingAddress/ShippingAddresses';
 import Rating from '../Container/Ratingandreview/Rating';
 import Success from '../Container/Sucess/Success';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {
   horizontalScale,
   moderateScale,
   verticalScale,
 } from '../../assets/metrics/Metrics';
+import AddShipingAddress from '../Container/Addshipping/AddShipingAddress';
+import CategoriesTwo from '../Container/Category/category';
+import Filter from '../Container/Filter/Filter';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,24 +35,155 @@ const Stack = createNativeStackNavigator();
 //     )
 // }
 
-const Letfbutton = ({nav}) => {
+function Letfbutton({nav}) {
   return (
-    <TouchableOpacity
-    onPress={() => nav.goBack() }
-    title="Info"
-    color="#fff"
- ><MaterialCommunityIcons name = 'chevron-left' size={30}/></TouchableOpacity> 
-  )
-}
+    <TouchableOpacity 
+    onPress={() => nav.goBack()} 
+    title="Info" color="#fff">
+      <MaterialCommunityIcons name="chevron-left" size={30} />
+    </TouchableOpacity>
+  );
+};
+function Rightbutton  ({nav}) {
+  return (
+    <TouchableOpacity title="Info" color="#fff">
+      <MaterialCommunityIcons name="share-variant-outline" size={25} />
+    </TouchableOpacity>
+  );
+};
 
-export const homestack = ({navigation}) => {
+
+export const homestack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerTitleAlign : 'center' ,}}>
+    <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
       <Stack.Screen name="Home" component={Homepage} />
+      <Stack.Screen
+        name="Product"
+        component={ProductCard}
+        options= {({navigation}) => ({
+          title: 'Product',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+          headerRight: () => <Rightbutton nav={navigation} />
+        })}
+      />
+      <Stack.Screen 
+          name="Bag" 
+          component={My_Bag} 
+          options={({navigation}) => ({
+            title: 'My Bag',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+          })}
+          />
+      <Stack.Screen 
+          name="addshippingaddress" 
+          component={AddShipingAddress} 
+          options={({navigation}) => ({
+            title: 'Add Shipping Address',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+          })}
+          />
+     <Stack.Screen 
+        name="shippingaddress" 
+        component={ShippingAddresses} 
+        options={({navigation}) => ({
+          title: 'Shipping Address',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
+        />
+      <Stack.Screen 
+          name="Sucess" 
+          component={Success} 
+          options={({navigation}) => ({
+            title: 'Sucess',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+         
+            headerLeft : () => (null)
+          })}
+          />
+      <Stack.Screen 
+          name="category" 
+          component={CategoriesTwo} 
+          options={({navigation}) => ({
+            title: 'category',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+            headerRight : () => (
+              <TouchableOpacity onPress={() => nav.goBack()} title="Info" color="#fff">
+             <Fontisto style={{ paddingTop: 9 }} name="search" size={20} color="black" />
+            </TouchableOpacity>
+            )
+          })}
+          />
+    </Stack.Navigator>
+  );
+};
+export const shopstack = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
+      <Stack.Screen 
+          name="women_top" 
+          component={Womens_top} 
+          options={({navigation}) => ({
+            title: 'Women top',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+            headerRight : () => (
+              <TouchableOpacity onPress={() => nav.goBack()} title="Info" color="#fff">
+             <Fontisto style={{ paddingTop: 9 }} name="search" size={25} color="black" />
+            </TouchableOpacity>
+            )
+          })}
+          />
       <Stack.Screen 
           name="Product" 
           component={ProductCard} 
-          options={{
+          options={({navigation}) => ({
             title: 'Product',
             headerStyle: {
               backgroundColor: 'transparent',
@@ -57,18 +192,84 @@ export const homestack = ({navigation}) => {
             // headerTitleStyle: {
             //   fontWeight: 'bold',
             // },
-            headerLeft: () => (
-             <Letfbutton nav={navigation}/>
-            ),
-            headerRight: () => (
-              <TouchableOpacity
-              // onPress={() => nav.goBack() }
-              title="Info"
-              color="#000"
-           ><MaterialCommunityIcons name = 'share-variant' size={20}/></TouchableOpacity> 
-             ),
-
-          }}
+            headerLeft: () => <Letfbutton nav={navigation} />,
+            headerRight: () => <Rightbutton nav={navigation} />
+          })}
+          />
+      <Stack.Screen 
+          name="Bag" 
+          component={My_Bag} 
+          options={({navigation}) => ({
+            title: 'My Bag',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+          })}
+          />
+      <Stack.Screen 
+          name="addshippingaddress" 
+          component={AddShipingAddress} 
+          options={({navigation}) => ({
+            title: 'Add Shipping Address',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+          })}
+          />
+      <Stack.Screen 
+        name="shippingaddress" 
+        component={ShippingAddresses} 
+        options={({navigation}) => ({
+          title: 'Shipping Address',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
+        />
+     <Stack.Screen 
+          name="Sucess" 
+          component={Success} 
+          options={({navigation}) => ({
+            title: 'Sucess',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft : () => (null)
+          })}
+          />
+          <Stack.Screen 
+          name="Filter" 
+          component={Filter} 
+          options={({navigation}) => ({
+            title: 'Filter',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+          })}
           />
     </Stack.Navigator>
   );
@@ -76,34 +277,118 @@ export const homestack = ({navigation}) => {
 
 export const favouritestack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Favourite" component={FavoritesPage} />
-      <Stack.Screen name="Product" component={ProductCard} />
+    <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
       <Stack.Screen 
-      name="Bag" 
-      component={My_Bag}
-      
-       />
+          name="Favourite" 
+          component={FavoritesPage} 
+          options={({navigation}) => ({
+            title: 'Favourite',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerRight : () => (
+              <TouchableOpacity onPress={() => nav.goBack()} title="Info" color="#fff">
+             <Fontisto style={{ paddingTop: 9 }} name="search" size={20} color="black" />
+            </TouchableOpacity>
+            )
+           
+          })}
+          />
+      <Stack.Screen 
+          name="Product" 
+          component={ProductCard} 
+          options={({navigation}) => ({
+            title: "Product",
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+            headerRight: () => <Rightbutton nav={navigation} />
+          })}
+          />
+
+      <Stack.Screen 
+          name="Bag" 
+          component={My_Bag} 
+          options={({navigation}) => ({
+            title: 'My Bag',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+          })}
+          />
+      <Stack.Screen 
+          name="addshippingaddress" 
+          component={AddShipingAddress} 
+          options={({navigation}) => ({
+            title: 'Add Shipping Address',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+          })}
+          />
+ <Stack.Screen 
+        name="shippingaddress" 
+        component={ShippingAddresses} 
+        options={({navigation}) => ({
+          title: 'Shipping Address',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
+        />
+     <Stack.Screen 
+          name="Sucess" 
+          component={Success} 
+          options={({navigation}) => ({
+            title: 'Sucess',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+           
+            headerLeft : () => (null)
+          })}
+          />
     </Stack.Navigator>
   );
 };
 
-export const shopstack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="women_top" component={Womens_top} />
-      <Stack.Screen name="Product" component={ProductCard} />
-    </Stack.Navigator>
-  );
-};
 
-export const bagstack = ({navigation}) => {
+
+export const bagstack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen 
-        name="my_bag" 
-        component={My_Bag} 
-        options={{
+    <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
+      <Stack.Screen
+        name="my_bag"
+        component={My_Bag}
+        options={({navigation}) => ({
           title: 'My Bag',
           headerStyle: {
             backgroundColor: 'transparent',
@@ -112,33 +397,170 @@ export const bagstack = ({navigation}) => {
           // headerTitleStyle: {
           //   fontWeight: 'bold',
           // },
-          headerLeft: () => (
-           <Letfbutton nav={navigation}/>
-          ),
-          headerRight: () => (
-            <TouchableOpacity
-            // onPress={() => nav.goBack() }
-            title="Info"
-            color="#000"
-         ><MaterialCommunityIcons name = 'share-variant' size={20}/></TouchableOpacity> 
-           ),
-  
-        }}
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
+      />
+        <Stack.Screen 
+          name="addshippingaddress" 
+          component={AddShipingAddress} 
+          options={({navigation}) => ({
+            title: 'Add Shipping Address',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+          })}
+          />
+ <Stack.Screen 
+        name="shippingaddress" 
+        component={ShippingAddresses} 
+        options={({navigation}) => ({
+          title: 'Shipping Address',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
         />
-      {/* <Stack.Screen name="shippingaddress" component={ShippingAddresses} /> */}
+     <Stack.Screen 
+          name="Sucess" 
+          component={Success} 
+          options={({navigation}) => ({
+            title: 'Sucess',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            
+            headerLeft : () => (null)
+          })}
+          />
     </Stack.Navigator>
   );
 };
 
 export const profilestack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="My_Profile" component={My_profile} />
-      <Stack.Screen name="My_Order" component={My_Order} />
-      <Stack.Screen name="OrderDetails" component={OrderDetails} />
-      <Stack.Screen name="shippingaddress" component={ShippingAddresses} />
-      <Stack.Screen name="rating" component={Rating} />
-      <Stack.Screen name="Sucess" component={Success} />
+    <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
+      <Stack.Screen 
+          name="My_Profile" 
+          component={My_profile} 
+          options={({navigation}) => ({
+            title: 'My Profile',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerRight : () => (
+              <TouchableOpacity onPress={() => nav.goBack()} title="Info" color="#fff">
+             <Fontisto style={{ paddingTop: 9 }} name="search" size={20} color="black" />
+            </TouchableOpacity>
+            )
+           
+          })}
+          />
+      <Stack.Screen 
+          name="My_Order" 
+          component={My_Order} 
+          options={({navigation}) => ({
+            title: 'My Order',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+            headerRight : () => (
+              <TouchableOpacity onPress={() => nav.goBack()} title="Info" color="#fff">
+             <Fontisto style={{ paddingTop: 9 }} name="search" size={20} color="black" />
+            </TouchableOpacity>
+            )
+           
+          })}
+          />
+      <Stack.Screen 
+            name="OrderDetails" 
+            component={OrderDetails} 
+            options={({navigation}) => ({
+              title: 'OrderDetails',
+              headerStyle: {
+                backgroundColor: 'transparent',
+              },
+              headerTintColor: '#000',
+              // headerTitleStyle: {
+              //   fontWeight: 'bold',
+              // },
+              headerLeft: () => <Letfbutton nav={navigation} />,
+              headerRight : () => (
+                <TouchableOpacity onPress={() => nav.goBack()} title="Info" color="#fff">
+               <Fontisto style={{ paddingTop: 9 }} name="search" size={20} color="black" />
+              </TouchableOpacity>
+              )
+             
+            })}
+            />
+      <Stack.Screen 
+        name="shippingaddress" 
+        component={ShippingAddresses} 
+        options={({navigation}) => ({
+          title: 'Shipping Address',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
+        />
+      <Stack.Screen 
+          name="rating" 
+          component={Rating} 
+          options={({navigation}) => ({
+            title: 'Rating & Reviews',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+           
+          })}
+          />
+     <Stack.Screen 
+          name="Sucess" 
+          component={Success} 
+          options={({navigation}) => ({
+            title: 'Sucess',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerLeft: () => <Letfbutton nav={navigation} />,
+          })}
+          />
     </Stack.Navigator>
   );
 };

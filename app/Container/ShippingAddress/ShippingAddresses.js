@@ -50,12 +50,12 @@ export default function ShippingAddresses( {route , navigation}) {
         <ScrollView style={styles.container}>
             <StatusBar animated={true} backgroundColor={'transparent'} />
 
-            <View style={styles.Ordertext}>
+            {/* <View style={styles.Ordertext}>
                 <TouchableOpacity><FontAwesome name="angle-left" size={35} color="black" /></TouchableOpacity>
                 <View style={styles.viewshipping}>
                     <Text style={styles.Ordertext2}>Shipping Addresses</Text>
                 </View>
-            </View>
+            </View> */}
 
             <FlatList
                 data={useaddresses}

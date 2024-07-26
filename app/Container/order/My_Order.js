@@ -94,7 +94,7 @@ export default function My_Order({route , navigation}) {
     <ScrollView>
       <StatusBar backgroundColor="#F4F4F4" barStyle="dark-content" />
       <View style={{width: '100%', height: 1000, backgroundColor: '#F4F4F4'}}>
-        <View style={Styles.mainIcon}>
+        {/* <View style={Styles.mainIcon}>
           <TouchableOpacity>
             <EvilIcons name="chevron-left" size={45} color="#222222" />
           </TouchableOpacity>
@@ -104,7 +104,7 @@ export default function My_Order({route , navigation}) {
           </TouchableOpacity>
         </View>
 
-        <Text style={Styles.myOrderText}>My orders</Text>
+        <Text style={Styles.myOrderText}>My orders</Text> */}
 
         <View style={Styles.delievered}>
           <TouchableOpacity>
