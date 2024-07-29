@@ -135,7 +135,7 @@ export const homestack = () => {
           })}
           />
       <Stack.Screen 
-          name="category" 
+          name="Subcategory" 
           component={CategoriesTwo} 
           options={({navigation}) => ({
             title: 'category',

@@ -98,7 +98,7 @@ export default function Homepage( {route , navigation}) {
   }, []);
 
   const category = useSelector(state => state.category);
-  console.log(category);
+  console.log(category.categorydata);
 
   const ProductCart = ({v}) => (
     <View>
@@ -152,7 +152,7 @@ export default function Homepage( {route , navigation}) {
       <View style={{width: '70%'}}>
         <Text style={style.title}>Fashion Sale</Text>
 
-        <TouchableOpacity style={style.checkbutton} onPress={() => navigation.navigate("category")}>
+        <TouchableOpacity style={style.checkbutton} onPress={() => navigation.navigate("Subcategory")}>
           <Text style={style.checktext}>Check</Text>
         </TouchableOpacity>
       </View>
@@ -197,66 +197,108 @@ export default function Homepage( {route , navigation}) {
         />
       </View>
       
-      {category.categorydata.map((v, i) => {
-      <View style={{marginTop: verticalScale(40)}}>
-          { (i % 4 == 0) && 
-            <View>
-              <ImageBackground
-                source={require('../../../assets/image/newcollection.png')}
-                style={style.backgroundimage2}></ImageBackground>
-              <View>
-                <Text style={style.collectiontext}>{v.name}</Text>
-              </View>
-            </View>
-          }
+    {
+      category.categorydata.map((v,i) => (
+<View style = {{marginTop : verticalScale(40)}}>
+  {i%10 === 0 &&
+  <View>
+         
+       <TouchableOpacity onPress={() => navigation.navigate("Subcategory" , {
+         cate_id : v.id
+       })}>
+          <ImageBackground source={require('../../../assets/image/newcollection.png')} style={style.backgroundimage2}></ImageBackground>
 
-          <View style={style.collectionview}>
-            {/* <View style={{width: '50%'}}> */}
-
-            <View style={{height: '50%', width: '50%'}}>
-              {(i % 4 == 1) && 
-                <View>
-                     <TouchableOpacity>
-                  <ImageBackground
-                    source={require('../../../assets/image/summersale.png')}
-                    style={style.summerimage}></ImageBackground>
-                </TouchableOpacity>
-                <View>
-                <Text style={style.summertext}>{v.name}</Text>
-              </View>
-                </View>
-               
-              }
-
-            {(i%4 == 2) && 
-            <View><TouchableOpacity>
-            <ImageBackground
-              source={require('../../../assets/image/Blackimage.png')}
-              style={style.blackImage}></ImageBackground>
-          </TouchableOpacity>
           <View>
-            <Text style={style.blacktext}>{v.name}</Text>
+              <Text style={style.collectiontext}>{v.name}</Text>
           </View>
-        </View>
-        
-        }
-              
 
-            {/* </View> */}
 
-           {(i % 4 == 3) && 
-           <View style={{width: '50%'}}>
-              <ImageBackground
-                source={require('../../../assets/image/menhoodies.png')}
-                style={style.menhoddies}></ImageBackground>
+      </TouchableOpacity>
+    
+
+      <View style = {style.collectionview}>
+          <View style = {{width : '50%'}}>
+              <View style = {{height : '50%'}}>
+              <TouchableOpacity><ImageBackground source={require('../../../assets/image/summersale.png')} style={style.summerimage}></ImageBackground></TouchableOpacity>
               <View>
-                <Text style={style.hoodiestext}>{v.name}</Text>
+                  <Text style={style.summertext}>Summer Sale</Text>
               </View>
-            </View>}
+
+              </View>
+              
+              <View style = {{height : '50%'}}>                       
+                  <TouchableOpacity><ImageBackground source={require('../../../assets/image/Blackimage.png')} style = {style.blackImage}></ImageBackground></TouchableOpacity>
+                  <View>
+                      <Text style = {style.blacktext}>Black</Text>
+                  </View>
+              </View>
+          </View>
+
+          
+          <View style = {{width : '50%'}}>
+              <ImageBackground source={require('../../../assets/image/menhoodies.png')} style = {style.menhoddies}></ImageBackground>
+              <View>
+                  <Text>Men's hoodies</Text>
+              </View>
+          </View>
+    
+      
           </View>
           </View>
+}
+
+      </View>
+  
+
+      ))
+    }
+       <View style = {{marginTop : verticalScale(40)}}>
+       <View>
+          <ImageBackground source={require('../../../assets/image/newcollection.png')} style={style.backgroundimage2}></ImageBackground>
+
+          <View>
+              <Text style={style.collectiontext}>New Collection</Text>
           </View>
-      })}
+
+
+      </View>
+    
+
+      <View style = {style.collectionview}>
+          <View style = {{width : '50%'}}>
+              <View style = {{height : '50%'}}>
+              <TouchableOpacity><ImageBackground source={require('../../../assets/image/summersale.png')} style={style.summerimage}></ImageBackground></TouchableOpacity>
+              <View>
+                  <Text style={style.summertext}>Summer Sale</Text>
+              </View>
+
+              </View>
+              
+              <View style = {{height : '50%'}}>                       
+                  <TouchableOpacity><ImageBackground source={require('../../../assets/image/Blackimage.png')} style = {style.blackImage}></ImageBackground></TouchableOpacity>
+                  <View>
+                      <Text style = {style.blacktext}>Black</Text>
+                  </View>
+              </View>
+          </View>
+
+          
+          <View style = {{width : '50%'}}>
+              <ImageBackground source={require('../../../assets/image/menhoodies.png')} style = {style.menhoddies}></ImageBackground>
+              <View>
+                  <Text>Men's hoodies</Text>
+              </View>
+          </View>
+    
+      
+          </View>
+
+      </View>
+     
+    
+      
+  
+  
      
     </ScrollView>
   );

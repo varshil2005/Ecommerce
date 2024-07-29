@@ -1,10 +1,21 @@
 import { View, Text, StatusBar, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 // import EvilIcons from 'react-native-vector-icons/EvilIcons';
 // import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { subBycat } from '../Redux/Slice/subcategory.slice'
 
 
-export default function CategoriesTwo() {
+export default function CategoriesTwo({route , navigation}) {
+    console.log("routeeeee",route.params.cate_id);
+    const Subcategory = useSelector(state => state.subcategory);
+    console.log("subcategory", Subcategory.subcategorydata);
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(subBycat(route.params.cate_id))
+    },[])
+
+   
     return (
         <ScrollView>
             <StatusBar
@@ -24,8 +35,13 @@ export default function CategoriesTwo() {
             </View>
 
             <View style={{ marginTop: 10 }}>
-                <TouchableOpacity><Text style={Styles.product}>Tops</Text></TouchableOpacity>
-                <TouchableOpacity><Text style={Styles.product}>Shirts & Blouses</Text></TouchableOpacity>
+                 {
+                    Subcategory.subcategorydata.map((v) => (
+                        <TouchableOpacity><Text style={Styles.product}>{v.name}</Text></TouchableOpacity>
+                    ))
+                 }
+               
+                {/* <TouchableOpacity><Text style={Styles.product}>Shirts & Blouses</Text></TouchableOpacity>
                 <TouchableOpacity><Text style={Styles.product}>Cardigans & Sweaters</Text></TouchableOpacity>
                 <TouchableOpacity><Text style={Styles.product}>Knitwear</Text></TouchableOpacity>
                 <TouchableOpacity><Text style={Styles.product}>Blazers</Text></TouchableOpacity>
@@ -34,7 +50,7 @@ export default function CategoriesTwo() {
                 <TouchableOpacity><Text style={Styles.product}>Jeans</Text></TouchableOpacity>
                 <TouchableOpacity><Text style={Styles.product}>Shorts</Text></TouchableOpacity>
                 <TouchableOpacity><Text style={Styles.product}>Skirts</Text></TouchableOpacity>
-                <TouchableOpacity><Text style={Styles.product}>Dresses</Text></TouchableOpacity>
+                <TouchableOpacity><Text style={Styles.product}>Dresses</Text></TouchableOpacity> */}
             </View>
 
             {/* <View>

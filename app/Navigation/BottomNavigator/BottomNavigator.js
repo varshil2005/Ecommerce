@@ -17,8 +17,7 @@ export default function BottomNavigator() {
 
   return (
    
-    <Tab.Navigator 
-    screenOptions={({ route }) => ({
+    <Tab.Navigator  screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
 
