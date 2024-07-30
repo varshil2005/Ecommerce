@@ -2,9 +2,11 @@ import { View, Text, ScrollView, StyleSheet, StatusBar, TouchableOpacity, Image,
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { SliderBox } from "react-native-image-slider-box";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics';
 import Collapsible from 'react-native-collapsible';
+import { useDispatch, useSelector } from 'react-redux';
+import { prodBysub } from '../Redux/Slice/product.slice';
 
 const Data = [
     {
@@ -41,6 +43,16 @@ const Data = [
     }
 ]
 export default function ProductCard( {route , navigation}) {
+    console.log("ppppp",route);
+
+    const dispatch = useDispatch();
+
+
+    useEffect(()=>{
+        dispatch(prodBysub({cate_id : route.params.cate_id,subcate_id :route.params.subcate_id}))
+    },[])
+    const productdata = useSelector(state => state.product)
+    console.log("mil gaya",productdata.productdata);
     const [images, setImages] = useState(
         [
             require('../../../assets/image/newproduct.jpg'),
@@ -116,44 +128,48 @@ export default function ProductCard( {route , navigation}) {
                         }
                     </ScrollView>
 
-                    <View style={styles.SizeBlackView}>
-                        <View style={styles.SizeView}>
-                            <Text style={styles.SizeText}>Size</Text>
-                            <MaterialIcons name="keyboard-arrow-down" size={25} color='black' style={styles.SizeArrow} />
-                        </View>
-                        <View style={styles.BlackView}>
-                            <Text style={styles.SizeText}>Black</Text>
-                            <MaterialIcons name="keyboard-arrow-down" size={25} color='black' style={styles.SizeArrow} />
-                        </View>
-                        <View style={{ position: 'relative' }}>
-                            <TouchableOpacity><FontAwesome name="heart-o" size={20} color="black" style={styles.heart} /></TouchableOpacity>
-                        </View>
-                    </View>
-
-                    <View style={styles.HandMView}>
-                        <View>
-                            <Text style={styles.HAndM}>H&M</Text>
-                            <Text style={styles.ShortDress}>Short black dress</Text>
-                            <View style={styles.iconview}>
-                                <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 2, marginTop: 2 }} />
-                                <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 2, marginTop: 2 }} />
-                                <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 2, marginTop: 2 }} />
-                                <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 2, marginTop: 2 }} />
-                                <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 3, marginTop: 2 }} />
-                                <Text style={{ color: '#9B9B9B', fontSize: 13 }}>(10)</Text>
+                     {
+                        productdata.productdata.map((v,i) => (
+                            <View>
+                            <View style={styles.SizeBlackView}>
+                            <View style={styles.SizeView}>
+                                <Text style={styles.SizeText}>Size</Text>
+                                <MaterialIcons name="keyboard-arrow-down" size={25} color='black' style={styles.SizeArrow} />
+                            </View>
+                            <View style={styles.BlackView}>
+                                <Text style={styles.SizeText}>Black</Text>
+                                <MaterialIcons name="keyboard-arrow-down" size={25} color='black' style={styles.SizeArrow} />
+                            </View>
+                            <View style={{ position: 'relative' }}>
+                                <TouchableOpacity><FontAwesome name="heart-o" size={20} color="black" style={styles.heart} /></TouchableOpacity>
+                            </View>
+                        </View>    
+                        <View style={styles.HandMView}>
+                            <View>
+                                <Text style={styles.HAndM}>{v.name}</Text>
+                                <Text style={styles.ShortDress}>{v.name}</Text>
+                                <View style={styles.iconview}>
+                                    <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 2, marginTop: 2 }} />
+                                    <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 2, marginTop: 2 }} />
+                                    <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 2, marginTop: 2 }} />
+                                    <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 2, marginTop: 2 }} />
+                                    <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 3, marginTop: 2 }} />
+                                    <Text style={{ color: '#9B9B9B', fontSize: 13 }}>(10)</Text>
+                                </View>
+                            </View>
+                            <View>
+                                <Text style={styles.HANdMPrice}>${v.price}</Text>
                             </View>
                         </View>
-                        <View>
-                            <Text style={styles.HANdMPrice}>$19.99</Text>
+    
+                        <View style={styles.TextsView}>
+                            <Text style={styles.Texts}>{v.desc}</Text>
                         </View>
-                    </View>
+                        </View>
+                        ))
+                    } 
 
-                    <View style={styles.TextsView}>
-                        <Text style={styles.Texts}>Short dress in soft cotton jersey with decorative buttons down the
-                            front and a wide, frill-trimmed square neckline with concealed elastication. Elasticated
-                            seam under the bust and short puff sleeves with a small frill trim.
-                        </Text>
-                    </View>
+          
                     <TouchableOpacity
                             onPress={toggleExpand}
                         >

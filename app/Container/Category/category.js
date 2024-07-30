@@ -7,7 +7,7 @@ import { subBycat } from '../Redux/Slice/subcategory.slice'
 
 
 export default function CategoriesTwo({route , navigation}) {
-    console.log("routeeeee",route.params.cate_id);
+    // console.log("routeeeee",route.params.cate_id);
     const Subcategory = useSelector(state => state.subcategory);
     console.log("subcategory", Subcategory.subcategorydata);
     const dispatch = useDispatch()
@@ -37,7 +37,10 @@ export default function CategoriesTwo({route , navigation}) {
             <View style={{ marginTop: 10 }}>
                  {
                     Subcategory.subcategorydata.map((v) => (
-                        <TouchableOpacity><Text style={Styles.product}>{v.name}</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate("Product", {
+                            cate_id : v.categoryid,
+                            subcate_id:v.id
+                        })}><Text style={Styles.product}>{v.name}</Text></TouchableOpacity>
                     ))
                  }
                

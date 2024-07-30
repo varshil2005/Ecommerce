@@ -200,7 +200,7 @@ export default function Homepage( {route , navigation}) {
     {
       category.categorydata.map((v,i) => (
 <View style = {{marginTop : verticalScale(40)}}>
-  {i%10 === 0 &&
+  
   <View>
          
        <TouchableOpacity onPress={() => navigation.navigate("Subcategory" , {
@@ -221,7 +221,7 @@ export default function Homepage( {route , navigation}) {
               <View style = {{height : '50%'}}>
               <TouchableOpacity><ImageBackground source={require('../../../assets/image/summersale.png')} style={style.summerimage}></ImageBackground></TouchableOpacity>
               <View>
-                  <Text style={style.summertext}>Summer Sale</Text>
+                  <Text style={style.summertext}>{v.name}</Text>
               </View>
 
               </View>
@@ -245,7 +245,7 @@ export default function Homepage( {route , navigation}) {
       
           </View>
           </View>
-}
+
 
       </View>
   
