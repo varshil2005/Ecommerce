@@ -21,6 +21,8 @@ import {
 import AddShipingAddress from '../Container/Addshipping/AddShipingAddress';
 import CategoriesTwo from '../Container/Category/category';
 import Filter from '../Container/Filter/Filter';
+import SubCategories2 from '../Container/Subcatgory/shooping';
+import shooping from '../Container/Subcatgory/shooping';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +59,21 @@ export const homestack = () => {
   return (
     <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
       <Stack.Screen name="Home" component={Homepage} />
+      <Stack.Screen 
+        name="Shopping" 
+        component={shooping} 
+        options={({navigation}) => ({
+          title: 'Shopping',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
+        />
       <Stack.Screen
         name="Product"
         component={ProductCard}
@@ -154,6 +171,7 @@ export const homestack = () => {
             )
           })}
           />
+            
     </Stack.Navigator>
   );
 };

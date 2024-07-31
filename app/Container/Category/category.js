@@ -37,7 +37,7 @@ export default function CategoriesTwo({route , navigation}) {
             <View style={{ marginTop: 10 }}>
                  {
                     Subcategory.subcategorydata.map((v) => (
-                        <TouchableOpacity onPress={() => navigation.navigate("Product", {
+                        <TouchableOpacity onPress={() => navigation.navigate("Shopping", {
                             cate_id : v.categoryid,
                             subcate_id:v.id
                         })}><Text style={Styles.product}>{v.name}</Text></TouchableOpacity>

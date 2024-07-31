@@ -15,7 +15,7 @@ import ShippingAddresses from './app/Container/ShippingAddress/ShippingAddresses
 import Womens_top from './app/Container/Womentops/Womens_top';
 import AddShipingAddress from './app/Container/Addshipping/AddShipingAddress';
 import ProductCard from './app/Container/Productcard/ProductCard';
-import SubCategories2 from './app/Container/Subcatgory/SubCategories2';
+import SubCategories2 from './app/Container/Subcatgory/shooping';
 import FavoritesPage from './app/Container/Favorite Page/FavoritesPage';
 import {NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';

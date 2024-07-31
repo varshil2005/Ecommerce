@@ -8,7 +8,7 @@ const initialstate = {
     error: null,
 };
 export const prodBysub= createAsyncThunk(
-     'product/subBycat',
+     'shopping/subBycat',
      async (data) => {
        console.log("cate_id",data.cate_id);
        console.log("subcat_id",data.subcate_id);
@@ -23,14 +23,17 @@ export const prodBysub= createAsyncThunk(
       
               querySnapshot.forEach(documentSnapshot => {
                  if ((documentSnapshot.data().category_id === data.cate_id) &&  (documentSnapshot.data().Subcategory_id === data.subcate_id)) {
-                    Productdata.push(documentSnapshot.data());
+                    Productdata.push({
+                        id : documentSnapshot.id,
+                        ...documentSnapshot.data(),
+                      });
                  }
                   
 
               });
             });
             
-            console.log("Clear data" , Productdata);
+            // console.log("Clear data" , Productdata);
            
           
           
@@ -38,8 +41,8 @@ export const prodBysub= createAsyncThunk(
     }
 ) 
 
-const productSlice = createSlice({
-    name : 'product',
+const ShoppingSlice = createSlice({
+    name : 'shopping',
     initialState: initialstate,
     extraReducers : (builder) => {
         builder.addCase(prodBysub.fulfilled, (state, action) => {
@@ -49,4 +52,4 @@ const productSlice = createSlice({
         }
 })
 
-export default productSlice.reducer
+export default ShoppingSlice.reducer

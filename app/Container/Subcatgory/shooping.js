@@ -1,9 +1,11 @@
 import { View, Text, ScrollView, StatusBar, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics'
 import Collapsible from 'react-native-collapsible';
+import { useDispatch, useSelector } from 'react-redux';
+import { prodBysub } from '../Redux/Slice/Shopping.slice';
 
 const data = [
     {
@@ -57,7 +59,17 @@ const Data2 = [
         price: 9
     }
 ]
-export default function SubCategories2() {
+export default function shooping({route,navigation}) {
+    const dispatch = useDispatch();
+
+
+    useEffect(()=>{
+        dispatch(prodBysub({cate_id : route.params.cate_id,subcate_id :route.params.subcate_id}))
+    },[])
+
+    const productdata = useSelector(state => state.Product)
+    console.log("mil gaya",productdata.productdata);
+    
     const ProductCard = ({ v }) => (
 
         <View style={styles.CategorisView}>
@@ -66,29 +78,37 @@ export default function SubCategories2() {
         </View>
     )
     const ProductData = ({ v }) => (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <View style={styles.productMainView}>
-                <View style={styles.productImg}>
-                    <Image source={v.img} style={{ width: '100%', height: '100%',borderTopLeftRadius:15,borderTopRightRadius:15}} />   
-                </View>
-                <View>
-                <TouchableOpacity><FontAwesome name="heart-o" size={20} color="black" style={styles.heart} /></TouchableOpacity>
-                </View>
-                <View style={styles.productText}>
-                    <View style={styles.iconview}>
-                        <FontAwesome name="star" size={20} style={{ color: '#FFBA49' }} />
-                        <FontAwesome name="star" size={20} style={{ color: '#FFBA49' }} />
-                        <FontAwesome name="star" size={20} style={{ color: '#FFBA49' }} />
-                        <FontAwesome name="star" size={20} style={{ color: '#FFBA49' }} />
-                        <FontAwesome name="star" size={20} style={{ color: '#FFBA49' }} />
-                        <Text style={{ color: '#9B9B9B' }}>(3)</Text>
+       
+        <View>
+            {/* {
+                productdata.productdata.map((v) => ( */}
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+           
+                    <View style={styles.productMainView} >
+                        <View style={styles.productImg}>
+                            <Image source ={require("../../../assets/image/newproduct.jpg")} style={{ width: '100%', height: '100%',borderTopLeftRadius:15,borderTopRightRadius:15}} />   
+                        </View>
+                        <View>
+                        <TouchableOpacity><FontAwesome name="heart-o" size={20} color="black" style={styles.heart} /></TouchableOpacity>
+                        </View>
+                        <View style={styles.productText}>
+                            <View style={styles.iconview}>
+                                <FontAwesome name="star" size={20} style={{ color: '#FFBA49' }} />
+                                <FontAwesome name="star" size={20} style={{ color: '#FFBA49' }} />
+                                <FontAwesome name="star" size={20} style={{ color: '#FFBA49' }} />
+                                <FontAwesome name="star" size={20} style={{ color: '#FFBA49' }} />
+                                <FontAwesome name="star" size={20} style={{ color: '#FFBA49' }} />
+                                <Text style={{ color: '#9B9B9B' }}>(3)</Text>
+                            </View>
+                            <Text style={styles.mangoText}>{v.name}</Text>
+                            <Text style={styles.tShirt}>{v.desc}</Text>
+                            <Text style={styles.price}>{v.price}$</Text>
+                        </View>
+        
                     </View>
-                    <Text style={styles.mangoText}>{v.title}</Text>
-                    <Text style={styles.tShirt}>{v.SubTitle}</Text>
-                    <Text style={styles.price}>{v.price}$</Text>
-                </View>
+                    </View>
+                
 
-            </View>
         </View>
     )
     return (
@@ -98,11 +118,11 @@ export default function SubCategories2() {
                 translucent backgroundColor="transparent"
                 barStyle="dark-content"
             />
-            <View style={styles.ArrowView}>
+            {/* <View style={styles.ArrowView}>
                 <Text style={styles.KeyboardArrow}><MaterialIcons name="keyboard-arrow-left" size={50} color="black" /></Text>
                 <Text style={styles.ArrowText}>Women's tops</Text>
                 <TouchableOpacity><MaterialIcons name="search" size={30} color="black" style={{ marginTop: 25 }} /></TouchableOpacity>
-            </View>
+            </View> */}
             <View style={{ backgroundColor: 'white', marginBottom: 25 }}>
                 <FlatList
                     data={data}
@@ -119,10 +139,14 @@ export default function SubCategories2() {
             </View>
 
             <FlatList
-                data={Data2}
+                data={productdata.productdata}
                 numColumns={2}
                 columnWrapperStyle={{ justifyContent: 'space-between' }}
-                renderItem={({ item }) => <TouchableOpacity><ProductData v={item} /></TouchableOpacity>}
+                renderItem={({ item }) => <TouchableOpacity onPress={() => navigation.navigate("Product",{
+                    id:item.id,
+                    cate_id : item.category_id,
+                    subcate_id : item.Subcategory_id
+                })}><ProductData v={item}  /></TouchableOpacity>}
                 keyExtractor={item => item.id}
             // horizontal={true}
             />
@@ -139,7 +163,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 15,
-        backgroundColor: '#F9F9F9'
+        backgroundColor: '#F9F9F9',
+        marginTop : 10
     },
     ArrowView: {
         width: '100%',
@@ -189,8 +214,8 @@ const styles = StyleSheet.create({
         marginLeft:10
     },
     productMainView: {
-        width: 180,
-        height: 350,
+        width: horizontalScale(160),
+        height: 400,
         marginBottom:verticalScale(40),
         marginRight : horizontalScale(30)
 
