@@ -494,39 +494,4 @@ const styles = StyleSheet.create({
       }
 })
 
-//     import { View, Text, StyleSheet, ScrollView, Button } from 'react-native'
-//     import React from 'react'
     
-//     export default function filter() {
-//       return (
-//     < View style = { styles.mainContainer } >
-//     <View style={styles.bodyContainer}>
-//       <ScrollView >
-//         <View style={{ height: 250, backgroundColor: 'red' }}>
-//         </View>
-//         <View style={{ height: 250, backgroundColor: 'blue' }}>
-//         </View>
-//         <View style={{ height: 250, backgroundColor: 'green' }}>
-//         </View>
-//       </ScrollView>
-//     </View>
-//     <View style={styles.headerContainer}>
-//       <Button style={{ backgroundColor: 'blue', alignSelf:'center' }}
-//         title="THIS IS A BUTTON" />
-//     </View>
-//   </View >
-//   )
-// }
-
-// const styles = StyleSheet.create({
-//     mainContainer: {
-//         flex: 1,
-//         flexDirection: 'column'
-//       },
-//        headerContainer: {
-//         flex: 1,
-//       },
-//       bodyContainer: {
-//         flex: 10
-//       }
-// })
