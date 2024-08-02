@@ -3,7 +3,6 @@ import Homepage from '../Container/homepage/Homepage';
 import ProductCard from '../Container/Productcard/ProductCard';
 import FavoritesPage from '../Container/Favorite Page/FavoritesPage';
 import My_Bag from '../Container/Bag/My_Bag';
-import Womens_top from '../Container/Womentops/Womens_top';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import OrderDetails from '../Container/OrderDetails/OrderDetails';
 import My_profile from '../Container/Profile/My_Profile';
@@ -23,6 +22,7 @@ import CategoriesTwo from '../Container/Category/category';
 import Filter from '../Container/Filter/Filter';
 import SubCategories2 from '../Container/Subcatgory/shooping';
 import shooping from '../Container/Subcatgory/shooping';
+import shop from '../Container/Shop/shop';
 
 const Stack = createNativeStackNavigator();
 
@@ -179,8 +179,8 @@ export const shopstack = () => {
   return (
     <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
       <Stack.Screen 
-          name="women_top" 
-          component={Womens_top} 
+          name="shop" 
+          component={shop} 
           options={({navigation}) => ({
             title: 'Women top',
             headerStyle: {

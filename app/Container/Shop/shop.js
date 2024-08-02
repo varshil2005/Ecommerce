@@ -23,6 +23,7 @@ import {prodBysub} from '../Redux/Slice/Shopping.slice';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {useRef} from 'react';
 import {Button} from 'react-native';
+import { getPrdouct } from '../Redux/Slice/Product.slice';
 
 const data = [
   {
@@ -82,11 +83,17 @@ const YourOwnComponent = () => (
   </View>
 );
 
-export default function shooping({route, navigation}) {
+export default function shop() {
   const refRBSheet = useRef([]);
 
   const dispatch = useDispatch();
   const [search, setsearch] = useState('');
+  useEffect(() => {
+    dispatch(getPrdouct());
+  }, []);
+
+  const productdata = useSelector(state => state.Product);
+  console.log('mil gaya', productdata.productdata);
   const[sort,setsort] = useState('');
 
   const renderItem = ({item, index, refRBSheet}) => {
@@ -128,17 +135,7 @@ export default function shooping({route, navigation}) {
   };
   
 
-  useEffect(() => {
-    dispatch(
-      prodBysub({
-        cate_id: route.params.cate_id,
-        subcate_id: route.params.subcate_id,
-      }),
-    );
-  }, []);
 
-  const productdata = useSelector(state => state.Product);
-  console.log('mil gaya', productdata.productdata);
 
   const ProductCard = ({v}) => (
     <View style={styles.CategorisView}>
@@ -275,9 +272,9 @@ export default function shooping({route, navigation}) {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('Product', {
-                id: item.id,
-                cate_id: item.category_id,
-                subcate_id: item.Subcategory_id,
+                // id: item.id,
+                // cate_id: item.category_id,
+                // subcate_id: item.Subcategory_id,
               })
             }>
             <ProductData v={item} />

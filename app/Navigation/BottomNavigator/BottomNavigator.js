@@ -5,10 +5,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Homepage from '../../Container/homepage/Homepage';
-import Womens_top from '../../Container/Womentops/Womens_top';
+import Womens_top from '../../Container/Shop/shop';
 import FavoritesPage from '../../Container/Favorite Page/FavoritesPage';
 import { bagstack, favouritestack, homestack, profilestack, shopstack } from '../StckNavigation';
 import My_Bag from '../../Container/Bag/My_Bag';
+import BottomSheet from '../../Container/BottomSheet/Bottomsheet';
 
 
 const Tab = createBottomTabNavigator();
@@ -69,6 +70,7 @@ export default function BottomNavigator() {
 
     
     </Tab.Navigator>
+
 
   )
 }
