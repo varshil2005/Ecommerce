@@ -137,7 +137,7 @@ export default function shooping({route, navigation}) {
     );
   }, []);
 
-  const productdata = useSelector(state => state.Product);
+  const productdata = useSelector(state => state.shopping);
   console.log('mil gaya', productdata.productdata);
 
   const ProductCard = ({v}) => (

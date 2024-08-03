@@ -23,7 +23,8 @@ import {prodBysub} from '../Redux/Slice/Shopping.slice';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {useRef} from 'react';
 import {Button} from 'react-native';
-import { getPrdouct } from '../Redux/Slice/Product.slice';
+import {getPrdouct} from '../Redux/Slice/Product.slice';
+import {fetchcategory} from '../Redux/Slice/category.slice';
 
 const data = [
   {
@@ -76,7 +77,6 @@ const Data2 = [
 
 const items = ['']; // Example items
 
-
 const YourOwnComponent = () => (
   <View style={{padding: 20}}>
     <Text>This is your own component inside the bottom sheet</Text>
@@ -84,17 +84,24 @@ const YourOwnComponent = () => (
 );
 
 export default function shop() {
+  const [sort, setsort] = useState('');
+  const [search, setsearch] = useState('');
+  const [selectat, setselectcat] = useState('');
+  const [press, setpress] = useState(false);
+
   const refRBSheet = useRef([]);
 
   const dispatch = useDispatch();
-  const [search, setsearch] = useState('');
+
   useEffect(() => {
     dispatch(getPrdouct());
+    dispatch(fetchcategory());
   }, []);
 
   const productdata = useSelector(state => state.Product);
   console.log('mil gaya', productdata.productdata);
-  const[sort,setsort] = useState('');
+
+  const category = useSelector(state => state.category);
 
   const renderItem = ({item, index, refRBSheet}) => {
     return (
@@ -103,29 +110,30 @@ export default function shop() {
           <View style={styles.bottomSheetContainer}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => {setsort('lh'),refRBSheet.current[0].close()}} >
+              onPress={() => {
+                setsort('lh'), refRBSheet.current[0].close();
+              }}>
               <Text style={styles.buttonText}>lowest to high</Text>
             </TouchableOpacity>
             <TouchableOpacity
-
-
-
-
-
-
-
               style={styles.button}
-              onPress={() => {setsort('hl'),refRBSheet.current[0].close()}}>
+              onPress={() => {
+                setsort('hl'), refRBSheet.current[0].close();
+              }}>
               <Text style={styles.buttonText}>high to lowest</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => {setsort('az'),refRBSheet.current[0].close()}}>
+              onPress={() => {
+                setsort('az'), refRBSheet.current[0].close();
+              }}>
               <Text style={styles.buttonText}>A-Z</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => {setsort('za'),refRBSheet.current[0].close()}}>
+              onPress={() => {
+                setsort('za'), refRBSheet.current[0].close();
+              }}>
               <Text style={styles.buttonText}>Z-A</Text>
             </TouchableOpacity>
           </View>
@@ -133,15 +141,18 @@ export default function shop() {
       </View>
     );
   };
-  
-
-
 
   const ProductCard = ({v}) => (
     <View style={styles.CategorisView}>
-      <View style={styles.Options}>
-        <Text style={styles.OptionsText}>{v.title}</Text>
-      </View>
+      <TouchableOpacity
+        style={
+          selectat === v.id ? styles.selectedCategoryButton : styles.Options
+        }
+        onPress={() => setselectcat(v.id)}>
+        <View>
+          <Text style={styles.OptionsText}>{v.name}</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
   const ProductData = ({v}) => (
@@ -190,7 +201,7 @@ export default function shop() {
   );
 
   const searchtext = () => {
-    console.log('searchtext', sort);
+    console.log('searchtext', press);
     const fdata = productdata.productdata.filter(
       v =>
         v.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -198,17 +209,22 @@ export default function shop() {
         v.price.toString().includes(search),
     );
 
-    const sdata = fdata.sort((a,b) => {
-        if(sort === 'lh') {
-            return a.price - b.price;
-        } else if(sort === 'hl') {
-            return b.price - a.price;
-        } else if(sort === 'az') {
-            return a.name.localeCompare(b.name)
-        } else if(sort === 'za') {
-            return b.name.localeCompare(a.name)
-        }
-    })
+    const sdata = fdata.sort((a, b) => {
+      if (sort === 'lh') {
+        return a.price - b.price;
+      } else if (sort === 'hl') {
+        return b.price - a.price;
+      } else if (sort === 'az') {
+        return a.name.localeCompare(b.name);
+      } else if (sort === 'za') {
+        return b.name.localeCompare(a.name);
+      }
+    });
+
+    if (selectat != '') {
+      const seledata = sdata.filter(v => v.category_id === selectat);
+      return seledata;
+    }
 
     return sdata;
   };
@@ -228,17 +244,35 @@ export default function shop() {
                 <Text style={styles.ArrowText}>Women's tops</Text>
                 <TouchableOpacity><MaterialIcons name="search" size={30} color="black" style={{ marginTop: 25 }} /></TouchableOpacity>
             </View> */}
+
       <View style={{backgroundColor: 'white', marginBottom: 25}}>
-        <FlatList
-          data={data}
-          renderItem={({item}) => (
-            <TouchableOpacity>
-              <ProductCard v={item} />
+
+        
+        <View style = {styles.allbuttonView}>
+          <View style={styles.CategorisView}>
+            <TouchableOpacity
+              style={
+                selectat ===''
+                  ? styles.selectedCategoryButton
+                  : styles.Options
+              }
+              onPress={() => setselectcat('')}>
+              <View>
+                <Text style={styles.OptionsText}>All</Text>
+              </View>
             </TouchableOpacity>
-          )}
-          keyExtractor={item => item.id}
-          horizontal={true}
-        />
+            </View>
+
+            <View>
+              <FlatList
+                data={category.categorydata}
+                renderItem={({item}) => <ProductCard v={item} />}
+                keyExtractor={item => item.id}
+                horizontal={true}
+              />
+            </View>
+       
+        </View>
 
         <View style={styles.FilterOptions}>
           <TouchableOpacity style={{flexDirection: 'row'}}>
@@ -295,7 +329,6 @@ export default function shop() {
         onPress={() => refRBSheet.current[0].open()} // Example of opening the first item bottom sheet
       /> */}
         <RBSheet
-      
           ref={refRBSheet.current[0]}
           useNativeDriver={true}
           customStyles={{
@@ -345,6 +378,12 @@ const styles = StyleSheet.create({
   },
   CategorisView: {
     paddingRight: horizontalScale(10),
+    backgroundColor: 'white',
+  },
+  allbuttonView: {
+    flexDirection: 'row',
+    paddingRight: horizontalScale(10),
+    backgroundColor: 'white',
   },
   Options: {
     width: horizontalScale(90),
@@ -429,8 +468,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'black',
     marginBottom: 10,
-    borderRadius : 20,
-
+    borderRadius: 20,
   },
   buttonText: {
     color: 'white',
@@ -442,5 +480,14 @@ const styles = StyleSheet.create({
   bottomSheetText: {
     fontSize: 18,
     color: 'black',
+  },
+
+  selectedCategoryButton: {
+    width: horizontalScale(90),
+    height: verticalScale(35),
+    backgroundColor: 'red',
+    borderRadius: horizontalScale(100),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

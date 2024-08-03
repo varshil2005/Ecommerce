@@ -38,15 +38,16 @@ export const getPrdouct = createAsyncThunk(
     }
 ) 
 
-const ShoppingSlice = createSlice({
+const ProductSlice = createSlice({
     name : 'shopping',
     initialState: initialstate,
     extraReducers : (builder) => {
-        builder.addCase(shop.fulfilled, (state, action) => {
+        builder.addCase(getPrdouct
+          .fulfilled, (state, action) => {
             // Add user to the state array
             state.productdata = action.payload
           })
         }
 })
 
-export default ShoppingSlice.reducer
+export default ProductSlice.reducer

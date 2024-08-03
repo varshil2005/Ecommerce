@@ -182,7 +182,7 @@ export const shopstack = () => {
           name="shop" 
           component={shop} 
           options={({navigation}) => ({
-            title: 'Women top',
+            title: 'Shop',
             headerStyle: {
               backgroundColor: 'transparent',
             },

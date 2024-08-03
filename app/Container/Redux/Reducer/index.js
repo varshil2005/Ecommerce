@@ -5,10 +5,13 @@ import categorySlice from "../Slice/category.slice";
 import subcategorySlice from "../Slice/subcategory.slice";
 
 import ShoppingSlice from "../Slice/Shopping.slice";
+import shooping from "../../Subcatgory/shooping";
+import ProductSlice from "../Slice/Product.slice";
 
 export const rootReducer = combineReducers ({
         count : counterSlice,
         category : categorySlice,
         subcategory :  subcategorySlice,
-        Product : ShoppingSlice
+        Product : ProductSlice,
+        shopping : ShoppingSlice
 })

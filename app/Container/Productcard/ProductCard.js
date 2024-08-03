@@ -51,9 +51,9 @@ export default function ProductCard( {route , navigation}) {
     const filterdata = productdata.productdata.filter((v) => v.id === route.params.id);
     console.log("filterdata",filterdata);
 
-    // useEffect(()=>{
-    //     dispatch(proByshop({cate_id : route.params.cate_id,subcate_id :route.params.subcate_id , product_id : route.params.id}))
-    // },[])
+    useEffect(()=>{
+        dispatch(proByshop({cate_id : route.params.cate_id,subcate_id :route.params.subcate_id , product_id : route.params.id}))
+    },[])
 
     const [images, setImages] = useState(
         [
