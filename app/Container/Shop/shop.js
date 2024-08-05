@@ -142,19 +142,32 @@ export default function shop() {
     );
   };
 
-  const ProductCard = ({v}) => (
-    <View style={styles.CategorisView}>
-      <TouchableOpacity
-        style={
-          selectat === v.id ? styles.selectedCategoryButton : styles.Options
-        }
-        onPress={() => setselectcat(v.id)}>
-        <View>
-          <Text style={styles.OptionsText}>{v.name}</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
+  const ProductCard = ({v, i}) =>  (
+    i === 0 ? 
+      <View style={styles.CategorisView}>
+        <TouchableOpacity
+          style={
+            selectat === '' ? styles.selectedCategoryButton : styles.Options
+          }
+          onPress={() => setselectcat('')}>
+          <View>
+            <Text style={styles.OptionsText}>All</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+     : 
+      <View style={styles.CategorisView}>
+        <TouchableOpacity
+          style={
+            selectat === v.id ? styles.selectedCategoryButton : styles.Options
+          }
+          onPress={() => setselectcat(v.id)}>
+          <View>
+            <Text style={styles.OptionsText}>{v.name}</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
   const ProductData = ({v}) => (
     <View>
       {/* {
@@ -246,33 +259,16 @@ export default function shop() {
             </View> */}
 
       <View style={{backgroundColor: 'white', marginBottom: 25}}>
-
-        
-        <View style = {styles.allbuttonView}>
-          <View style={styles.CategorisView}>
-            <TouchableOpacity
-              style={
-                selectat ===''
-                  ? styles.selectedCategoryButton
-                  : styles.Options
-              }
-              onPress={() => setselectcat('')}>
-              <View>
-                <Text style={styles.OptionsText}>All</Text>
-              </View>
-            </TouchableOpacity>
-            </View>
-
-            <View>
-              <FlatList
-                data={category.categorydata}
-                renderItem={({item}) => <ProductCard v={item} />}
-                keyExtractor={item => item.id}
-                horizontal={true}
-              />
-            </View>
        
-        </View>
+    
+            <FlatList
+              data={category.categorydata}
+              renderItem={({item, index}) => <ProductCard v={item} i={index} />}
+              keyExtractor={item => item.id}
+              horizontal={true}
+            />
+  
+  
 
         <View style={styles.FilterOptions}>
           <TouchableOpacity style={{flexDirection: 'row'}}>
