@@ -20,8 +20,7 @@ import {
 import AddShipingAddress from '../Container/Addshipping/AddShipingAddress';
 import CategoriesTwo from '../Container/Category/category';
 import Filter from '../Container/Filter/Filter';
-import SubCategories2 from '../Container/Subcatgory/shooping';
-import shooping from '../Container/Subcatgory/shooping';
+import shooping from '../Container/Shopping/shooping';
 import shop from '../Container/Shop/shop';
 
 const Stack = createNativeStackNavigator();

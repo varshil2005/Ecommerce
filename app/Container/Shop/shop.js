@@ -83,7 +83,7 @@ const YourOwnComponent = () => (
   </View>
 );
 
-export default function shop() {
+export default function shop( {route , navigation}) {
   const [sort, setsort] = useState('');
   const [search, setsearch] = useState('');
   const [selectat, setselectcat] = useState('');
@@ -271,7 +271,7 @@ export default function shop() {
   
 
         <View style={styles.FilterOptions}>
-          <TouchableOpacity style={{flexDirection: 'row'}}>
+          <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.navigate("Filter")}>
             <MaterialIcons name="filter-list" size={30} color="black" />
             <Text style={styles.filterText}>Filters</Text>
           </TouchableOpacity>
