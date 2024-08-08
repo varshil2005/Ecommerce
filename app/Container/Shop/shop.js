@@ -89,6 +89,9 @@ export default function shop( {route , navigation}) {
   const [selectat, setselectcat] = useState('');
   const [press, setpress] = useState(false);
 
+
+
+  
   const refRBSheet = useRef([]);
 
   const dispatch = useDispatch();
@@ -98,10 +101,13 @@ export default function shop( {route , navigation}) {
     dispatch(fetchcategory());
   }, []);
 
+
   const productdata = useSelector(state => state.Product);
   console.log('mil gaya', productdata.productdata);
 
   const category = useSelector(state => state.category);
+
+  console.log("mmmmmmmmmmmmm",route.params);
 
   const renderItem = ({item, index, refRBSheet}) => {
     return (
@@ -215,14 +221,28 @@ export default function shop( {route , navigation}) {
 
   const searchtext = () => {
     console.log('searchtext', press);
-    const fdata = productdata.productdata.filter(
+    let filterdata = [...productdata.productdata];
+
+    if (route?.params?.price !=undefined || route?.params?.color !=undefined) {
+      filterdata = productdata.productdata.filter((v) => v.price <= route?.params?.price).filter((v) => v.Color_id === route?.params?.color)
+
+    }
+
+    // if (route?.params?.color !=undefined) {
+    //   filterdata = productdata.productdata.filter((v) => v.Color_id === route?.params?.color)
+    // }
+
+
+    
+
+    filterdata= filterdata.filter(
       v =>
         v.name.toLowerCase().includes(search.toLowerCase()) ||
         v.desc.toLowerCase().includes(search.toLowerCase()) ||
         v.price.toString().includes(search),
     );
 
-    const sdata = fdata.sort((a, b) => {
+    filterdata = filterdata.sort((a, b) => {
       if (sort === 'lh') {
         return a.price - b.price;
       } else if (sort === 'hl') {
@@ -235,11 +255,11 @@ export default function shop( {route , navigation}) {
     });
 
     if (selectat != '') {
-      const seledata = sdata.filter(v => v.category_id === selectat);
-      return seledata;
+      filterdata = filterdata.filter(v => v.category_id === selectat);
+      return filterdata;
     }
 
-    return sdata;
+    return filterdata;
   };
 
   const finaldata = searchtext();

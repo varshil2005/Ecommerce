@@ -4,7 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 
 const initialstate = {
     isLoading: false,
-    filterdata: [],
+    colordata: [],
     error: null,
 };
 
@@ -48,7 +48,7 @@ const ColorSlice = createSlice({
         builder.addCase(getcolor
           .fulfilled, (state, action) => {
             // Add user to the state array
-            state.filterdata = action.payload
+            state.colordata = action.payload
           })
         }
 })

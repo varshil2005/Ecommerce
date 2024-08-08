@@ -20,11 +20,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getcolor} from '../Redux/Slice/Color.Slice';
 import {getBrand} from '../Redux/Slice/Brand.Slice';
 
-export default function Filter() {
-  const [price, setPrice] = useState(78);
+export default function Filter({route,navigation}) {
+  const [price, setPrice] = useState('');
+  const [color, setcolor] = useState('');
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedCategory, setselectedCategory] = useState(null);
-  const [selctbrand, setselctbrand] = useState(null);
+  const [selctbrand, setselctbrand] = useState('');
 
   const dispatch = useDispatch();
 
@@ -34,7 +35,7 @@ export default function Filter() {
   }, []);
 
   const colordata = useSelector(state => state.Color);
-  console.log('kkkkkkkk', colordata);
+  console.log('kkkkkkkk', colordata.colordata);
 
   const BrandData = useSelector(state => state.Brand);
   console.log('yyyyy', BrandData.BrandData);
@@ -51,6 +52,8 @@ export default function Filter() {
     setselectedCategory(category);
   };
 
+  console.log("plllfmw",price,color,selctbrand);
+  
   return (
     <View style={style.mainContainer}>
       <View style={style.bodyContainer}>
@@ -72,7 +75,7 @@ export default function Filter() {
               style={style.Slider}
               step={1}
               minimumValue={0}
-              maximumValue={200}
+              maximumValue={2000}
               minimumTrackTintColor="#DB3022"
               maximumTrackTintColor="#d3d3d3"
               thumbTintColor="#DB3022"
@@ -86,55 +89,19 @@ export default function Filter() {
 
           <Text style={style.text}>Colors</Text>
           <View style={style.circleview}>
-            <TouchableOpacity style={style.circle1}></TouchableOpacity>
-            <TouchableOpacity style={style.circle2}></TouchableOpacity>
-            <TouchableOpacity style={style.circle3}></TouchableOpacity>
-            <TouchableOpacity style={style.circle4}></TouchableOpacity>
-            <TouchableOpacity style={style.circle5}></TouchableOpacity>
-            <TouchableOpacity style={style.circle6}></TouchableOpacity>
-          </View>
+            {
+              colordata.colordata.map((v) => (
+               
+                <TouchableOpacity style={[style.circle1 , {borderWidth : v.name ? 2 : 0 }]} onPress={() => setcolor(v.id)} ></TouchableOpacity>
+       
+    
 
-          <Text style={style.text}>Sizes</Text>
-          <View style={style.sizeview}>
-            {size.map(size => (
-              <TouchableOpacity
-                key={size}
-                style={[
-                  style.sizeButton,
-                  selectedSize === size && style.selectedSizeButton,
-                ]}
-                onPress={() => selectSize(size)}>
-                <Text
-                  style={[
-                    style.sizetext,
-                    selectedSize === size && style.selectedSizetext,
-                  ]}>
-                  {size}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+              ))
+            }
+                   </View>
+  
+    
 
-          <Text style={style.text}>Category</Text>
-          <View style={style.categoryview}>
-            {categories.map(category => (
-              <TouchableOpacity
-                key={category}
-                style={[
-                  style.categoryButton,
-                  selectedCategory === category && style.selectedCategoryButton,
-                ]}
-                onPress={() => selectCategory(category)}>
-                <Text
-                  style={[
-                    style.categorytext,
-                    selectedCategory === category && style.selectedCategorytext,
-                  ]}>
-                  {category}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
 
           <View>
             <View style={style.brandview}>
@@ -164,13 +131,11 @@ export default function Filter() {
                     size={25}
                     fillColor="red"
                     unFillColor="#FFFFFF"
-                    text="Custom Checkbox"
+                    text={v.name}
                     iconStyle={{borderColor: 'red'}}
                     innerIconStyle={{borderWidth: 2}}
                     textStyle={{fontFamily: 'JosefinSans-Regular'}}
-                    // onPress={(isChecked: boolean) => {
-                    //   console.log(isChecked);
-                    // }}
+                    onPress={() => setselctbrand((prev) => [...prev,v.name])}
                   />
                 </View>
               ))}
@@ -184,7 +149,12 @@ export default function Filter() {
           <TouchableOpacity style={style.discardbutton}>
             <Text style={style.buttontext1}>Discard</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={style.applybutton}>
+          <TouchableOpacity style={style.applybutton} onPress={() => navigation.navigate("shop", {
+             price, 
+             color,
+             selctbrand
+          })
+          }>
             <Text style={style.buttontext2}>Apply</Text>
           </TouchableOpacity>
         </View>
@@ -243,7 +213,7 @@ const style = StyleSheet.create({
     height: verticalScale(36),
     width: horizontalScale(36),
     borderRadius: 30,
-    backgroundColor: 'black',
+    backgroundColor: 'red',
   },
   circle2: {
     height: verticalScale(36),
