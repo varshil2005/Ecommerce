@@ -25,7 +25,7 @@ export default function Filter({route,navigation}) {
   const [color, setcolor] = useState('');
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedCategory, setselectedCategory] = useState(null);
-  const [selctbrand, setselctbrand] = useState('');
+  const [selctbrand, setselctbrand] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -92,7 +92,7 @@ export default function Filter({route,navigation}) {
             {
               colordata.colordata.map((v) => (
                
-                <TouchableOpacity style={[style.circle1 , {borderWidth : v.name ? 2 : 0 }]} onPress={() => setcolor(v.id)} ></TouchableOpacity>
+                <TouchableOpacity style={[style.circle1 , {borderWidth : v.id === color ? 2 : 0 , backgroundColor : v.name.toLowerCase() }]} onPress={() => setcolor(v.id)} ></TouchableOpacity>
        
     
 
@@ -135,7 +135,7 @@ export default function Filter({route,navigation}) {
                     iconStyle={{borderColor: 'red'}}
                     innerIconStyle={{borderWidth: 2}}
                     textStyle={{fontFamily: 'JosefinSans-Regular'}}
-                    onPress={() => setselctbrand((prev) => [...prev,v.name])}
+                    onPress={() => setselctbrand((prev) => [...prev,v.id])}
                   />
                 </View>
               ))}

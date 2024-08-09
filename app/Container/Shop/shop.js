@@ -25,6 +25,8 @@ import {useRef} from 'react';
 import {Button} from 'react-native';
 import {getPrdouct} from '../Redux/Slice/Product.slice';
 import {fetchcategory} from '../Redux/Slice/category.slice';
+import { getcolor } from '../Redux/Slice/Color.Slice';
+import { getBrand } from '../Redux/Slice/Brand.Slice';
 
 const data = [
   {
@@ -99,6 +101,9 @@ export default function shop( {route , navigation}) {
   useEffect(() => {
     dispatch(getPrdouct());
     dispatch(fetchcategory());
+    dispatch(getcolor());
+    dispatch(getBrand());
+
   }, []);
 
 
@@ -106,8 +111,23 @@ export default function shop( {route , navigation}) {
   console.log('mil gaya', productdata.productdata);
 
   const category = useSelector(state => state.category);
+  const colordata = useSelector(state => state.Color);
+  const Brandata = useSelector(state => state.Brand);
 
-  console.log("mmmmmmmmmmmmm",route.params);
+console.log("oopopopo",route?.params?.selctbrand);
+
+
+
+ 
+
+ 
+ 
+  // console.log("filterBrand",filterbrand);
+  
+  
+
+
+  
 
   const renderItem = ({item, index, refRBSheet}) => {
     return (
@@ -175,6 +195,7 @@ export default function shop( {route , navigation}) {
       </View>
     );
   const ProductData = ({v}) => (
+    
     <View>
       {/* {
                 productdata.productdata.map((v) => ( */}
@@ -212,6 +233,8 @@ export default function shop( {route , navigation}) {
             </View>
             <Text style={styles.mangoText}>{v.name}</Text>
             <Text style={styles.tShirt}>{v.desc}</Text>
+            <Text style={styles.tShirt}>{colordata.colordata.find((v1) => v1.id === v.Color_id )?.name}</Text>
+            <Text style={styles.tShirt}>{Brandata.BrandData.find((v2) => v2.id === v.Brand_id )?.name}</Text>
             <Text style={styles.price}>{v.price}$</Text>
           </View>
         </View>
@@ -223,14 +246,13 @@ export default function shop( {route , navigation}) {
     console.log('searchtext', press);
     let filterdata = [...productdata.productdata];
 
-    if (route?.params?.price !=undefined || route?.params?.color !=undefined) {
+    if (route?.params?.price !=undefined || route?.params?.color !=undefined ) {
       filterdata = productdata.productdata.filter((v) => v.price <= route?.params?.price).filter((v) => v.Color_id === route?.params?.color)
-
     }
 
-    // if (route?.params?.color !=undefined) {
-    //   filterdata = productdata.productdata.filter((v) => v.Color_id === route?.params?.color)
-    // }
+    if (route?.params?.selctbrand !=undefined) {
+     filterdata =  productdata.productdata.filter((v) => v.Brand_id == route?.params?.selctbrand.filter((v1) => v1) )
+    }
 
 
     
@@ -258,6 +280,8 @@ export default function shop( {route , navigation}) {
       filterdata = filterdata.filter(v => v.category_id === selectat);
       return filterdata;
     }
+
+    
 
     return filterdata;
   };
@@ -429,7 +453,7 @@ const styles = StyleSheet.create({
   },
   productMainView: {
     width: horizontalScale(160),
-    height: 400,
+    height: 500,
     marginBottom: verticalScale(40),
     marginRight: horizontalScale(30),
   },
