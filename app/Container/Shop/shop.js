@@ -22,7 +22,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {prodBysub} from '../Redux/Slice/Shopping.slice';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {useRef} from 'react';
-import {Button} from 'react-native';
 import {getPrdouct} from '../Redux/Slice/Product.slice';
 import {fetchcategory} from '../Redux/Slice/category.slice';
 import { getcolor } from '../Redux/Slice/Color.Slice';
@@ -246,19 +245,23 @@ console.log("oopopopo",route?.params?.selctbrand);
     console.log('searchtext', press);
     let filterdata = [...productdata.productdata];
 
-    if (route?.params?.price !=undefined || route?.params?.color !=undefined ) {
-      filterdata = productdata.productdata.filter((v) => v.price <= route?.params?.price).filter((v) => v.Color_id === route?.params?.color)
+
+    if(route?.params?.price > 0) {
+      filterdata = filterdata.filter((v) => v.price <= route?.params?.price);
     }
 
-    if (route?.params?.selctbrand !=undefined) {
-     filterdata =  productdata.productdata.filter((v) => v.Brand_id == route?.params?.selctbrand.filter((v1) => v1) )
+    if(route?.params?.color !== '') {
+      filterdata = filterdata.filter((v) => v.Color_id === route?.params?.color);
     }
 
+    if(route?.params?.selctbrand?.length > 0){
+      filterdata =filterdata.filter((v) => route?.params?.selctbrand.some((v1) => v1 === v.Brand_id));
+    }
 
-    
+  
 
     filterdata= filterdata.filter(
-      v =>
+      (v) =>
         v.name.toLowerCase().includes(search.toLowerCase()) ||
         v.desc.toLowerCase().includes(search.toLowerCase()) ||
         v.price.toString().includes(search),
@@ -280,8 +283,6 @@ console.log("oopopopo",route?.params?.selctbrand);
       filterdata = filterdata.filter(v => v.category_id === selectat);
       return filterdata;
     }
-
-    
 
     return filterdata;
   };
@@ -315,7 +316,7 @@ console.log("oopopopo",route?.params?.selctbrand);
   
 
         <View style={styles.FilterOptions}>
-          <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.navigate("Filter")}>
+          <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.navigate("Filter")} >
             <MaterialIcons name="filter-list" size={30} color="black" />
             <Text style={styles.filterText}>Filters</Text>
           </TouchableOpacity>
@@ -453,7 +454,7 @@ const styles = StyleSheet.create({
   },
   productMainView: {
     width: horizontalScale(160),
-    height: 500,
+    height: 550,
     marginBottom: verticalScale(40),
     marginRight: horizontalScale(30),
   },

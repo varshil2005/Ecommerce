@@ -14,14 +14,14 @@ import {
   verticalScale,
 } from '../../../assets/metrics/Metrics';
 import Slider from '@react-native-assets/slider';
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import CheckBox from 'react-native-check-box';
 import {useDispatch, useSelector} from 'react-redux';
 import {getcolor} from '../Redux/Slice/Color.Slice';
 import {getBrand} from '../Redux/Slice/Brand.Slice';
 
-export default function Filter({route,navigation}) {
-  const [price, setPrice] = useState('');
+export default function Filter({route, navigation}) {
+  const [price, setPrice] = useState(0);
   const [color, setcolor] = useState('');
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedCategory, setselectedCategory] = useState(null);
@@ -52,8 +52,8 @@ export default function Filter({route,navigation}) {
     setselectedCategory(category);
   };
 
-  console.log("plllfmw",price,color,selctbrand);
-  
+  console.log('plllfmw', price, color, selctbrand);
+
   return (
     <View style={style.mainContainer}>
       <View style={style.bodyContainer}>
@@ -79,8 +79,9 @@ export default function Filter({route,navigation}) {
               minimumTrackTintColor="#DB3022"
               maximumTrackTintColor="#d3d3d3"
               thumbTintColor="#DB3022"
-              value={price}
               onValueChange={val => setPrice(val)}
+              value={price}
+             
             />
             <View style={style.textCon}>
               <Text style={style.colorYellow}>{price + '$'}</Text>
@@ -89,19 +90,18 @@ export default function Filter({route,navigation}) {
 
           <Text style={style.text}>Colors</Text>
           <View style={style.circleview}>
-            {
-              colordata.colordata.map((v) => (
-               
-                <TouchableOpacity style={[style.circle1 , {borderWidth : v.id === color ? 2 : 0 , backgroundColor : v.name.toLowerCase() }]} onPress={() => setcolor(v.id)} ></TouchableOpacity>
-       
-    
-
-              ))
-            }
-                   </View>
-  
-    
-
+            {colordata.colordata.map(v => (
+              <TouchableOpacity
+                style={[
+                  style.circle1,
+                  {
+                    borderWidth: v.id === color ? 2 : 0,
+                    backgroundColor: v.name.toLowerCase(),
+                  },
+                ]}
+                onPress={() => setcolor(v.id)}></TouchableOpacity>
+            ))}
+          </View>
 
           <View>
             <View style={style.brandview}>
@@ -127,7 +127,7 @@ export default function Filter({route,navigation}) {
                 <View style={style.brandfilter}>
                   <Text style={style.brandname}>{v.name}</Text>
                   <BouncyCheckbox
-                  style = {style.CheckBox}
+                    style={style.CheckBox}
                     size={25}
                     fillColor="red"
                     unFillColor="#FFFFFF"
@@ -135,7 +135,7 @@ export default function Filter({route,navigation}) {
                     iconStyle={{borderColor: 'red'}}
                     innerIconStyle={{borderWidth: 2}}
                     textStyle={{fontFamily: 'JosefinSans-Regular'}}
-                    onPress={() => setselctbrand((prev) => [...prev,v.id])}
+                    onPress={() => setselctbrand(prev => [...prev, v.id])}
                   />
                 </View>
               ))}
@@ -149,12 +149,15 @@ export default function Filter({route,navigation}) {
           <TouchableOpacity style={style.discardbutton}>
             <Text style={style.buttontext1}>Discard</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={style.applybutton} onPress={() => navigation.navigate("shop", {
-             price, 
-             color,
-             selctbrand
-          })
-          }>
+          <TouchableOpacity
+            style={style.applybutton}
+            onPress={() =>
+              navigation.navigate('shop', {
+                price,
+                color,
+                selctbrand,
+              })
+            }>
             <Text style={style.buttontext2}>Apply</Text>
           </TouchableOpacity>
         </View>
