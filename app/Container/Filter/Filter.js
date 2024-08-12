@@ -21,11 +21,11 @@ import {getcolor} from '../Redux/Slice/Color.Slice';
 import {getBrand} from '../Redux/Slice/Brand.Slice';
 
 export default function Filter({route, navigation}) {
-  const [price, setPrice] = useState(0);
-  const [color, setcolor] = useState('');
+  const [price, setPrice] = useState(route?.params?.price ? route.params.price : 0);
+  const [color, setcolor] = useState(route?.params?.color ? route.params.color : '');
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedCategory, setselectedCategory] = useState(null);
-  const [selctbrand, setselctbrand] = useState([]);
+  const [selctbrand, setselctbrand] = useState(route?.params?.brand ? route?.params?.brand : []);
 
   const dispatch = useDispatch();
 
@@ -34,23 +34,44 @@ export default function Filter({route, navigation}) {
     dispatch(getBrand());
   }, []);
 
+  console.log("sdfghjk",route.params.brand);
+  
+
   const colordata = useSelector(state => state.Color);
   console.log('kkkkkkkk', colordata.colordata);
 
   const BrandData = useSelector(state => state.Brand);
   console.log('yyyyy', BrandData.BrandData);
 
-  const size = ['XS', 'S', 'M', 'L', 'XL'];
+  const [checkBoxes, setCheckBoxes] = useState(BrandData.BrandData);
 
-  const selectSize = size => {
-    setSelectedSize(size);
+  const handleCheckboxPress = (checked , id) => {
+    // if (id === 0) {
+    //   setCheckBoxes(
+    //     checkBoxes.map(item => ({
+    //       ...item,
+    //       isChecked: checked,
+    //     })),
+    //   );
+    //   return;
+    // }
+
+    setCheckBoxes(
+      checkBoxes.map(item =>
+        item.id === id ? {...item, isChecked: checked} : item,
+      ),
+    );
   };
 
-  const categories = ['All', 'Women', 'Men', 'Boys', 'Girls'];
 
-  const selectCategory = category => {
-    setselectedCategory(category);
-  };
+  const fdata =checkBoxes.map((v) => {
+    if (v.isChecked || route.params?.brand?.includes(v.id)) {
+        return v.id
+    } else {
+      return ""
+    }
+  })
+
 
   console.log('plllfmw', price, color, selctbrand);
 
@@ -135,7 +156,9 @@ export default function Filter({route, navigation}) {
                     iconStyle={{borderColor: 'red'}}
                     innerIconStyle={{borderWidth: 2}}
                     textStyle={{fontFamily: 'JosefinSans-Regular'}}
-                    onPress={() => setselctbrand(prev => [...prev, v.id])}
+                    onPress={(isChecked) => handleCheckboxPress(isChecked , v.id)}
+                    isChecked={route.params?.brand?.includes(v.id) ? true : false}
+                    // onPress={() => setselctbrand(prev => [...prev, v.id])}
                   />
                 </View>
               ))}
@@ -155,7 +178,7 @@ export default function Filter({route, navigation}) {
               navigation.navigate('shop', {
                 price,
                 color,
-                selctbrand,
+                selctbrand : fdata,
               })
             }>
             <Text style={style.buttontext2}>Apply</Text>

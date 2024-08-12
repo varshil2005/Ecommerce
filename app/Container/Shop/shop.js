@@ -116,10 +116,6 @@ export default function shop( {route , navigation}) {
 console.log("oopopopo",route?.params?.selctbrand);
 
 
-
- 
-
- 
  
   // console.log("filterBrand",filterbrand);
   
@@ -242,7 +238,7 @@ console.log("oopopopo",route?.params?.selctbrand);
   );
 
   const searchtext = () => {
-    console.log('searchtext', press);
+    // console.log('searchtext', press);
     let filterdata = [...productdata.productdata];
 
 
@@ -250,7 +246,7 @@ console.log("oopopopo",route?.params?.selctbrand);
       filterdata = filterdata.filter((v) => v.price <= route?.params?.price);
     }
 
-    if(route?.params?.color !== '') {
+    if(route?.params?.color !== '' && route?.params?.color != undefined) {
       filterdata = filterdata.filter((v) => v.Color_id === route?.params?.color);
     }
 
@@ -288,6 +284,8 @@ console.log("oopopopo",route?.params?.selctbrand);
   };
 
   const finaldata = searchtext();
+  console.log("lllllllll",finaldata);
+  
 
   return (
     <ScrollView style={styles.container}>
@@ -316,7 +314,11 @@ console.log("oopopopo",route?.params?.selctbrand);
   
 
         <View style={styles.FilterOptions}>
-          <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.navigate("Filter")} >
+          <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.navigate("Filter",{
+             price:route?.params?.price,
+             color:route?.params?.color,
+             brand:route?.params?.selctbrand
+          })} >
             <MaterialIcons name="filter-list" size={30} color="black" />
             <Text style={styles.filterText}>Filters</Text>
           </TouchableOpacity>
@@ -346,11 +348,7 @@ console.log("oopopopo",route?.params?.selctbrand);
         renderItem={({item}) => (
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('Product', {
-                // id: item.id,
-                // cate_id: item.category_id,
-                // subcate_id: item.Subcategory_id,
-              })
+              navigation.navigate('Product')
             }>
             <ProductData v={item} />
           </TouchableOpacity>
