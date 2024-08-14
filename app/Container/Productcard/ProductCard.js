@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics';
 import Collapsible from 'react-native-collapsible';
 import { useDispatch, useSelector } from 'react-redux';
+import { prodBysub } from '../Redux/Slice/Shopping.slice';
 
 
 const Data = [
@@ -52,9 +53,9 @@ export default function ProductCard( {route , navigation}) {
     console.log("filterdata",filterdata);
 
     const dispatch = useDispatch();
-    useEffect(()=>{
-        dispatch(proByshop({cate_id : route.params.cate_id,subcate_id :route.params.subcate_id , product_id : route.params.id}))
-    },[])
+    // useEffect(()=>{
+    //     dispatch(prodBysub({cate_id : route.params.cate_id,subcate_id :route.params.subcate_id , product_id : route.params.id}))
+    // },[])
 
     const [images, setImages] = useState(
         [

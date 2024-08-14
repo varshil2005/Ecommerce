@@ -34,6 +34,8 @@ export default function Filter({route, navigation}) {
     dispatch(getBrand());
   }, []);
 
+
+
   console.log("sdfghjk",route.params.brand);
   
 
@@ -42,6 +44,21 @@ export default function Filter({route, navigation}) {
 
   const BrandData = useSelector(state => state.Brand);
   console.log('yyyyy', BrandData.BrandData);
+
+  
+
+
+  useEffect(() =>{
+    if (BrandData.BrandData) {
+        setCheckBoxes(
+          checkBoxes.map(item => ({
+            ...item,
+            isChecked: route?.params?.brand?.includes(item.id) || false
+          })),
+        );
+        return;
+      }
+  },[BrandData.BrandData,route.params])
 
   const [checkBoxes, setCheckBoxes] = useState(BrandData.BrandData);
 
@@ -64,13 +81,7 @@ export default function Filter({route, navigation}) {
   };
 
 
-  const fdata =checkBoxes.map((v) => {
-    if (v.isChecked || route.params?.brand?.includes(v.id)) {
-        return v.id
-    } else {
-      return ""
-    }
-  })
+  const fdata = checkBoxes.filter(v => v.isChecked).map(v => v.id)
 
 
   console.log('plllfmw', price, color, selctbrand);
@@ -157,7 +168,7 @@ export default function Filter({route, navigation}) {
                     innerIconStyle={{borderWidth: 2}}
                     textStyle={{fontFamily: 'JosefinSans-Regular'}}
                     onPress={(isChecked) => handleCheckboxPress(isChecked , v.id)}
-                    isChecked={route.params?.brand?.includes(v.id) ? true : false}
+                    isChecked={route?.params?.brand?.includes(v.id)?true:false}
                     // onPress={() => setselctbrand(prev => [...prev, v.id])}
                   />
                 </View>
@@ -179,6 +190,7 @@ export default function Filter({route, navigation}) {
                 price,
                 color,
                 selctbrand : fdata,
+                checkBoxes :checkBoxes,
               })
             }>
             <Text style={style.buttontext2}>Apply</Text>

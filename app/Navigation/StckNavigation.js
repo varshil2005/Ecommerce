@@ -288,6 +288,27 @@ export const shopstack = () => {
             headerLeft: () => <Letfbutton nav={navigation} />,
           })}
           />
+
+<Stack.Screen 
+          name="Favourite" 
+          component={FavoritesPage} 
+          options={({navigation}) => ({
+            title: 'Favourite',
+            headerStyle: {
+              backgroundColor: 'transparent',
+            },
+            headerTintColor: '#000',
+            // headerTitleStyle: {
+            //   fontWeight: 'bold',
+            // },
+            headerRight : () => (
+              <TouchableOpacity onPress={() => nav.goBack()} title="Info" color="#fff">
+             <Fontisto style={{ paddingTop: 9 }} name="search" size={20} color="black" />
+            </TouchableOpacity>
+            )
+           
+          })}
+          />
     </Stack.Navigator>
   );
 };

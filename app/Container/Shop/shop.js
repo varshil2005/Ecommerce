@@ -26,6 +26,7 @@ import {getPrdouct} from '../Redux/Slice/Product.slice';
 import {fetchcategory} from '../Redux/Slice/category.slice';
 import { getcolor } from '../Redux/Slice/Color.Slice';
 import { getBrand } from '../Redux/Slice/Brand.Slice';
+import { togglefavourite } from '../Redux/Slice/Favourite.Slice';
 
 const data = [
   {
@@ -208,11 +209,11 @@ console.log("oopopopo",route?.params?.selctbrand);
             />
           </View>
           <View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => dispatch(togglefavourite(v.id))}>
               <FontAwesome
                 name="heart-o"
                 size={20}
-                color="black"
+                color = "black"
                 style={styles.heart}
               />
             </TouchableOpacity>

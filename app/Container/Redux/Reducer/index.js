@@ -9,6 +9,7 @@ import ProductSlice from "../Slice/Product.slice";
 
 import BrandSlice from "../Slice/Brand.Slice";
 import ColorSlice from "../Slice/Color.Slice";
+import FavouriteSlice, { togglefavourite } from "../Slice/Favourite.Slice";
 
 export const rootReducer = combineReducers ({
         count : counterSlice,
@@ -17,5 +18,6 @@ export const rootReducer = combineReducers ({
         Product : ProductSlice,
         shopping : ShoppingSlice,
         Color : ColorSlice,
-        Brand : BrandSlice
+        Brand : BrandSlice,
+        togglefavourite: FavouriteSlice
 })

@@ -1,9 +1,12 @@
 import { View, Text, ScrollView, StatusBar, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics'
+import { useDispatch, useSelector } from 'react-redux';
+import { togglefavourite } from '../Redux/Slice/Favourite.Slice';
+import { getPrdouct } from '../Redux/Slice/Product.slice';
 const data = [
     {
         id: 1,
@@ -57,6 +60,29 @@ const Data2 = [
     }
 ]
 export default function FavoritesPage( {route , navigation}) {
+
+    const dispatch = useDispatch();
+
+    useEffect (() => {
+        dispatch(togglefavourite());
+        // dispatch(getPrdouct())
+    } , [])
+
+    const togglefavourites = useSelector(state => state.togglefavourite);
+    console.log("fghjkdyasydauvfsdavs",togglefavourites);
+
+    
+    // const getProductdata = useSelector(state => state.Product);
+    // console.log("fghjkdyasydauvfsdavseeeeeee",getProductdata.productdata);
+
+    // const FavouriteData = getProductdata.productdata.filter((v) => v.id === togglefavourites.Favourite);
+    // console.log("vvvvvvvvvvvvvvv",FavouriteData);
+    
+    
+    
+
+    // console.log("hjkghjj",route?.params?.favouriteid);
+    
     const ProductCard = ({ v }) => (
 
         <View style={styles.CategorisView}>
