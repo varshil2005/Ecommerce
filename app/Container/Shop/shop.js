@@ -93,6 +93,7 @@ export default function shop( {route , navigation}) {
 
 
 
+
   
   const refRBSheet = useRef([]);
 
@@ -103,6 +104,7 @@ export default function shop( {route , navigation}) {
     dispatch(fetchcategory());
     dispatch(getcolor());
     dispatch(getBrand());
+    // dispatch(togglefavourite())
 
   }, []);
 
@@ -115,6 +117,11 @@ export default function shop( {route , navigation}) {
   const Brandata = useSelector(state => state.Brand);
 
 console.log("oopopopo",route?.params?.selctbrand);
+
+const Fav = useSelector(state => state.togglefavourite);
+
+console.log("oopopopoFavFavFavFavFav",Fav);
+
 
 
  
@@ -211,9 +218,9 @@ console.log("oopopopo",route?.params?.selctbrand);
           <View>
             <TouchableOpacity onPress={() => dispatch(togglefavourite(v.id))}>
               <FontAwesome
-                name="heart-o"
+                name={Fav.Favourite.some((v1) => v1.pid === v.id )  ? "heart" : "heart-o"}
                 size={20}
-                color = "black"
+                color = "red"
                 style={styles.heart}
               />
             </TouchableOpacity>
