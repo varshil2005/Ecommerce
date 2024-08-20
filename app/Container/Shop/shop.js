@@ -24,9 +24,9 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import {useRef} from 'react';
 import {getPrdouct} from '../Redux/Slice/Product.slice';
 import {fetchcategory} from '../Redux/Slice/category.slice';
-import { getcolor } from '../Redux/Slice/Color.Slice';
-import { getBrand } from '../Redux/Slice/Brand.Slice';
-import { togglefavourite } from '../Redux/Slice/Favourite.Slice';
+import {getcolor} from '../Redux/Slice/Color.Slice';
+import {getBrand} from '../Redux/Slice/Brand.Slice';
+import {getfavourite, togglefavourite} from '../Redux/Slice/Favourite.Slice';
 
 const data = [
   {
@@ -85,16 +85,12 @@ const YourOwnComponent = () => (
   </View>
 );
 
-export default function shop( {route , navigation}) {
+export default function shop({route, navigation}) {
   const [sort, setsort] = useState('');
   const [search, setsearch] = useState('');
   const [selectat, setselectcat] = useState('');
   const [press, setpress] = useState(false);
 
-
-
-
-  
   const refRBSheet = useRef([]);
 
   const dispatch = useDispatch();
@@ -105,9 +101,8 @@ export default function shop( {route , navigation}) {
     dispatch(getcolor());
     dispatch(getBrand());
     // dispatch(togglefavourite())
-
+    dispatch(getfavourite());
   }, []);
-
 
   const productdata = useSelector(state => state.Product);
   console.log('mil gaya', productdata.productdata);
@@ -116,21 +111,13 @@ export default function shop( {route , navigation}) {
   const colordata = useSelector(state => state.Color);
   const Brandata = useSelector(state => state.Brand);
 
-console.log("oopopopo",route?.params?.selctbrand);
+  console.log('oopopopo', route?.params?.selctbrand);
 
-const Fav = useSelector(state => state.togglefavourite);
+  const Fav = useSelector(state => state.togglefavourite);
 
-console.log("oopopopoFavFavFavFavFav",Fav);
+  console.log('oopopopoFavFavFavFavFav', Fav);
 
-
-
- 
   // console.log("filterBrand",filterbrand);
-  
-  
-
-
-  
 
   const renderItem = ({item, index, refRBSheet}) => {
     return (
@@ -171,8 +158,8 @@ console.log("oopopopoFavFavFavFavFav",Fav);
     );
   };
 
-  const ProductCard = ({v, i}) =>  (
-    i === 0 ? 
+  const ProductCard = ({v, i}) =>
+    i === 0 ? (
       <View style={styles.CategorisView}>
         <TouchableOpacity
           style={
@@ -184,7 +171,7 @@ console.log("oopopopoFavFavFavFavFav",Fav);
           </View>
         </TouchableOpacity>
       </View>
-     : 
+    ) : (
       <View style={styles.CategorisView}>
         <TouchableOpacity
           style={
@@ -198,7 +185,6 @@ console.log("oopopopoFavFavFavFavFav",Fav);
       </View>
     );
   const ProductData = ({v}) => (
-    
     <View>
       {/* {
                 productdata.productdata.map((v) => ( */}
@@ -218,9 +204,13 @@ console.log("oopopopoFavFavFavFavFav",Fav);
           <View>
             <TouchableOpacity onPress={() => dispatch(togglefavourite(v.id))}>
               <FontAwesome
-                name={Fav.Favourite.some((v1) => v1.pid === v.id )  ? "heart" : "heart-o"}
+                name={
+                  Fav.Favourite.some(v1 => v1.pid === v.id)
+                    ? 'heart'
+                    : 'heart-o'
+                }
                 size={20}
-                color = "red"
+                color="red"
                 style={styles.heart}
               />
             </TouchableOpacity>
@@ -236,8 +226,12 @@ console.log("oopopopoFavFavFavFavFav",Fav);
             </View>
             <Text style={styles.mangoText}>{v.name}</Text>
             <Text style={styles.tShirt}>{v.desc}</Text>
-            <Text style={styles.tShirt}>{colordata.colordata.find((v1) => v1.id === v.Color_id )?.name}</Text>
-            <Text style={styles.tShirt}>{Brandata.BrandData.find((v2) => v2.id === v.Brand_id )?.name}</Text>
+            <Text style={styles.tShirt}>
+              {colordata.colordata.find(v1 => v1.id === v.Color_id)?.name}
+            </Text>
+            <Text style={styles.tShirt}>
+              {Brandata.BrandData.find(v2 => v2.id === v.Brand_id)?.name}
+            </Text>
             <Text style={styles.price}>{v.price}$</Text>
           </View>
         </View>
@@ -249,23 +243,22 @@ console.log("oopopopoFavFavFavFavFav",Fav);
     // console.log('searchtext', press);
     let filterdata = [...productdata.productdata];
 
-
-    if(route?.params?.price > 0) {
-      filterdata = filterdata.filter((v) => v.price <= route?.params?.price);
+    if (route?.params?.price > 0) {
+      filterdata = filterdata.filter(v => v.price <= route?.params?.price);
     }
 
-    if(route?.params?.color !== '' && route?.params?.color != undefined) {
-      filterdata = filterdata.filter((v) => v.Color_id === route?.params?.color);
+    if (route?.params?.color !== '' && route?.params?.color != undefined) {
+      filterdata = filterdata.filter(v => v.Color_id === route?.params?.color);
     }
 
-    if(route?.params?.selctbrand?.length > 0){
-      filterdata =filterdata.filter((v) => route?.params?.selctbrand.some((v1) => v1 === v.Brand_id));
+    if (route?.params?.selctbrand?.length > 0) {
+      filterdata = filterdata.filter(v =>
+        route?.params?.selctbrand.some(v1 => v1 === v.Brand_id),
+      );
     }
 
-  
-
-    filterdata= filterdata.filter(
-      (v) =>
+    filterdata = filterdata.filter(
+      v =>
         v.name.toLowerCase().includes(search.toLowerCase()) ||
         v.desc.toLowerCase().includes(search.toLowerCase()) ||
         v.price.toString().includes(search),
@@ -292,8 +285,7 @@ console.log("oopopopoFavFavFavFavFav",Fav);
   };
 
   const finaldata = searchtext();
-  console.log("lllllllll",finaldata);
-  
+  console.log('lllllllll', finaldata);
 
   return (
     <ScrollView style={styles.container}>
@@ -310,23 +302,23 @@ console.log("oopopopoFavFavFavFavFav",Fav);
             </View> */}
 
       <View style={{backgroundColor: 'white', marginBottom: 25}}>
-       
-    
-            <FlatList
-              data={category.categorydata}
-              renderItem={({item, index}) => <ProductCard v={item} i={index} />}
-              keyExtractor={item => item.id}
-              horizontal={true}
-            />
-  
-  
+        <FlatList
+          data={category.categorydata}
+          renderItem={({item, index}) => <ProductCard v={item} i={index} />}
+          keyExtractor={item => item.id}
+          horizontal={true}
+        />
 
         <View style={styles.FilterOptions}>
-          <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.navigate("Filter",{
-             price:route?.params?.price,
-             color:route?.params?.color,
-             brand:route?.params?.selctbrand
-          })} >
+          <TouchableOpacity
+            style={{flexDirection: 'row'}}
+            onPress={() =>
+              navigation.navigate('Filter', {
+                price: route?.params?.price,
+                color: route?.params?.color,
+                brand: route?.params?.selctbrand,
+              })
+            }>
             <MaterialIcons name="filter-list" size={30} color="black" />
             <Text style={styles.filterText}>Filters</Text>
           </TouchableOpacity>
@@ -354,10 +346,7 @@ console.log("oopopopoFavFavFavFavFav",Fav);
         numColumns={2}
         columnWrapperStyle={{justifyContent: 'space-between'}}
         renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('Product')
-            }>
+          <TouchableOpacity onPress={() => navigation.navigate('Product')}>
             <ProductData v={item} />
           </TouchableOpacity>
         )}

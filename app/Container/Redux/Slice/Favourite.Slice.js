@@ -31,11 +31,8 @@ export const togglefavourite = createAsyncThunk(
     console.log('favdatafavdata', alvfav);
 
     if (alvfav) {
-      await firestore()
-        .collection('Fav')
-        .doc(alvfav.id)
-        .delete()
-        return favdata.filter((v) => v.pid !== id);
+      await firestore().collection('Fav').doc(alvfav.id).delete();
+      return favdata.filter(v => v.pid !== id);
     } else {
       let favId = '';
       firestore()
@@ -60,14 +57,38 @@ export const togglefavourite = createAsyncThunk(
   },
 );
 
+export const getfavourite = createAsyncThunk(
+  'Favourite/getfavourite',
+  async () => {
+    const Favdata = [];
+    await  firestore()
+      .collection('Fav')
+      .get()
+      .then(querySnapshot => {
+        console.log('Total users: ', querySnapshot.size);
+
+        querySnapshot.forEach(documentSnapshot => {
+          Favdata.push({id: documentSnapshot.id, ...documentSnapshot.data()});
+        });
+      });
+
+    return Favdata;
+  },
+);
+
 const FavoriteSlice = createSlice({
   name: 'Favourite',
   initialState: initialstate,
   extraReducers: builder => {
-    builder.addCase(togglefavourite.fulfilled, (state, action) => {
-      // Add user to the state array
-      state.Favourite = action.payload;
-    });
+    builder
+      .addCase(togglefavourite.fulfilled, (state, action) => {
+        // Add user to the state array
+        state.Favourite = action.payload;
+      })
+      .addCase(getfavourite.fulfilled, (state, action) => {
+        // Add user to the state array
+        state.Favourite = action.payload;
+      });
   },
 });
 
