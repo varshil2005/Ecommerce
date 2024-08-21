@@ -7,6 +7,7 @@ import { horizontalScale, moderateScale, verticalScale } from '../../../assets/m
 import Collapsible from 'react-native-collapsible';
 import { useDispatch, useSelector } from 'react-redux';
 import { prodBysub } from '../Redux/Slice/Shopping.slice';
+import { addCart } from '../Redux/Slice/Cart.Slice';
 
 
 const Data = [
@@ -49,8 +50,8 @@ export default function ProductCard( {route , navigation}) {
     const productdata = useSelector(state => state.Product);
     console.log("Kkkkkkk",productdata.productdata);
 
-    const filterdata = productdata.productdata.filter((v) => v.id === route.params.id);
-    console.log("filterdata",filterdata);
+    const filterdata = productdata.productdata.find((v) => v.id === route.params?.id);
+    console.log("filterdata",filterdata.name);
 
     const dispatch = useDispatch();
     // useEffect(()=>{
@@ -108,6 +109,11 @@ export default function ProductCard( {route , navigation}) {
 
 
     )
+
+    const handleCart = (id) => {
+        dispatch(addCart(id))
+        navigation.navigate("Bag")
+    }
     return (
         <View style = { styles.mainContainer } >
               <View style={styles.bodyContainer}>
@@ -134,8 +140,7 @@ export default function ProductCard( {route , navigation}) {
 
                     
                            
-                                {
-                                    filterdata.map((v) => (
+                               
                                          <View>
                                      <View style={styles.SizeBlackView}>
                                         <View style={styles.SizeView}>
@@ -152,8 +157,8 @@ export default function ProductCard( {route , navigation}) {
                                     </View>    
                                     <View style={styles.HandMView}>
                                         <View>
-                                            <Text style={styles.HAndM}>{v.name}</Text>
-                                            <Text style={styles.ShortDress}>{v.desc}</Text>
+                                            <Text style={styles.HAndM}>{filterdata.name}</Text>
+                                            <Text style={styles.ShortDress}>{filterdata.desc}</Text>
                                             <View style={styles.iconview}>
                                                 <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 2, marginTop: 2 }} />
                                                 <FontAwesome name="star" size={13} style={{ color: '#FFBA49', marginRight: 2, marginTop: 2 }} />
@@ -164,16 +169,16 @@ export default function ProductCard( {route , navigation}) {
                                             </View>
                                         </View>
                                         <View>
-                                            <Text style={styles.HANdMPrice}>${v.price}</Text>
+                                            <Text style={styles.HANdMPrice}>${filterdata.price}</Text>
                                         </View>
                                     </View>
                 
                                     <View style={styles.TextsView}>
-                                        <Text style={styles.Texts}>{v.desc}</Text>
+                                        <Text style={styles.Texts}>{filterdata.desc}</Text>
                                     </View>
                                     </View>
-                                    ))
-                                }
+                                    
+                              
                                 
                    
                      
@@ -257,7 +262,7 @@ export default function ProductCard( {route , navigation}) {
                     
                 </ScrollView>
             </View>
-            <TouchableOpacity style={styles.ButtonView} onPress={() => navigation.navigate("Bag")}>
+            <TouchableOpacity style={styles.ButtonView} onPress={() => handleCart(filterdata.id) }>
                 <View style={styles.ButtonUnderView}>
                 <Text style={styles.AddCart}>ADD TO CART</Text>
                  

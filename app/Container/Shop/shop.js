@@ -185,7 +185,12 @@ export default function shop({route, navigation}) {
       </View>
     );
   const ProductData = ({v}) => (
-    <View>
+    <TouchableOpacity onPress={() =>
+      navigation.navigate('Product', {
+        id: v.id,
+      
+      })
+    }>
       {/* {
                 productdata.productdata.map((v) => ( */}
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -236,7 +241,7 @@ export default function shop({route, navigation}) {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   const searchtext = () => {
