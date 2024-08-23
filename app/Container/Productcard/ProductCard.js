@@ -45,13 +45,13 @@ const Data = [
     }
 ]
 export default function ProductCard( {route , navigation}) {
-    console.log("ppppp",route.params.id);
+    // console.log("ppppp",route.params.id);
     
     const productdata = useSelector(state => state.Product);
     console.log("Kkkkkkk",productdata.productdata);
 
     const filterdata = productdata.productdata.find((v) => v.id === route.params?.id);
-    console.log("filterdata",filterdata.name);
+    console.log("filterdata",filterdata);
 
     const dispatch = useDispatch();
     // useEffect(()=>{

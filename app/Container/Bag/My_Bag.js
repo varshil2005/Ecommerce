@@ -13,53 +13,82 @@ import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React from 'react';
-import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics';
-import { useSelector } from 'react-redux';
+import {
+  horizontalScale,
+  moderateScale,
+  verticalScale,
+} from '../../../assets/metrics/Metrics';
+import {useDispatch, useSelector} from 'react-redux';
+import { DecQty, IncQty } from '../Redux/Slice/Cart.Slice';
 
-const data = [
-  {
-    id: 0,
-    title: 'Pullover',
-    color: 'Black',
-    size: 'L',
-    image: require('../../../assets/image/newproduct.jpg'),
-    price: 51,
-  },
-  {
-    id: 1,
-    title: 'T-Shirt',
-    color: 'Gray',
-    image: require('../../../assets/image/newproduct.jpg'),
-    size: 'L',
-    price: 30,
-  },
-  {
-    id: 1,
-    title: 'Sport Dress',
-    color: 'Black',
-    image: require('../../../assets/image/newproduct.jpg'),
-    size: 'M',
-    price: 43,
-  },
-];
+// const data = [
+//   {
+//     id: 0,
+//     title: 'Pullover',
+//     color: 'Black',
+//     size: 'L',
+//     image: require('../../../assets/image/newproduct.jpg'),
+//     price: 51,
+//   },
+//   {
+//     id: 1,
+//     title: 'T-Shirt',
+//     color: 'Gray',
+//     image: require('../../../assets/image/newproduct.jpg'),
+//     size: 'L',
+//     price: 30,
+//   },
+//   {
+//     id: 1,
+//     title: 'Sport Dress',
+//     color: 'Black',
+//     image: require('../../../assets/image/newproduct.jpg'),
+//     size: 'M',
+//     price: 43,
+//   },
+// ];
 
-
-
-export default function My_Bag( {route , navigation}) {
-
+export default function My_Bag({route, navigation}) {
   const Cart = useSelector(state => state.cart);
-console.log("carttcatatatata",Cart);
+  console.log('carttcatatatata', Cart);
 
+  const productdata = useSelector(state => state.Product);
+  console.log('Kkkkkkk', productdata.productdata);
+
+
+
+  const colordata = useSelector(state => state.Color);
+
+  const filterbag = Cart.cart.map((v) => {
+    const c =  productdata.productdata.find((v1) => v1.id === v.pid);
+    console.log("cccccccccccccccccccccccc",c);
+
+
+    if (c != undefined) {
+      return{...c,...v}
+    }
+    
+  });
+
+  console.log("filterbagfilterbagfilterbag",filterbag);
+  
+const dispatch = useDispatch();
+  const handleInc =(id) => {
+    dispatch(IncQty(id))
+  }
+
+  const handleDec = (id) => {
+    dispatch(DecQty(id))
+  }
+
+const totalamount = filterbag.reduce((sum,item) => sum + item.price * item.qtn , 0)
 
   const DataCity = ({v}) => (
     <TouchableOpacity>
       <View style={{paddingHorizontal: 26, marginVertical: 15}}>
         <View style={Styles.img_main_view}>
           <View>
-            <Image
-              style={Styles.img}
-              source={v.image}
-            />
+            <Image style={Styles.img} source={ require('../../../assets/image/newproduct.jpg')} />
           </View>
           <View style={{padding: 4, marginHorizontal: 10}}>
             <View style={Styles.dotshead}>
@@ -69,7 +98,7 @@ console.log("carttcatatatata",Cart);
                   fontFamily: 'Metropolis-Bold',
                   color: '#222222',
                 }}>
-                {v.title}
+                {v.name}
               </Text>
               <View style={Styles.dotsminihead}>
                 <TouchableOpacity>
@@ -84,7 +113,7 @@ console.log("carttcatatatata",Cart);
             <View style={Styles.img_data_view}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={Styles.color}>Color:</Text>
-                <Text style={Styles.black}>{v.color}</Text>
+                <Text style={Styles.black}>{colordata.colordata.find(v1 => v1.id === v.Color_id)?.name}</Text>
               </View>
               <View style={{flexDirection: 'row'}}>
                 <Text style={Styles.size}>Size:</Text>
@@ -93,7 +122,7 @@ console.log("carttcatatatata",Cart);
             </View>
 
             <View style={{flexDirection: 'row', columnGap: 6, marginTop: 20}}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => handleDec(v.id)}>
                 <Text style={Styles.textTouchableminus}>
                   <View style={{alignContent: 'center'}}>
                     <Feather name="minus" size={25} color="#9B9B9B" />
@@ -101,9 +130,9 @@ console.log("carttcatatatata",Cart);
                 </Text>
               </TouchableOpacity>
 
-              <Text style={{marginTop: 15, color: '#222222'}}>1</Text>
+              <Text style={{marginTop: 15, color: '#222222'}}>{v.qtn}</Text>
 
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => handleInc(v.id)}>
                 <Text style={Styles.textTouchablePlus}>
                   <View>
                     <Feather name="plus" size={25} color="#9B9B9B" />
@@ -115,12 +144,12 @@ console.log("carttcatatatata",Cart);
                 <Text
                   style={{
                     marginTop: 12,
-                    marginHorizontal: 26,
+                    marginHorizontal: 20,
                     color: '#222222',
                     fontFamily: 'Metropolis-Bold',
                     fontSize: 19,
                   }}>
-                  {v.price}$
+                  {v.price * v.qtn}$
                 </Text>
               </View>
             </View>
@@ -129,6 +158,8 @@ console.log("carttcatatatata",Cart);
       </View>
     </TouchableOpacity>
   );
+
+
 
   return (
     <ScrollView>
@@ -145,18 +176,19 @@ console.log("carttcatatatata",Cart);
         </View> */}
 
         <FlatList
-          data={data}
+          data={filterbag}
           renderItem={({item}) => <DataCity v={item} />}
           keyExtractor={item => item.id}
         />
 
         <View style={Styles.totalamount}>
           <Text style={Styles.totalamountText}>Total Amount:</Text>
-          <Text style={Styles.Text}>124$</Text>
+          <Text style={Styles.Text}>{totalamount}$</Text>
         </View>
 
         <View style={Styles.checkoutBtn}>
-          <TouchableOpacity onPress={() => navigation.navigate("addshippingaddress")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('addshippingaddress')}>
             <Text style={Styles.checkoutText}>Check out</Text>
           </TouchableOpacity>
         </View>
@@ -209,7 +241,7 @@ const Styles = StyleSheet.create({
   },
   L: {
     color: '#222222',
-    fontSize:  moderateScale(15),
+    fontSize: moderateScale(15),
   },
   textTouchablePlus: {
     padding: horizontalScale(10),
@@ -235,11 +267,11 @@ const Styles = StyleSheet.create({
   },
   dotshead: {
     flexDirection: 'row',
-    justifyContent:'space-between',
-    alignItems:'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   dotsminihead: {
-    marginRight:horizontalScale(10),
+    marginRight: horizontalScale(10),
     marginTop: verticalScale(8),
   },
   dotsminihead3: {
