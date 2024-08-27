@@ -59,7 +59,7 @@ export default function My_Bag({route, navigation}) {
 
   const colordata = useSelector(state => state.Color);
 
-  const filterbag = Cart.cart.map((v) => {
+  const filterbag = Cart.Cart.map((v) => {
     const c =  productdata.productdata.find((v1) => v1.id === v.pid);
     console.log("cccccccccccccccccccccccc",c);
 

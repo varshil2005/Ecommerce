@@ -12,6 +12,7 @@ import ColorSlice from "../Slice/Color.Slice";
 import FavouriteSlice from "../Slice/Favourite.Slice";
 import CartSlice from "../Slice/Cart.Slice";
 
+
 export const rootReducer = combineReducers ({
         count : counterSlice,
         category : categorySlice,
