@@ -7,33 +7,6 @@ const initialstate = {
   error: null,
 };
 
-export const getBag = createAsyncThunk(
-  'Cart/getBag', 
-  
-  async () => {
-  
-    let CartData = [];
-    await firestore()
-      .collection('Cart')
-      .get()
-      .then(querySnapshot => {
-        console.log('Total users: ', querySnapshot.size);
-
-        querySnapshot.forEach(documentSnapshot => {
-          console.log("lllll",'User ID: ', documentSnapshot.id, documentSnapshot.data());
-
-          CartData.push({id : documentSnapshot.id,...documentSnapshot.data(),});
-          // console.log(data);
-          console.log('hhhhhhhh', JSON.stringify(CartData));
-        });
-
-        return CartData;
-      });
-
-   
-  
-});
-
 export const AddToCart = createAsyncThunk('Cart/AddToCart', async data => {
   console.log('datatadattada', data);
   let BagData = [];
@@ -49,7 +22,7 @@ export const AddToCart = createAsyncThunk('Cart/AddToCart', async data => {
     }
   });
   if (BagData.length > 0) {
-    const index = BagData[0].Cart.findIndex(v => v.pid === data.id);
+    const index = BagData[0].cart.findIndex(v => v.pid === data.id);
     console.log('indexindexindexindex', index);
 
     try {
@@ -95,11 +68,86 @@ export const AddToCart = createAsyncThunk('Cart/AddToCart', async data => {
         console.log('User added!');
       });
   }
-
-
-
-
 });
+
+export const getBag = createAsyncThunk(
+  'Cart/getBag',
+
+  async id => {
+    const CartData = [];
+    try {
+      await firestore()
+        .collection('Cart')
+        .doc(id)
+        .get()
+        .then(documentSnapshot => {
+          console.log(
+            'sdfsdfsdfsdfsdfsdfsdfsdf',
+            'User exists: ',
+            documentSnapshot.exists,
+          );
+
+          if (documentSnapshot.exists) {
+            console.log('User data: ', documentSnapshot.data());
+            CartData.push({
+              id: documentSnapshot.id,
+              ...documentSnapshot.data(),
+            });
+          }
+        });
+      console.log('CartDataCartDataCartData', CartData);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return CartData;
+  },
+);
+
+export const IncQty = createAsyncThunk(
+  'Cart/IncQty',
+
+  async (data, {getState}) => {
+    const {cart} = getState();
+
+    console.log('cartcart', cart?.Cart[0]?.cart);
+
+    const index = cart?.Cart[0]?.cart.findIndex(v => v.pid === data.id);
+    console.log('indexindexindexindex', index);
+
+    const userDoc = await firestore().collection('Cart').doc(data.uid);
+
+    try {
+   
+
+      await userDoc.update({
+        cart: firebase.firestore.FieldValue.arrayRemove({
+          pid: data.id,
+          qtn: cart?.Cart[0]?.cart[index].qtn,
+        }),
+      });
+
+      await userDoc.update({
+        cart: firebase.firestore.FieldValue.arrayUnion({
+          pid: data.id,
+          qtn: cart?.Cart[0]?.cart[index].qtn + 1,
+        })
+
+        
+      });
+
+      await userDoc.update({
+        cart: firebase.firestore.FieldValue.arrayUnion({
+          pid: data.id,
+          qtn: 1,
+        }),
+      });
+  
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
 
 // if (userData.exists) {
 //   try {
@@ -124,55 +172,52 @@ export const AddToCart = createAsyncThunk('Cart/AddToCart', async data => {
 //     });
 // }
 
-
-
 const CartSlice = createSlice({
   name: 'Cart',
   initialState: initialstate,
-  
 
   extraReducers: builder => {
-    builder
-    .addCase(getBag.fulfilled, (state, action) => {
-      console.log("actionactionaction",action);
-      
+    builder.addCase(getBag.fulfilled, (state, action) => {
+      console.log('actionactionaction', action);
+
       // Add user to the state array
       state.Cart = action.payload;
-    }
-  
-  
-  );
-  
+    });
+    builder.addCase(IncQty.fulfilled, (state, action) => {
+      console.log('actionactionaction', action);
+
+      // Add user to the state array
+      state.Cart = action.payload;
+    });
   },
 });
 
 // export const {addCart, IncQty, DecQty} = CartSlice.actions;
 export default CartSlice.reducer;
 
-
 //   reducers: {
-  //     addCart: (state, action) => {
-  //       console.log('idididiiididiididid', action.payload);
+//     addCart: (state, action) => {
+//       console.log('idididiiididiididid', action.payload);
 
-  //       const index = state.cart.findIndex(v => v.pid === action.payload);
-  //       console.log('indexindexindexindex', index);
+//       const index = state.cart.findIndex(v => v.pid === action.payload);
+//       console.log('indexindexindexindex', index);
 
-  //       if (index === -1) {
-  //         state.cart.push({pid: action.payload, qtn: 1});
-  //       } else {
-  //         state.cart[index].qtn++;
-  //       }
-  //     },
+//       if (index === -1) {
+//         state.cart.push({pid: action.payload, qtn: 1});
+//       } else {
+//         state.cart[index].qtn++;
+//       }
+//     },
 
-  //     IncQty: (state, action) => {
-  //       const index = state.cart.findIndex(v => v.pid === action.payload);
-  //       state.cart[index].qtn++;
-  //     },
+//     IncQty: (state, action) => {
+//       const index = state.cart.findIndex(v => v.pid === action.payload);
+//       state.cart[index].qtn++;
+//     },
 
-  //     DecQty: (state, action) => {
-  //       const index = state.cart.findIndex(v => v.pid === action.payload);
-  //       if (state.cart[index].qtn > 1) {
-  //         state.cart[index].qtn--;
-  //       }
-  //     },
-  //   },
+//     DecQty: (state, action) => {
+//       const index = state.cart.findIndex(v => v.pid === action.payload);
+//       if (state.cart[index].qtn > 1) {
+//         state.cart[index].qtn--;
+//       }
+//     },
+//   },

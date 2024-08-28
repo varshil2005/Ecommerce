@@ -12,45 +12,46 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import React from 'react';
+import React, { useDebugValue, useEffect } from 'react';
 import {
   horizontalScale,
   moderateScale,
   verticalScale,
 } from '../../../assets/metrics/Metrics';
 import {useDispatch, useSelector} from 'react-redux';
-import { DecQty, IncQty } from '../Redux/Slice/Cart.Slice';
+import { AddToCart, DecQty, getBag, IncQty } from '../Redux/Slice/Cart.Slice';
+import { getPrdouct } from '../Redux/Slice/Product.slice';
 
-// const data = [
-//   {
-//     id: 0,
-//     title: 'Pullover',
-//     color: 'Black',
-//     size: 'L',
-//     image: require('../../../assets/image/newproduct.jpg'),
-//     price: 51,
-//   },
-//   {
-//     id: 1,
-//     title: 'T-Shirt',
-//     color: 'Gray',
-//     image: require('../../../assets/image/newproduct.jpg'),
-//     size: 'L',
-//     price: 30,
-//   },
-//   {
-//     id: 1,
-//     title: 'Sport Dress',
-//     color: 'Black',
-//     image: require('../../../assets/image/newproduct.jpg'),
-//     size: 'M',
-//     price: 43,
-//   },
-// ];
+const data = [
+  {
+    id: 0,
+    title: 'Pullover',
+    color: 'Black',
+    size: 'L',
+    image: require('../../../assets/image/newproduct.jpg'),
+    price: 51,
+  },
+  {
+    id: 1,
+    title: 'T-Shirt',
+    color: 'Gray',
+    image: require('../../../assets/image/newproduct.jpg'),
+    size: 'L',
+    price: 30,
+  },
+  {
+    id: 1,
+    title: 'Sport Dress',
+    color: 'Black',
+    image: require('../../../assets/image/newproduct.jpg'),
+    size: 'M',
+    price: 43,
+  },
+];
 
 export default function My_Bag({route, navigation}) {
   const Cart = useSelector(state => state.cart);
-  console.log('carttcatatatata', Cart);
+  console.log('carttcatatatata', Cart?.Cart[0]?.cart);
 
   const productdata = useSelector(state => state.Product);
   console.log('Kkkkkkk', productdata.productdata);
@@ -59,7 +60,7 @@ export default function My_Bag({route, navigation}) {
 
   const colordata = useSelector(state => state.Color);
 
-  const filterbag = Cart.Cart.map((v) => {
+  const filterbag = Cart?.Cart[0]?.cart.map((v) => {
     const c =  productdata.productdata.find((v1) => v1.id === v.pid);
     console.log("cccccccccccccccccccccccc",c);
 
@@ -73,15 +74,21 @@ export default function My_Bag({route, navigation}) {
   console.log("filterbagfilterbagfilterbag",filterbag);
   
 const dispatch = useDispatch();
+
+ useEffect (() => {
+    dispatch(getBag('varshil'))
+    dispatch(getPrdouct())
+
+ },[])
   const handleInc =(id) => {
-    dispatch(IncQty(id))
+    dispatch(IncQty({id,uid : 'varshil'}))
   }
 
   const handleDec = (id) => {
     dispatch(DecQty(id))
   }
 
-const totalamount = filterbag.reduce((sum,item) => sum + item.price * item.qtn , 0)
+// const totalamount = filterbag.reduce((sum,item) => sum + item.price * item.qtn , 0) 
 
   const DataCity = ({v}) => (
     <TouchableOpacity>
@@ -98,7 +105,7 @@ const totalamount = filterbag.reduce((sum,item) => sum + item.price * item.qtn ,
                   fontFamily: 'Metropolis-Bold',
                   color: '#222222',
                 }}>
-                {v.name}
+                {v?.name}
               </Text>
               <View style={Styles.dotsminihead}>
                 <TouchableOpacity>
@@ -117,7 +124,7 @@ const totalamount = filterbag.reduce((sum,item) => sum + item.price * item.qtn ,
               </View>
               <View style={{flexDirection: 'row'}}>
                 <Text style={Styles.size}>Size:</Text>
-                <Text style={Styles.L}>{v.size}</Text>
+                <Text style={Styles.L}>{v?.size}</Text>
               </View>
             </View>
 
@@ -130,7 +137,7 @@ const totalamount = filterbag.reduce((sum,item) => sum + item.price * item.qtn ,
                 </Text>
               </TouchableOpacity>
 
-              <Text style={{marginTop: 15, color: '#222222'}}>{v.qtn}</Text>
+              <Text style={{marginTop: 15, color: '#222222'}}>{v?.qtn}</Text>
 
               <TouchableOpacity onPress={() => handleInc(v.id)}>
                 <Text style={Styles.textTouchablePlus}>
@@ -149,7 +156,7 @@ const totalamount = filterbag.reduce((sum,item) => sum + item.price * item.qtn ,
                     fontFamily: 'Metropolis-Bold',
                     fontSize: 19,
                   }}>
-                  {v.price * v.qtn}$
+                  {v?.price * v?.qtn}$
                 </Text>
               </View>
             </View>
@@ -178,12 +185,12 @@ const totalamount = filterbag.reduce((sum,item) => sum + item.price * item.qtn ,
         <FlatList
           data={filterbag}
           renderItem={({item}) => <DataCity v={item} />}
-          keyExtractor={item => item.id}
+          // keyExtractor={item => item.id}
         />
 
         <View style={Styles.totalamount}>
           <Text style={Styles.totalamountText}>Total Amount:</Text>
-          <Text style={Styles.Text}>{totalamount}$</Text>
+          <Text style={Styles.Text}>0$</Text>
         </View>
 
         <View style={Styles.checkoutBtn}>
