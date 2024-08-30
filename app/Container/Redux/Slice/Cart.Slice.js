@@ -118,8 +118,6 @@ export const IncQty = createAsyncThunk(
     const userDoc = await firestore().collection('Cart').doc(data.uid);
 
     try {
-   
-
       await userDoc.update({
         cart: firebase.firestore.FieldValue.arrayRemove({
           pid: data.id,
@@ -131,46 +129,118 @@ export const IncQty = createAsyncThunk(
         cart: firebase.firestore.FieldValue.arrayUnion({
           pid: data.id,
           qtn: cart?.Cart[0]?.cart[index].qtn + 1,
-        })
-
-        
-      });
-
-      await userDoc.update({
-        cart: firebase.firestore.FieldValue.arrayUnion({
-          pid: data.id,
-          qtn: 1,
         }),
       });
-  
+
+      let BagData = [];
+
+      await userDoc.get().then(documentSnapshot => {
+        console.log('User exists: ', documentSnapshot.exists);
+
+        if (documentSnapshot.exists) {
+          console.log('User data: ', documentSnapshot.data());
+          BagData.push(documentSnapshot.data());
+          console.log('BagDataBagDataBagData', BagData);
+        }
+      });
+
+      return BagData;
     } catch (error) {
       console.log(error);
     }
   },
 );
 
-// if (userData.exists) {
-//   try {
-//     await userDoc.update({
-//       cart: firebase.firestore.FieldValue.arrayUnion({
-//         pid: data.id,
-//         qtn: 1,
-//       }),
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// } else {
-//   await firestore()
-//     .collection('Cart')
-//     .doc(data.uid)
-//     .set({
-//       cart: [{pid: data.id, qtn: 1}],
-//     })
-//     .then(() => {
-//       console.log('User added!');
-//     });
-// }
+export const DecQty = createAsyncThunk(
+  'Cart/DecQty',
+
+  async (data, {getState}) => {
+    const {cart} = getState();
+
+    console.log('cartcart', cart?.Cart[0]?.cart);
+
+    const index = cart?.Cart[0]?.cart.findIndex(v => v.pid === data.id);
+    console.log('indexindexindexindex', index);
+
+    const userDoc = await firestore().collection('Cart').doc(data.uid);
+
+    try {
+      await userDoc.update({
+        cart: firebase.firestore.FieldValue.arrayRemove({
+          pid: data.id,
+          qtn: cart?.Cart[0]?.cart[index].qtn,
+        }),
+      });
+
+      await userDoc.update({
+        cart: firebase.firestore.FieldValue.arrayUnion({
+          pid: data.id,
+          qtn: cart?.Cart[0]?.cart[index].qtn - 1,
+        }),
+      });
+
+      let BagData = [];
+
+      await userDoc.get().then(documentSnapshot => {
+        console.log('User exists: ', documentSnapshot.exists);
+
+        if (documentSnapshot.exists) {
+          console.log('User data: ', documentSnapshot.data());
+          BagData.push(documentSnapshot.data());
+          console.log('BagDataBagDataBagData', BagData);
+        }
+      });
+
+      return BagData;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+);
+
+export const DeleteCart = createAsyncThunk(
+  'Cart/DeleteCart',
+
+  async( data,{getState}) => {
+    const {cart} = getState();
+
+    console.log('cartcart', cart?.Cart[0]?.cart);
+
+    const index = cart?.Cart[0]?.cart.findIndex(v => v.pid === data.id);
+    console.log('indexindexindexindex', index);
+
+    const userDoc = await firestore().collection('Cart').doc(data.uid);
+
+    try {
+      await userDoc.update({
+        cart: firebase.firestore.FieldValue.arrayRemove({
+          pid: data.id,
+          qtn: cart?.Cart[0]?.cart[index].qtn,
+        }),
+      });
+
+
+      let BagData = [];
+
+      await userDoc.get().then(documentSnapshot => {
+        console.log('User exists: ', documentSnapshot.exists);
+
+        if (documentSnapshot.exists) {
+          console.log('User data: ', documentSnapshot.data());
+          BagData.push(documentSnapshot.data());
+          console.log('BagDataBagDataBagData', BagData);
+        }
+      });
+
+      return BagData;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+
+
+);
 
 const CartSlice = createSlice({
   name: 'Cart',
@@ -184,6 +254,19 @@ const CartSlice = createSlice({
       state.Cart = action.payload;
     });
     builder.addCase(IncQty.fulfilled, (state, action) => {
+      console.log('actionactionaction', action);
+
+      // Add user to the state array
+      state.Cart = action.payload;
+    });
+    builder.addCase(DecQty.fulfilled, (state, action) => {
+      console.log('actionactionaction', action);
+
+      // Add user to the state array
+      state.Cart = action.payload;
+    });
+
+    builder.addCase(DeleteCart.fulfilled, (state, action) => {
       console.log('actionactionaction', action);
 
       // Add user to the state array

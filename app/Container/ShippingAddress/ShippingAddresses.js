@@ -1,9 +1,11 @@
 import { View, Text, TouchableOpacity, ScrollView, StatusBar, StyleSheet, FlatList } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { horizontalScale, moderateScale } from '../../../assets/metrics/Metrics';
 import { NavigationContainer } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAddress } from '../Redux/Slice/Address.Slice';
 
 const useaddresses = [
     {
@@ -33,8 +35,13 @@ export default function ShippingAddresses( {route , navigation}) {
     const ShippingAddresses = ({ v }) => (
         <View style={styles.olldeta}>
             <Text style={styles.addtext1}>{v.name}</Text>
-            <Text style={styles.addtext}>{v.Addresses}</Text>
-            <Text style={styles.addtext}>{v.area} {v.state}</Text>
+            <Text style={styles.addtext}>{v.address}</Text>
+            <Text style={styles.addtext}>{v.state}</Text>
+            <Text style={styles.addtext}>{v.city}</Text>
+            <Text style={styles.addtext}>{v.country}</Text>  
+            <Text style={styles.addtext}>{v.zipcode}</Text>
+
+
 
             <TouchableOpacity style={styles.UseShipping}>
                 <FontAwesome name="check-square" size={25} color="black" />
@@ -45,6 +52,16 @@ export default function ShippingAddresses( {route , navigation}) {
             </View>
         </View>
     );
+
+    const dispatch = useDispatch();
+
+    useEffect (() => {
+        dispatch(getAddress('varshil'))
+    },[])
+
+    const Addressdata = useSelector(state => state.address) ;
+    console.log("AddressdataAddressdata",Addressdata?.Address[0]?.address);
+    
 
     return (
         <ScrollView style={styles.container}>
@@ -58,13 +75,13 @@ export default function ShippingAddresses( {route , navigation}) {
             </View> */}
 
             <FlatList
-                data={useaddresses}
+                data={Addressdata?.Address[0]?.address}
                 renderItem={({ item }) => <ShippingAddresses v={item} />}
                 keyExtractor={item => item.id}
             />
             <View style ={{flexDirection : 'row' , justifyContent: 'space-between'}}>
             <View style={styles.btnView}>
-                 <TouchableOpacity style={styles.addButton}>
+                 <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('addshippingaddress')}>
                 <MaterialCommunityIcons name="plus-circle" size={35} color="black" />
             </TouchableOpacity>
             </View>
@@ -106,7 +123,7 @@ const styles = StyleSheet.create({
     },
     olldeta: {
         padding: 15,
-        height: 135,
+        // height: ,
         marginTop: 20,
         backgroundColor: '#FFFFFF',
         borderRadius: horizontalScale(5),

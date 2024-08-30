@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import React, { useDebugValue, useEffect } from 'react';
 import {
@@ -19,7 +19,7 @@ import {
   verticalScale,
 } from '../../../assets/metrics/Metrics';
 import {useDispatch, useSelector} from 'react-redux';
-import { AddToCart, DecQty, getBag, IncQty } from '../Redux/Slice/Cart.Slice';
+import { AddToCart, DecQty, DeleteCart, getBag, IncQty } from '../Redux/Slice/Cart.Slice';
 import { getPrdouct } from '../Redux/Slice/Product.slice';
 
 const data = [
@@ -69,7 +69,7 @@ export default function My_Bag({route, navigation}) {
       return{...c,...v}
     }
     
-  });
+  }).sort((a,b) => a.name.localeCompare(b.name))
 
   console.log("filterbagfilterbagfilterbag",filterbag);
   
@@ -84,11 +84,15 @@ const dispatch = useDispatch();
     dispatch(IncQty({id,uid : 'varshil'}))
   }
 
-  const handleDec = (id) => {
-    dispatch(DecQty(id))
+  const handleDec = (id) => { 
+    dispatch(DecQty({id,uid : 'varshil'}))
   }
 
-// const totalamount = filterbag.reduce((sum,item) => sum + item.price * item.qtn , 0) 
+  const handleDelete = (id) => {
+    dispatch(DeleteCart({id,uid :'varshil'}))
+  }
+
+// const totalamount = filterbag.reduce((sum,item) => sum + (item?.price || 0 )* (item?.qtn || 0), 0) 
 
   const DataCity = ({v}) => (
     <TouchableOpacity>
@@ -108,9 +112,9 @@ const dispatch = useDispatch();
                 {v?.name}
               </Text>
               <View style={Styles.dotsminihead}>
-                <TouchableOpacity>
-                  <Entypo
-                    name="dots-three-vertical"
+                <TouchableOpacity onPress={() => handleDelete(v.id)}>
+                  <MaterialCommunityIcons
+                    name="close"
                     size={23}
                     color="#9B9B9B"
                   />
@@ -195,7 +199,7 @@ const dispatch = useDispatch();
 
         <View style={Styles.checkoutBtn}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('addshippingaddress')}>
+            onPress={() => navigation.navigate('shippingaddress')}>
             <Text style={Styles.checkoutText}>Check out</Text>
           </TouchableOpacity>
         </View>

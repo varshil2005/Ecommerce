@@ -11,6 +11,7 @@ import BrandSlice from "../Slice/Brand.Slice";
 import ColorSlice from "../Slice/Color.Slice";
 import FavouriteSlice from "../Slice/Favourite.Slice";
 import CartSlice from "../Slice/Cart.Slice";
+import AddressSlice from "../Slice/Address.Slice";
 
 
 export const rootReducer = combineReducers ({
@@ -22,5 +23,6 @@ export const rootReducer = combineReducers ({
         Color : ColorSlice,
         Brand : BrandSlice,
         togglefavourite: FavouriteSlice,
-        cart : CartSlice
+        cart : CartSlice,
+        address : AddressSlice
 })
