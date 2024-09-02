@@ -20,6 +20,10 @@ import { useDispatch } from 'react-redux';
 import { Addaddress } from '../Redux/Slice/Address.Slice';
 
 export default function AddShipingAddress({route, navigation}) {
+
+  console.log("routerouterouteroute",route);
+  
+  
   
   let userSchema = object({
     name: string()
@@ -53,15 +57,18 @@ export default function AddShipingAddress({route, navigation}) {
     },
   });
 
+
+
   const dispatch = useDispatch();
 
   const hanldesave =  (data) => {
     navigation.navigate('shippingaddress')
     console.log("datatatatatta",data);
     dispatch(Addaddress({...data,uid : 'varshil'}));
-    
+   
   }
-  
+
+
   const {
     handleBlur,
     handleChange,
@@ -72,6 +79,7 @@ export default function AddShipingAddress({route, navigation}) {
     setValues,
   } = formik;
 
+  
   return (
     <ScrollView style={styles.container}>
       <StatusBar
@@ -92,6 +100,8 @@ export default function AddShipingAddress({route, navigation}) {
           onChangeText={handleChange('name')}
           value={values.name}
           onBlur={handleBlur('name')}
+
+          
         
         />
          <Text style={{color: 'red'}}>{errors.name && touched.name ? errors.name : ''}</Text> 

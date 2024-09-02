@@ -89,6 +89,8 @@ const dispatch = useDispatch();
   }
 
   const handleDelete = (id) => {
+    console.log("idiidididid",id);
+    
     dispatch(DeleteCart({id,uid :'varshil'}))
   }
 

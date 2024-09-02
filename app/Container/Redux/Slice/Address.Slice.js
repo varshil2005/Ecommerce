@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import firestore, {firebase} from '@react-native-firebase/firestore';
+import { create } from 'react-test-renderer';
 
 const initialstate = {
   isLoading: false,
@@ -32,10 +33,35 @@ export const Addaddress = createAsyncThunk(
           Address : [data]
         })
       }
-      return userDoc
+
+      const AddressData = [];
+
+      await firestore()
+          .collection('Address')
+          .doc(data.uid)
+          .get()
+          .then(documentSnapshot => {
+            console.log(
+              'sdfsdfsdfsdfsdfsdfsdfsdf',
+              'User exists: ',
+              documentSnapshot.exists,
+            );
+  
+            if (documentSnapshot.exists) {
+              console.log('User data: ', documentSnapshot.data());
+              AddressData.push({
+                id: documentSnapshot.id,
+                ...documentSnapshot.data(),
+              });
+            }
+          });
+        console.log('CartDataCartDataCartData', AddressData);
+      return AddressData
     } catch (error) {
       
     }
+
+
 
       
     }
@@ -75,6 +101,55 @@ export const getAddress = createAsyncThunk(
   }
 )
 
+export const DeleteAddress = createAsyncThunk(
+  'address/DeleteAddress',
+  async (data) => {
+
+    // const {address} = getState();
+    // console.log("addressaddressaddress",address.Address[0].address);
+
+    const userDoc = await firestore().collection('Address').doc(data.uid);
+    console.log("userDocuserDocuserDoc",data);
+    
+    
+    try {
+      await userDoc.update({
+        address: firebase.firestore.FieldValue.arrayRemove(
+          data
+        ),
+      });
+
+      const AddressData = [];
+
+      await firestore()
+          .collection('Address')
+          .doc(data.uid)
+          .get()
+          .then(documentSnapshot => {
+            console.log(
+              'sdfsdfsdfsdfsdfsdfsdfsdf',
+              'User exists: ',
+              documentSnapshot.exists,
+            );
+  
+            if (documentSnapshot.exists) {
+              console.log('User data: ', documentSnapshot.data());
+              AddressData.push({
+                id: documentSnapshot.id,
+                ...documentSnapshot.data(),
+              });
+            }
+          });
+        console.log('CartDataCartDataCartData', AddressData);
+      return AddressData
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+)
+
+
 const AddressSlice = createSlice({
     name: 'Cart',
     initialState: initialstate,
@@ -86,6 +161,12 @@ const AddressSlice = createSlice({
       state.Address = action.payload;
     });
     builder.addCase(getAddress.fulfilled, (state, action) => {
+      console.log('actionactionaction', action);
+
+      // Add user to the state array
+      state.Address = action.payload;
+    });
+    builder.addCase(DeleteAddress.fulfilled, (state, action) => {
       console.log('actionactionaction', action);
 
       // Add user to the state array
