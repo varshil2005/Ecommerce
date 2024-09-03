@@ -7,13 +7,19 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {horizontalScale, moderateScale} from '../../../assets/metrics/Metrics';
 import {NavigationContainer} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {DeleteAddress, getAddress} from '../Redux/Slice/Address.Slice';
+import {RadioGroup} from 'react-native-radio-buttons-group';
+import RadioForm, {
+  RadioButton,
+  RadioButtonInput,
+  RadioButtonLabel,
+} from 'react-native-simple-radio-button';
 
 const useaddresses = [
   {
@@ -40,6 +46,36 @@ const useaddresses = [
 ];
 
 export default function ShippingAddresses({route, navigation}) {
+  const radioButtons = useMemo(
+    () => [
+      {
+        id: '1', // acts as primary key, should be unique and non-empty string
+        // label: 'Option 1',
+        // value: 'option1',
+      },
+    ],
+    [],
+  );
+
+  const [selectedId, setSelectedId] = useState();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAddress('varshil'));
+  }, []);
+
+  const handleDelete = data => {
+    console.log('ididididi', data);
+
+    dispatch(DeleteAddress(data));
+  };
+
+  const handleEdit = data => {
+    navigation.navigate('addshippingaddress', data);
+  };
+
+  const Addressdata = useSelector(state => state.address);
+  console.log('AddressdataAddressdata', Addressdata);
 
   const ShippingAddresses = ({v}) => (
     <View style={styles.olldeta}>
@@ -50,47 +86,33 @@ export default function ShippingAddresses({route, navigation}) {
       <Text style={styles.addtext}>{v.country}</Text>
       <Text style={styles.addtext}>{v.zipcode}</Text>
 
-      <TouchableOpacity style={styles.UseShipping}>
+      {/* <TouchableOpacity style={styles.UseShipping}>
         <FontAwesome name="check-square" size={25} color="black" />
         <Text style={styles.checkicontext}>Use as the shipping address</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+
+      <View style={styles.UseShipping}>
+        <RadioGroup
+          radioButtons={radioButtons}
+          onPress={setSelectedId}
+          selectedId={selectedId}
+        />
+   
+        <Text style={styles.checkicontext}>Use as the shipping address</Text>
+      </View>
+
       <View style={styles.ViewEdit}>
-        <TouchableOpacity onPress={() =>handleEdit(v)}>
+        <TouchableOpacity onPress={() => handleEdit(v)}>
           <MaterialCommunityIcons name="pencil" size={23} color="#9B9B9B" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() =>handleDelete(v)}>
+        <TouchableOpacity onPress={() => handleDelete(v)}>
           <MaterialCommunityIcons name="close" size={23} color="#9B9B9B" />
         </TouchableOpacity>
       </View>
     </View>
   );
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAddress('varshil'));
-  }, []);
-
-  const Addressdata = useSelector(state => state.address);
-  console.log('AddressdataAddressdata', Addressdata);
-
-  const Address =  Addressdata?.Address[0]?.address
-
-  
-  console.log("AddressAddressAddressAddressAddressAddressAddress",Address);
-  
-  const handleDelete = (data) => {
-    console.log("ididididi",data);
-    
-    dispatch(DeleteAddress(data))
-}
-
-const handleEdit = (data) => {
-    navigation.navigate('addshippingaddress',
-        data
-    )
-
-}
+  // console.log("AddressAddressAddressAddressAddressAddressAddress",Address);
 
   return (
     <ScrollView style={styles.container}>
@@ -128,7 +150,7 @@ const handleEdit = (data) => {
       </View>
 
       <FlatList
-        data={Address}
+        data={Addressdata?.Address[0]?.address}
         renderItem={({item}) => <ShippingAddresses v={item} />}
         keyExtractor={item => item.id}
       />
@@ -179,12 +201,12 @@ const styles = StyleSheet.create({
   },
   UseShipping: {
     flexDirection: 'row',
-    columnGap: 9,
-    paddingTop: 15,
+    columnGap: 5,
+    paddingTop: 13,
   },
   checkicontext: {
     color: 'black',
-    paddingTop: 4,
+    paddingTop: 7,
   },
   ViewEdit: {
     position: 'absolute',

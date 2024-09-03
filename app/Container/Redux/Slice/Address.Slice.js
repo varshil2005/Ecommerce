@@ -30,7 +30,7 @@ export const Addaddress = createAsyncThunk(
         })
       } else {
         await userDoc.set({
-          Address : [data]
+          address : [data]
         })
       }
 
@@ -149,6 +149,68 @@ export const DeleteAddress = createAsyncThunk(
   }
 )
 
+export const UpdateAddress = createAsyncThunk(
+  'address/UpdateAddress',
+
+  async (data) => {
+    
+      console.log("Aviiiiiiii",data);
+
+  console.log('First Time when Cart is empty');
+  const addressdata = [];
+
+  const userDoc = await firestore().collection('Address').doc(data.newData.uid);
+  const userref = await userDoc.get();
+
+  try {
+
+    await userDoc.update({
+      address: firebase.firestore.FieldValue.arrayRemove(
+        data.OldData
+      ),
+    });
+   
+      await userDoc.update({
+        address : firebase.firestore.FieldValue.arrayUnion(
+            data.newData
+      )
+      })
+ 
+
+    const AddressData = [];
+
+    await firestore()
+        .collection('Address')
+        .doc(data.OldData.uid)
+        .get()
+        .then(documentSnapshot => {
+          console.log(
+            'sdfsdfsdfsdfsdfsdfsdfsdf',
+            'User exists: ',
+            documentSnapshot.exists,
+          );
+
+          if (documentSnapshot.exists) {
+            console.log('User data: ', documentSnapshot.data());
+            AddressData.push({
+              id: documentSnapshot.id,
+              ...documentSnapshot.data(),
+            });
+          }
+        });
+      console.log('CartDataCartDataCartData', AddressData);
+    return AddressData
+  } catch (error) {
+    
+  }
+
+
+
+    
+  }
+  
+)
+
 
 const AddressSlice = createSlice({
     name: 'Cart',
@@ -167,6 +229,12 @@ const AddressSlice = createSlice({
       state.Address = action.payload;
     });
     builder.addCase(DeleteAddress.fulfilled, (state, action) => {
+      console.log('actionactionaction', action);
+
+      // Add user to the state array
+      state.Address = action.payload;
+    });
+    builder.addCase(UpdateAddress.fulfilled, (state, action) => {
       console.log('actionactionaction', action);
 
       // Add user to the state array

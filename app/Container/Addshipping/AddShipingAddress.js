@@ -14,10 +14,10 @@ import {
   verticalScale,
 } from '../../../assets/metrics/Metrics';
 import {useFormik, validateYupSchema, yupToFormErrors} from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { number, object, string } from 'yup';
 import { useDispatch } from 'react-redux';
-import { Addaddress } from '../Redux/Slice/Address.Slice';
+import { Addaddress, UpdateAddress } from '../Redux/Slice/Address.Slice';
 
 export default function AddShipingAddress({route, navigation}) {
 
@@ -54,17 +54,33 @@ export default function AddShipingAddress({route, navigation}) {
       console.log('dsdd', values);
       hanldesave(values)
       resetForm()
+      
     },
   });
+
+  useEffect(() => {
+    if (route.params) {
+      setValues(route.params)
+    }
+    
+  },[route.params])
 
 
 
   const dispatch = useDispatch();
 
   const hanldesave =  (data) => {
-    navigation.navigate('shippingaddress')
+   
     console.log("datatatatatta",data);
-    dispatch(Addaddress({...data,uid : 'varshil'}));
+
+    if (route.params) {
+      dispatch(UpdateAddress({newData : {...data,uid : 'varshil'} , OldData:route.params}))
+    } else {
+      dispatch(Addaddress({...data,uid : 'varshil'}));
+    }
+
+    navigation.navigate('shippingaddress')
+   
    
   }
 
@@ -169,7 +185,7 @@ export default function AddShipingAddress({route, navigation}) {
       </View>
       <TouchableOpacity style={styles.ButtonView} onPress={handleSubmit}>
         <View style={styles.ButtonUnderView}>
-          <Text style={styles.AddCart}>SAVE ADDRESS</Text>
+          <Text style={styles.AddCart}>{route.params ? 'Update Address' : 'Save Address'}</Text>
         </View>
       </TouchableOpacity>
     </ScrollView>
