@@ -25,7 +25,7 @@ export const Addaddress = createAsyncThunk(
       if (userref.exists) {
         await userDoc.update({
           address : firebase.firestore.FieldValue.arrayUnion(
-              data
+             { ...data , aid : Math.floor(Math.random() * 10000)}
         )
         })
       } else {
@@ -172,7 +172,7 @@ export const UpdateAddress = createAsyncThunk(
    
       await userDoc.update({
         address : firebase.firestore.FieldValue.arrayUnion(
-            data.newData
+          { ...data.newData , aid : Math.floor(Math.random() * 10000)}
       )
       })
  

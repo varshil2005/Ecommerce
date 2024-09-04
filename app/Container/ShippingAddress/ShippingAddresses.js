@@ -46,17 +46,7 @@ const useaddresses = [
 ];
 
 export default function ShippingAddresses({route, navigation}) {
-  const radioButtons = useMemo(
-    () => [
-      {
-        id: '1', // acts as primary key, should be unique and non-empty string
-        // label: 'Option 1',
-        // value: 'option1',
-      },
-    ],
-    [],
-  );
-
+ 
   const [selectedId, setSelectedId] = useState();
   const dispatch = useDispatch();
 
@@ -77,8 +67,21 @@ export default function ShippingAddresses({route, navigation}) {
   const Addressdata = useSelector(state => state.address);
   console.log('AddressdataAddressdata', Addressdata);
 
-  const ShippingAddresses = ({v}) => (
-    <View style={styles.olldeta}>
+  const ShipData = Addressdata?.Address[0]?.address
+  console.log("sdfsdfsdfsdfsfsdfsdfsdf",ShipData);
+  
+
+  const radioButtons = useMemo(
+    () => {
+      if (ShipData) {
+        const Sdata = ShipData.map((v,i) => {
+
+        console.log("v.aidv.aidv.aidv.aid",v);
+        
+          return{
+            id: i,
+            label: (
+              <View style={styles.olldeta}>
       <Text style={styles.addtext1}>{v.name}</Text>
       <Text style={styles.addtext}>{v.address}</Text>
       <Text style={styles.addtext}>{v.state}</Text>
@@ -92,12 +95,6 @@ export default function ShippingAddresses({route, navigation}) {
       </TouchableOpacity> */}
 
       <View style={styles.UseShipping}>
-        <RadioGroup
-          radioButtons={radioButtons}
-          onPress={setSelectedId}
-          selectedId={selectedId}
-        />
-   
         <Text style={styles.checkicontext}>Use as the shipping address</Text>
       </View>
 
@@ -110,7 +107,49 @@ export default function ShippingAddresses({route, navigation}) {
         </TouchableOpacity>
       </View>
     </View>
-  );
+            ),
+            value : v.aid
+          }
+
+         
+        })
+        return Sdata
+    
+     
+      }
+      return []
+    
+    },[ShipData]);
+
+
+  // const ShippingAddresses = ({v}) => (
+  //   <View style={styles.olldeta}>
+  //     <Text style={styles.addtext1}>{v.name}</Text>
+  //     <Text style={styles.addtext}>{v.address}</Text>
+  //     <Text style={styles.addtext}>{v.state}</Text>
+  //     <Text style={styles.addtext}>{v.city}</Text>
+  //     <Text style={styles.addtext}>{v.country}</Text>
+  //     <Text style={styles.addtext}>{v.zipcode}</Text>
+
+  //     {/* <TouchableOpacity style={styles.UseShipping}>
+  //       <FontAwesome name="check-square" size={25} color="black" />
+  //       <Text style={styles.checkicontext}>Use as the shipping address</Text>
+  //     </TouchableOpacity> */}
+
+  //     <View style={styles.UseShipping}>
+  //       <Text style={styles.checkicontext}>Use as the shipping address</Text>
+  //     </View>
+
+  //     <View style={styles.ViewEdit}>
+  //       <TouchableOpacity onPress={() => handleEdit(v)}>
+  //         <MaterialCommunityIcons name="pencil" size={23} color="#9B9B9B" />
+  //       </TouchableOpacity>
+  //       <TouchableOpacity onPress={() => handleDelete(v)}>
+  //         <MaterialCommunityIcons name="close" size={23} color="#9B9B9B" />
+  //       </TouchableOpacity>
+  //     </View>
+  //   </View>
+  // );
 
   // console.log("AddressAddressAddressAddressAddressAddressAddress",Address);
 
@@ -149,10 +188,17 @@ export default function ShippingAddresses({route, navigation}) {
         </View>
       </View>
 
-      <FlatList
+      {/* <FlatList
         data={Addressdata?.Address[0]?.address}
         renderItem={({item}) => <ShippingAddresses v={item} />}
         keyExtractor={item => item.id}
+      /> */}
+
+      <RadioGroup
+        radioButtons={radioButtons}
+        onPress={setSelectedId}
+        selectedId={selectedId}
+        style = {styles.radioButton}
       />
     </ScrollView>
   );
@@ -182,6 +228,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   olldeta: {
+   width :300,
     padding: 15,
     // height: ,
     marginTop: 20,
@@ -189,6 +236,7 @@ const styles = StyleSheet.create({
     borderRadius: horizontalScale(5),
     elevation: 2,
     position: 'relative',
+    marginLeft : 10
   },
   addtext: {
     color: 'black',
@@ -202,7 +250,7 @@ const styles = StyleSheet.create({
   UseShipping: {
     flexDirection: 'row',
     columnGap: 5,
-    paddingTop: 13,
+    paddingTop: 12,
   },
   checkicontext: {
     color: 'black',
@@ -237,4 +285,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
+ 
 });
