@@ -356,10 +356,11 @@ export default function My_profile( {route , navigation}) {
           </View>
 
           <View style={Styles.dataHead}>
-            <View>
+
+            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
               <Text style={Styles.data1}>Settings</Text>
               <Text style={Styles.data2}>Notifications, password</Text>
-            </View>
+            </TouchableOpacity>
 
             <View>
               <TouchableOpacity>

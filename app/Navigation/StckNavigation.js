@@ -22,6 +22,8 @@ import CategoriesTwo from '../Container/Category/category';
 import Filter from '../Container/Filter/Filter';
 import shooping from '../Container/Shopping/shooping';
 import shop from '../Container/Shop/shop';
+import SignUp from '../Container/SignUp/SignUp';
+import Login from '../Container/Login/Login';
 
 const Stack = createNativeStackNavigator();
 
@@ -635,6 +637,38 @@ export const profilestack = () => {
         component={Success}
         options={({navigation}) => ({
           title: 'Sucess',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
+      />
+
+      <Stack.Screen
+        name="Signup"
+        component={SignUp}
+        options={({navigation}) => ({
+          title: 'Signup',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
+      />
+
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={({navigation}) => ({
+          title: 'Login',
           headerStyle: {
             backgroundColor: 'transparent',
           },
