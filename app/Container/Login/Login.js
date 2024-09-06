@@ -16,14 +16,18 @@ import {
 } from '../../../assets/metrics/Metrics';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LoginwithEmail } from '../Redux/Slice/auth.slice';
-export default function Login() {
+export default function Login({route,navigation}) {
   let userSchema = object({
     email: string().email().required(),
     password: string().required(),
   });
   const dispatch =useDispatch()
+
+  const UserData = useSelector(state=>state.auth);
+  console.log("UserDataUserDataUserDatav",UserData);
+  
 
   let formik = useFormik({
     initialValues: {
@@ -38,7 +42,14 @@ export default function Login() {
       console.log('dsdd', values);
       //   hanldesave(values)
       dispatch(LoginwithEmail(values));
-      resetForm();
+
+      if (UserData.auth.emailVerified === true) {
+        navigation.navigate("Home")
+      } else {
+        console.log("email is Not verified");
+        
+      }
+  
     },
   });
   const {
@@ -124,7 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     margin: horizontalScale(10),
     padding: horizontalScale(8),
-    color: 'white',
+    color: 'Black',
     borderRadius: moderateScale(10),
     fontSize: moderateScale(14),
     fontWeight: '500',

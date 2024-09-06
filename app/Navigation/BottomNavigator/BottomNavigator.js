@@ -10,6 +10,7 @@ import FavoritesPage from '../../Container/Favorite Page/FavoritesPage';
 import { bagstack, favouritestack, homestack, profilestack, shopstack } from '../StckNavigation';
 import My_Bag from '../../Container/Bag/My_Bag';
 import BottomSheet from '../../Container/BottomSheet/Bottomsheet';
+import SignUp from '../../Container/SignUp/SignUp';
 
 
 const Tab = createBottomTabNavigator();
@@ -43,6 +44,11 @@ export default function BottomNavigator() {
       tabBarInactiveTintColor: 'gray',
     })}
     >
+{/* 
+<Tab.Screen name="SignUp" component={SignUp} options={{
+          headerShown :false,
+          tabBarLabel: 'Signup',
+        }}/> */}
     <Tab.Screen name="HomeTab" component={homestack} options={{
           headerShown :false,
           tabBarLabel: 'Home',

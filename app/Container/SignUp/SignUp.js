@@ -39,7 +39,7 @@ export default function SignUp({route ,navigation}) {
       //   hanldesave(values)
       dispatch(SignupwithEmail(values))
       dispatch(LoginwithEmail(values))
-      resetForm();
+      // resetForm();
     },
   });
   const {
