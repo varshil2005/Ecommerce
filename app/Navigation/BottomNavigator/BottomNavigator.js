@@ -11,14 +11,38 @@ import { bagstack, favouritestack, homestack, profilestack, shopstack } from '..
 import My_Bag from '../../Container/Bag/My_Bag';
 import BottomSheet from '../../Container/BottomSheet/Bottomsheet';
 import SignUp from '../../Container/SignUp/SignUp';
+import { useSelector } from 'react-redux';
+import {TouchableOpacity} from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Login from '../../Container/Login/Login';
 
 
 const Tab = createBottomTabNavigator();
 
-export default function BottomNavigator() {
+const Stack = createNativeStackNavigator();
 
+export default function BottomNavigator() {
+  const authData =useSelector(state=>state.auth);
+  console.log("authhhhhhhh",authData.auth);
+
+  function Letfbutton({nav}) {
+    return (
+      <TouchableOpacity onPress={() => nav.goBack()} title="Info" color="#fff">
+        <MaterialCommunityIcons name="chevron-left" size={30} />
+      </TouchableOpacity>
+    );
+  }
+  function Rightbutton({nav}) {
+    return (
+      <TouchableOpacity title="Info" color="#fff">
+        <MaterialCommunityIcons name="share-variant-outline" size={25} />
+      </TouchableOpacity>
+    );
+  }
+  
   return (
-   
+    
+    authData.auth ? 
     <Tab.Navigator  screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
@@ -76,6 +100,44 @@ export default function BottomNavigator() {
 
     
     </Tab.Navigator>
+
+    : 
+
+    <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
+         <Stack.Screen
+        name="Signup"
+        component={SignUp}
+        options={({navigation}) => ({
+          title: 'Signup',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
+      />
+
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={({navigation}) => ({
+          title: 'Login',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
+      />
+    </Stack.Navigator>
+
+
 
 
   )

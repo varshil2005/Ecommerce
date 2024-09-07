@@ -38,7 +38,7 @@ export default function SignUp({route ,navigation}) {
       console.log('dsdd', values);
       //   hanldesave(values)
       dispatch(SignupwithEmail(values))
-      dispatch(LoginwithEmail(values))
+      
       // resetForm();
     },
   });

@@ -38,20 +38,20 @@ const Stack = createNativeStackNavigator();
 //     )
 // }
 
-function Letfbutton({nav}) {
-  return (
-    <TouchableOpacity onPress={() => nav.goBack()} title="Info" color="#fff">
-      <MaterialCommunityIcons name="chevron-left" size={30} />
-    </TouchableOpacity>
-  );
-}
-function Rightbutton({nav}) {
-  return (
-    <TouchableOpacity title="Info" color="#fff">
-      <MaterialCommunityIcons name="share-variant-outline" size={25} />
-    </TouchableOpacity>
-  );
-}
+  function Letfbutton({nav}) {
+    return (
+      <TouchableOpacity onPress={() => nav.goBack()} title="Info" color="#fff">
+        <MaterialCommunityIcons name="chevron-left" size={30} />
+      </TouchableOpacity>
+    );
+  }
+  function Rightbutton({nav}) {
+    return (
+      <TouchableOpacity title="Info" color="#fff">
+        <MaterialCommunityIcons name="share-variant-outline" size={25} />
+      </TouchableOpacity>
+    );
+  }
 
 export const homestack = () => {
   return (
