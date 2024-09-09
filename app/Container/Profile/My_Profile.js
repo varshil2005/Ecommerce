@@ -240,8 +240,16 @@ import {
   moderateScale,
   verticalScale,
 } from '../../../assets/metrics/Metrics';
+import { useDispatch } from 'react-redux';
+import { SignoutUser } from '../Redux/Slice/auth.slice';
 
 export default function My_profile( {route , navigation}) {
+ const dispatch = useDispatch();
+ 
+  const handleSignOut = () => {
+    dispatch(SignoutUser())
+    navigation.navigate("Signup")
+  }
   return (
     <ScrollView>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
@@ -357,8 +365,8 @@ export default function My_profile( {route , navigation}) {
 
           <View style={Styles.dataHead}>
 
-            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-              <Text style={Styles.data1}>Settings</Text>
+            <TouchableOpacity onPress={() => handleSignOut()}>
+              <Text style={Styles.data1}>Sign Out</Text>
               <Text style={Styles.data2}>Notifications, password</Text>
             </TouchableOpacity>
 

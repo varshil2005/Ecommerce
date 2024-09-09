@@ -8,15 +8,25 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Foundation from 'react-native-vector-icons/Foundation';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {object, string} from 'yup';
 import {useFormik} from 'formik';
-import { useDispatch } from 'react-redux';
-import { LoginwithEmail, SignupwithEmail } from '../Redux/Slice/auth.slice';
+import {useDispatch} from 'react-redux';
+import {
+  LoginwithEmail,
+  SigninwithGoOgle,
+  SignupwithEmail,
+} from '../Redux/Slice/auth.slice';
+import {
+  horizontalScale,
+  moderateScale,
+  verticalScale,
+} from '../../../assets/metrics/Metrics';
 
-export default function SignUp({route ,navigation}) {
+
+export default function SignUp({route, navigation}) {
   let userSchema = object({
     name: string()
       .required('Please enter name')
@@ -37,8 +47,8 @@ export default function SignUp({route ,navigation}) {
       console.log('welcome');
       console.log('dsdd', values);
       //   hanldesave(values)
-      dispatch(SignupwithEmail(values))
-      
+      dispatch(SignupwithEmail(values));
+
       // resetForm();
     },
   });
@@ -59,12 +69,7 @@ export default function SignUp({route ,navigation}) {
   return (
     <View style={style.container}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
-      <Text>
-        <MaterialIcons
-          name="chevron-left"
-          size={45}
-          color="black"></MaterialIcons>
-      </Text>
+
       <Text
         style={{
           fontSize: 34,
@@ -115,8 +120,7 @@ export default function SignUp({route ,navigation}) {
             alignItems: 'center',
             justifyContent: 'flex-end',
           }}
-          onPress={() => navigation.navigate("Login")}
-          >
+          onPress={() => navigation.navigate('Login')}>
           <Text style={{color: 'black'}}>Already have an account?</Text>
           <Text style={{marginLeft: 10}}>
             <MaterialIcons
@@ -131,14 +135,16 @@ export default function SignUp({route ,navigation}) {
           </Text>
         </TouchableOpacity>
       </View>
-      <Text style={{textAlign: 'center'}}>Or sign up with social account</Text>
-      <View>
-        <Text style={style.linkbutton}>
-          <Foundation
-            name="social-facebook"
-            size={30}
-            color="#3B5998"></Foundation>
-        </Text>
+      <Text style={style.textcenter}>Or sign up with social account</Text>
+      <View style={style.icon}>
+        <TouchableOpacity
+          style={style.webicon}
+          >
+          <FontAwesome name="google" size={28} color="red" />
+        </TouchableOpacity>
+        <TouchableOpacity style={style.webicon}>
+          <FontAwesome name="facebook-square" size={28} color="blue" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -178,5 +184,28 @@ const style = StyleSheet.create({
     marginTop: 20,
     paddingVertical: 10,
     borderRadius: 15,
+  },
+  icon: {
+    // display: 'flex',
+    flexDirection: 'row',
+    padding: horizontalScale(10),
+    // alignItems: 'center',
+    justifyContent: 'center',
+    columnGap: horizontalScale(20),
+    marginTop: horizontalScale(10),
+  },
+  textcenter: {
+    color: 'black',
+    textAlign: 'center',
+  },
+  webicon: {
+    backgroundColor: '#FFFFFF',
+    width: horizontalScale(85),
+    height: verticalScale(75),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: moderateScale(17),
+    //  shadowColor: 'rgba(0,0,0, .4)', // IOS
+    elevation: 2, // Android
   },
 });

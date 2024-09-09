@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {
   horizontalScale,
@@ -17,13 +17,18 @@ import {
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { LoginwithEmail } from '../Redux/Slice/auth.slice';
+import { LoginwithEmail, SigninWithGoogle } from '../Redux/Slice/auth.slice';
+import {GoogleSignin, GoogleSigninButton} from '@react-native-google-signin/google-signin';
+
+
 export default function Login({route,navigation}) {
   let userSchema = object({
     email: string().email().required(),
     password: string().required(),
   });
   const dispatch =useDispatch()
+
+
 
   const UserData = useSelector(state=>state.auth);
   console.log("UserDataUserDataUserDatav",UserData);
@@ -64,7 +69,6 @@ export default function Login({route,navigation}) {
   return (
     <ScrollView style={styles.container}>
       <StatusBar animated={true} backgroundColor="#61dafb" />
-      <FontAwesome name="angle-left" size={45} color="black" />
       <Text style={styles.fonts}>Login</Text>
       <View>
         <TextInput
@@ -102,7 +106,8 @@ export default function Login({route,navigation}) {
 
       <Text style={styles.textcenter}>Or sign up with social account</Text>
       <View style={styles.icon}>
-        <TouchableOpacity style={styles.webicon}>
+        <TouchableOpacity style={styles.webicon}}
+          >
           <FontAwesome name="google" size={28} color="red" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.webicon}>

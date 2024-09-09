@@ -2,6 +2,8 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
 const initialstate = {
   isLoading: false,
   auth: null,
@@ -56,28 +58,27 @@ export const LoginwithEmail = createAsyncThunk(
       let userData = {};
       await auth()
         .signInWithEmailAndPassword(data.email, data.password)
-        .then(async({user}) => {
-         
+        .then(async ({user}) => {
           if (user.emailVerified) {
-          
             await firestore()
               .collection('Users')
               .doc(user.uid)
               .update({
-                emailVerified : true
+                emailVerified: true,
               })
               .then(async () => {
                 console.log('User updated!');
-                const user1 = await firestore().collection('Users').doc(user.uid).get();
+                const user1 = await firestore()
+                  .collection('Users')
+                  .doc(user.uid)
+                  .get();
 
-                userData = user1.data()
+                userData = user1.data();
               });
             console.log('User account signed in!');
           } else {
             console.log('Email verification failed');
           }
-
-         
         })
         .catch(error => {
           if (error.code === 'auth/email-already-in-use') {
@@ -91,10 +92,40 @@ export const LoginwithEmail = createAsyncThunk(
           console.error(error);
         });
 
-        return userData
+      return userData;
     } catch (error) {
       console.log('weeewe', error);
     }
+  },
+);
+
+export const SignoutUser = createAsyncThunk(
+  'auth/signoutUser',
+
+  async () => {
+    try {
+      await auth()
+        .signOut()
+        .then(() => console.log('User signed out!'));
+      await AsyncStorage.clear();
+      return null;
+    } catch (error) {
+      console.log('rrrrrrrrrrrrrr', error);
+    }
+  },
+);
+
+export const SigninWithGoogle = createAsyncThunk(
+  'auth/signinWithGoogle',
+
+  async () => {
+    try {
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+      const {idToken} = await GoogleSignin.signIn();
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    
+      return auth().signInWithCredential(googleCredential);
+    } catch (error) {}
   },
 );
 
@@ -106,6 +137,12 @@ const AuthSlice = createSlice({
       state.auth = action.payload;
     });
     builder.addCase(LoginwithEmail.fulfilled, (state, action) => {
+      state.auth = action.payload;
+    });
+    builder.addCase(SignoutUser.fulfilled, (state, action) => {
+      state.auth = action.payload;
+    });
+    builder.addCase(SigninWithGoogle.fulfilled, (state, action) => {
       state.auth = action.payload;
     });
   },
