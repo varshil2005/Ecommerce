@@ -75,9 +75,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.ecommerce"
+    namespace "com.ecommerceVar9"
     defaultConfig {
-        applicationId "com.ecommerce"
+        applicationId "com.ecommerceVar9"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -111,6 +111,7 @@ dependencies {
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
+
     } else {
         implementation jscFlavor
     }

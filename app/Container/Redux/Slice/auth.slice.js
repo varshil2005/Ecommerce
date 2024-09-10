@@ -120,27 +120,60 @@ export const googleLogin = createAsyncThunk('auth/googleLogin', async () => {
   try {
     await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
     // Get the users ID token
-    const {idToken} = await GoogleSignin.signIn();
+    const userInfo = await GoogleSignin.signIn();
 
-    console.log("iddddddddddddddddddd",idToken);
-    
+    const {idToken} = await GoogleSignin.getTokens();
+
+    console.log('iddddddddddddddddddd', userInfo);
+    console.log('tokennnnnnnnnnn', idToken);
 
     // Create a Google credential with the token
     const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
 
-    console.log("ggggggggggggggggggggggg", googleCredential);
-    
+    console.log('ggggggggggggggggggggggg', googleCredential);
 
     const x = await auth().signInWithCredential(googleCredential);
 
-    console.log("xxxxxxxxxxxxxxxxxxxx",x);
-    
+    console.log('xxxxxxxxxxxxxxxxxxxx', x.user.uid);
+
     // Sign-in the user with the credential
     return x;
   } catch (error) {
-    console.log("error google login: ", error);
+    console.log('error google login: ', error);
   }
 });
+
+export const facebboklogin = createAsyncThunk(
+  'auth/facebookLogin',
+
+  async () => {
+    try {
+      const result = await LoginManager.logInWithPermissions([
+        'public_profile',
+        'email',
+      ]);
+
+      if (result.isCancelled) {
+        throw 'User cancelled the login process';
+      }
+
+      // Once signed in, get the users AccessToken
+      const data = await AccessToken.getCurrentAccessToken();
+
+      if (!data) {
+        throw 'Something went wrong obtaining access token';
+      }
+
+      // Create a Firebase credential with the AccessToken
+      const facebookCredential = auth.FacebookAuthProvider.credential(
+        data.accessToken,
+      );
+
+      // Sign-in the user with the credential
+      return auth().signInWithCredential(facebookCredential);
+    } catch (error) {}
+  },
+);
 
 const AuthSlice = createSlice({
   name: 'auth',
@@ -156,8 +189,8 @@ const AuthSlice = createSlice({
       state.auth = action.payload;
     });
     builder.addCase(googleLogin.fulfilled, (state, action) => {
-      console.log("act googleeeeeeeeeeeee", action.payload);
-      
+      console.log('act googleeeeeeeeeeeee', action.payload);
+
       state.auth = action.payload;
     });
   },

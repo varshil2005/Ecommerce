@@ -17,12 +17,12 @@ import {
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { googleLogin, LoginwithEmail, SigninWithGoogle } from '../Redux/Slice/auth.slice';
+import { facebboklogin, googleLogin, LoginwithEmail, SigninWithGoogle } from '../Redux/Slice/auth.slice';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export default function Login({route,navigation}) {
   GoogleSignin.configure({
-    webClientId: '40650919837-eauvhljbnorlbve1df85ppmofqdvfm2t.apps.googleusercontent.com',
+    webClientId: '40650919837-p8m0ii3pm5rl8dkbrmfpts685i0pfif7.apps.googleusercontent.com',
   });
 
   let userSchema = object({
@@ -73,6 +73,9 @@ export default function Login({route,navigation}) {
   const handleGoogleLogin = () => {
     dispatch(googleLogin());
   }
+  const handleFacebook = () => {
+    dispatch(facebboklogin( ))
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -119,7 +122,7 @@ export default function Login({route,navigation}) {
           >
           <FontAwesome name="google" size={28} color="red" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.webicon}>
+        <TouchableOpacity style={styles.webicon} onPress={() => handleFacebook()}>
           <FontAwesome name="facebook-square" size={28} color="blue" />
         </TouchableOpacity>
       </View>
