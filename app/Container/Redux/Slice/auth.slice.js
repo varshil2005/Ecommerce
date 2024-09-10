@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -115,19 +116,31 @@ export const SignoutUser = createAsyncThunk(
   },
 );
 
-export const SigninWithGoogle = createAsyncThunk(
-  'auth/signinWithGoogle',
+export const googleLogin = createAsyncThunk('auth/googleLogin', async () => {
+  try {
+    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
 
-  async () => {
-    try {
-      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-      const {idToken} = await GoogleSignin.signIn();
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    console.log("iddddddddddddddddddd",idToken);
     
-      return auth().signInWithCredential(googleCredential);
-    } catch (error) {}
-  },
-);
+
+    // Create a Google credential with the token
+    const googleCredential = await auth.GoogleAuthProvider.credential(idToken);
+
+    console.log("ggggggggggggggggggggggg", googleCredential);
+    
+
+    const x = await auth().signInWithCredential(googleCredential);
+
+    console.log("xxxxxxxxxxxxxxxxxxxx",x);
+    
+    // Sign-in the user with the credential
+    return x;
+  } catch (error) {
+    console.log("error google login: ", error);
+  }
+});
 
 const AuthSlice = createSlice({
   name: 'auth',
@@ -142,7 +155,9 @@ const AuthSlice = createSlice({
     builder.addCase(SignoutUser.fulfilled, (state, action) => {
       state.auth = action.payload;
     });
-    builder.addCase(SigninWithGoogle.fulfilled, (state, action) => {
+    builder.addCase(googleLogin.fulfilled, (state, action) => {
+      console.log("act googleeeeeeeeeeeee", action.payload);
+      
       state.auth = action.payload;
     });
   },

@@ -17,11 +17,14 @@ import {
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { LoginwithEmail, SigninWithGoogle } from '../Redux/Slice/auth.slice';
-import {GoogleSignin, GoogleSigninButton} from '@react-native-google-signin/google-signin';
-
+import { googleLogin, LoginwithEmail, SigninWithGoogle } from '../Redux/Slice/auth.slice';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export default function Login({route,navigation}) {
+  GoogleSignin.configure({
+    webClientId: '40650919837-eauvhljbnorlbve1df85ppmofqdvfm2t.apps.googleusercontent.com',
+  });
+
   let userSchema = object({
     email: string().email().required(),
     password: string().required(),
@@ -66,6 +69,11 @@ export default function Login({route,navigation}) {
     touched,
     setValues,
   } = formik;
+
+  const handleGoogleLogin = () => {
+    dispatch(googleLogin());
+  }
+
   return (
     <ScrollView style={styles.container}>
       <StatusBar animated={true} backgroundColor="#61dafb" />
@@ -106,7 +114,8 @@ export default function Login({route,navigation}) {
 
       <Text style={styles.textcenter}>Or sign up with social account</Text>
       <View style={styles.icon}>
-        <TouchableOpacity style={styles.webicon}}
+        <TouchableOpacity style={styles.webicon}
+          onPress={() => handleGoogleLogin()}
           >
           <FontAwesome name="google" size={28} color="red" />
         </TouchableOpacity>
