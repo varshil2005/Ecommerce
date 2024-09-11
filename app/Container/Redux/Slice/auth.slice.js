@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -169,8 +170,10 @@ export const facebboklogin = createAsyncThunk(
         data.accessToken,
       );
 
+      const x = await auth().signInWithCredential(facebookCredential);
+
       // Sign-in the user with the credential
-      return auth().signInWithCredential(facebookCredential);
+      return x
     } catch (error) {}
   },
 );
@@ -190,7 +193,10 @@ const AuthSlice = createSlice({
     });
     builder.addCase(googleLogin.fulfilled, (state, action) => {
       console.log('act googleeeeeeeeeeeee', action.payload);
-
+      state.auth = action.payload;
+    });
+    builder.addCase(facebboklogin.fulfilled, (state, action) => {
+      console.log('actfacebookkkkkk', action.payload);
       state.auth = action.payload;
     });
   },

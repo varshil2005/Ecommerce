@@ -74,7 +74,7 @@ export default function Login({route,navigation}) {
     dispatch(googleLogin());
   }
   const handleFacebook = () => {
-    dispatch(facebboklogin( ))
+    dispatch(facebboklogin())
   }
 
   return (
