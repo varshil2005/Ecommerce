@@ -161,20 +161,32 @@ export const facebboklogin = createAsyncThunk(
       // Once signed in, get the users AccessToken
       const data = await AccessToken.getCurrentAccessToken();
 
+      console.log("dddddddddddddd", data);
+      
+
       if (!data) {
         throw 'Something went wrong obtaining access token';
       }
 
       // Create a Firebase credential with the AccessToken
-      const facebookCredential = auth.FacebookAuthProvider.credential(
+      const facebookCredential = await auth.FacebookAuthProvider.credential(
         data.accessToken,
       );
 
+      console.log("facebookCredential", facebookCredential);
+      
+
       const x = await auth().signInWithCredential(facebookCredential);
+
+      console.log("ccccccccccccccc", x);
+      
 
       // Sign-in the user with the credential
       return x
-    } catch (error) {}
+    } catch (error) {
+      console.log("eeeeeeeeeee", error);
+      
+    }
   },
 );
 
