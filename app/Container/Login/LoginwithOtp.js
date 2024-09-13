@@ -1,35 +1,60 @@
-import { View, Text, StyleSheet, StatusBar, TextInput } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, StatusBar, TextInput, Button } from 'react-native'
+import React, { useState } from 'react'
 import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics'
 import { useFormik } from 'formik';
-import { number, object } from 'yup';
+import { number, object, string } from 'yup';
 import { TouchableOpacity } from 'react-native';
 import { disableNetwork } from '@react-native-firebase/firestore';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoginPhone, VerifyOtp } from '../Redux/Slice/auth.slice';
 
 export default function LoginwithOtp() {
 
+    const [code, setCode] = useState('');
+
     let userSchema = object({
-        Mobileno: number().required(),
-        Otp: number().required(),
+        Mobileno: string().required(),
+        Otp: string().required()
     });
+
 
     let formik = useFormik
         ({
             initialValues: {
                 Mobileno: '',
-                Otp: '',
             },
 
             validationSchema: userSchema,
-            onSubmit: (values, { resetForm }) => {
-                console.log('welcome');
-                console.log('dsdd', values);
-                //   hanldesave(values)
-                handleLogin(values)
+            onSubmit: (values,{resetForm}) => {
+                console.log('asjhcdbahsjda');
+                console.log('shdhuaushvasfdavs', values);
 
+                dispatch(LoginPhone({phoneNo : values.Mobileno}))
+                resetForm()
             },
         });
+
+        
+    let userSchema2 = object({
+        Otp: string().required()
+    });
+
+    let formik2 = useFormik
+        ({
+            initialValues: {
+                Otp: '',
+            },
+
+            validationSchema: userSchema2,
+            onSubmit: (values,{resetForm}) => {
+                console.log('asjhcdbahsjda');
+                console.log('shdhuaushvasfdavs', values);
+
+                dispatch(VerifyOtp({confirm : auth.confirmation ,  code : code}))
+                resetForm()
+            },
+        });
+
     const {
         handleBlur,
         handleChange,
@@ -40,12 +65,25 @@ export default function LoginwithOtp() {
         setValues,
     } = formik;
 
+    const {
+        handleBlur2,
+        handleChange2,
+        handleSubmit2,
+        errors2,
+        values2,
+        touched2,
+        setValues2,
+    } = formik2;
+
     const dispatch = useDispatch();
 
-    const handleLogin = (values) => {
-        console.log("vvvvvvvvvvvvvvvvv");
-        dispatch(values.Mobileno)
-    }
+    
+    const auth = useSelector(state =>state.auth);
+    console.log("uuuuuuuuuuuuuuuu",auth);
+
+
+
+   if (!auth.confirmation) {
     return (
         <View>
             <StatusBar animated={true} backgroundColor="#61dafb" />
@@ -54,40 +92,53 @@ export default function LoginwithOtp() {
                 <TextInput
                     style={styles.input}
                     placeholder="Mobile no"
-                    autoCapitalize="none"
                     placeholderTextColor="#9B9B9B"
                     onChangeText={handleChange('Mobileno')}
                     value={values.Mobileno}
                     onBlur={handleBlur('Mobileno')}
                 />
-                <Text style={{ color: 'red' }}>
-                    {errors.Mobileno && touched.Mobileno ? errors.Mobileno : ''}
-                </Text>
-                <View style= {{flexDirection : 'row'}}>
-                <TextInput
-                    style={styles.input2}
-                    placeholder="Otp"
-                    autoCapitalize="none"
-                    placeholderTextColor="#9B9B9B"
-                    onChangeText={handleChange('Otp')}
-                    value={values.password}
-                    onBlur={handleBlur('Otp')}
-                   
-                />
-                <TouchableOpacity style={styles.otpbutton}  ><Text style= {{color : 'white'}}>Send Otp</Text></TouchableOpacity>
-                </View>
-                <Text style={{ color: 'red' }}>
-                    {errors.Otp && touched.Otp ? errors.Otp : ''}
-                </Text>
+             
+            </View>
+            <Text>{errors.Mobileno && touched.Mobileno ? errors.Mobileno : ''}</Text>
 
-                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                     <Text style={{ fontSize: moderateScale(17), color: 'white' }}>Login</Text>
                 </TouchableOpacity>
-            </View>
 
 
         </View>
     )
+   }
+
+   return (
+    // <>
+    //   <TextInput value={code} onChangeText={text => setCode(text)} />
+    //   <Button title="Confirm Code" onPress={handleSubmit} />
+    // </>
+
+    <View>
+
+    <View>
+        <TextInput
+            style={styles.input}
+            placeholder="Otp"
+            placeholderTextColor="#9B9B9B"
+            onChangeText={text => setCode(text)}
+            value={values2.Otp}
+            onBlur={handleBlur2('Otp')}
+        />
+     
+     <Text>{errors.Otp && touched.Otp ? errors.Otp : ''}</Text>
+    </View>
+
+    <TouchableOpacity style={styles.button} onPress={handleSubmit2}>
+            <Text style={{ fontSize: moderateScale(17), color: 'white' }}>Confirm Code</Text>
+        </TouchableOpacity>
+
+
+</View>
+  );
+   
 }
 
 

@@ -5,11 +5,13 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 
 import AsyncStorage from '@react-native-community/async-storage';
+import { LogBox } from 'react-native';
 
 const initialstate = {
   isLoading: false,
   auth: null,
   error: null,
+  confirmation : null
 };
 
 // const [confirm, setConfirm] = useState(null);
@@ -192,12 +194,39 @@ export const facebboklogin = createAsyncThunk(
   },
 );
 
-export const LoginwithOtp = createAsyncThunk (
+export const LoginPhone = createAsyncThunk (
   'auth/LoginwithOtp',
 
-  async (number) => {
-    const confirmation = await auth().signInWithPhoneNumber(number);
-    setConfirm(confirmation);
+  async (data) => {
+    try {
+      console.log("datatattaaaa",data);
+      
+      const confirmation = await auth().signInWithPhoneNumber(data.phoneNo);
+      console.log("confirmation",confirmation);
+      return confirmation
+    } catch (error) {
+      console.log("errrrr",error);
+      
+    }
+   
+  }
+)
+
+export const VerifyOtp = createAsyncThunk (
+  'auth/VerifyOtp',
+
+  async (data) => {
+    try {
+      console.log("daatsdtdaystd",data);
+      
+      let code = data.code
+      const VerfityOtp = await data.confirm.confirm(code);
+      console.log("VerfityOtpVerfityOtpVerfityOtp",VerfityOtp);
+      
+      return VerfityOtp
+    } catch (error) {
+      console.log('Invalid code.');
+    }
   }
 )
 
@@ -219,6 +248,14 @@ const AuthSlice = createSlice({
       state.auth = action.payload;
     });
     builder.addCase(facebboklogin.fulfilled, (state, action) => {
+      console.log('actfacebookkkkkk', action.payload);
+      state.auth = action.payload;
+    });
+    builder.addCase(LoginPhone.fulfilled, (state, action) => {
+      console.log('actfacebookkkkkk', action.payload);
+      state.confirmation = action.payload;
+    });
+    builder.addCase(VerifyOtp.fulfilled, (state, action) => {
       console.log('actfacebookkkkkk', action.payload);
       state.auth = action.payload;
     });
