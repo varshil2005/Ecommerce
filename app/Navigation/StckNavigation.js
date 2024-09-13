@@ -24,6 +24,7 @@ import shooping from '../Container/Shopping/shooping';
 import shop from '../Container/Shop/shop';
 import SignUp from '../Container/SignUp/SignUp';
 import Login from '../Container/Login/Login';
+import LoginwithOtp from '../Container/Login/LoginwithOtp';
 
 const Stack = createNativeStackNavigator();
 
@@ -679,9 +680,66 @@ export const profilestack = () => {
           headerLeft: () => <Letfbutton nav={navigation} />,
         })}
       />
+
+
     </Stack.Navigator>
   );
 };
+
+export const LoginStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
+    <Stack.Screen
+    name="Signup"
+    component={SignUp}
+    options={({navigation}) => ({
+      title: 'Signup',
+      headerStyle: {
+        backgroundColor: 'transparent',
+      },
+      headerTintColor: '#000',
+      // headerTitleStyle: {
+      //   fontWeight: 'bold',
+      // },
+      headerLeft: () => <Letfbutton nav={navigation} />,
+    })}
+  />
+
+  <Stack.Screen
+    name="Login"
+    component={Login}
+    options={({navigation}) => ({
+      title: 'Login',
+      headerStyle: {
+        backgroundColor: 'transparent',
+      },
+      headerTintColor: '#000',
+      // headerTitleStyle: {
+      //   fontWeight: 'bold',
+      // },
+      headerLeft: () => <Letfbutton nav={navigation} />,
+    })}
+  />
+
+<Stack.Screen
+    name="LoginwithOtp"
+    component={LoginwithOtp}
+    options={({navigation}) => ({
+      title: 'LoginwithOtp',
+      headerStyle: {
+        backgroundColor: 'transparent',
+      },
+      headerTintColor: '#000',
+      // headerTitleStyle: {
+      //   fontWeight: 'bold',
+      // },
+      headerLeft: () => <Letfbutton nav={navigation} />,
+    })}
+  />
+
+</Stack.Navigator>
+  )
+}
 
 const styles = StyleSheet.create({
   ArrowView: {

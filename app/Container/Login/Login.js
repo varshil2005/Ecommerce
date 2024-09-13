@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { facebboklogin, googleLogin, LoginwithEmail, SigninWithGoogle } from '../Redux/Slice/auth.slice';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
-export default function Login({route,navigation}) {
+export default function Login({ route, navigation }) {
   GoogleSignin.configure({
     webClientId: '40650919837-p8m0ii3pm5rl8dkbrmfpts685i0pfif7.apps.googleusercontent.com',
   });
@@ -29,13 +29,13 @@ export default function Login({route,navigation}) {
     email: string().email().required(),
     password: string().required(),
   });
-  const dispatch =useDispatch()
+  const dispatch = useDispatch()
 
 
 
-  const UserData = useSelector(state=>state.auth);
-  console.log("UserDataUserDataUserDatav",UserData);
-  
+  const UserData = useSelector(state => state.auth);
+  console.log("UserDataUserDataUserDatav", UserData);
+
 
   let formik = useFormik({
     initialValues: {
@@ -45,7 +45,7 @@ export default function Login({route,navigation}) {
     },
 
     validationSchema: userSchema,
-    onSubmit: (values, {resetForm}) => {
+    onSubmit: (values, { resetForm }) => {
       console.log('welcome');
       console.log('dsdd', values);
       //   hanldesave(values)
@@ -55,9 +55,9 @@ export default function Login({route,navigation}) {
         navigation.navigate("Home")
       } else {
         console.log("email is Not verified");
-        
+
       }
-  
+
     },
   });
   const {
@@ -91,7 +91,7 @@ export default function Login({route,navigation}) {
           value={values.email}
           onBlur={handleBlur('email')}
         />
-        <Text style={{color: 'red'}}>
+        <Text style={{ color: 'red' }}>
           {errors.email && touched.email ? errors.email : ''}
         </Text>
         <TextInput
@@ -103,7 +103,7 @@ export default function Login({route,navigation}) {
           value={values.password}
           onBlur={handleBlur('password')}
         />
-         <Text style={{color: 'red'}}>
+        <Text style={{ color: 'red' }}>
           {errors.password && touched.password ? errors.password : ''}
         </Text>
       </View>
@@ -112,20 +112,25 @@ export default function Login({route,navigation}) {
         <FontAwesome name="long-arrow-right" size={17} color="red" />
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={{fontSize: moderateScale(17), color: 'white'}}>LOGIN</Text>
+        <Text style={{ fontSize: moderateScale(17), color: 'white' }}>LOGIN</Text>
       </TouchableOpacity>
 
       <Text style={styles.textcenter}>Or sign up with social account</Text>
       <View style={styles.icon}>
         <TouchableOpacity style={styles.webicon}
           onPress={() => handleGoogleLogin()}
-          >
+        >
           <FontAwesome name="google" size={28} color="red" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.webicon} onPress={() => handleFacebook()}>
           <FontAwesome name="facebook-square" size={28} color="blue" />
         </TouchableOpacity>
+
       </View>
+      <TouchableOpacity style={styles.Login} onPress={() => navigation.navigate('LoginwithOtp')}>
+        <Text style={styles.textcenter1}>Login With OTP</Text>
+        <FontAwesome name="long-arrow-right" size={17} color="red" />
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -190,8 +195,14 @@ const styles = StyleSheet.create({
   },
   textcenter: {
     color: 'black',
-    marginTop: horizontalScale(150),
+    marginTop: horizontalScale(80),
     textAlign: 'center',
+  },
+  textcenter1: {
+    color: 'black',
+    // marginTop: horizontalScale(30),
+    textAlign: 'center',
+    marginRight: 5
   },
   webicon: {
     backgroundColor: '#FFFFFF',
@@ -203,4 +214,11 @@ const styles = StyleSheet.create({
     //  shadowColor: 'rgba(0,0,0, .4)', // IOS
     elevation: 2, // Android
   },
+  Login: {
+    flexDirection: 'row',
+    padding: horizontalScale(15),
+    alignItems: 'center',
+    paddingBottom: horizontalScale(29),
+    justifyContent: 'center'
+  }
 });

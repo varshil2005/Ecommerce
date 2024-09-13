@@ -12,6 +12,8 @@ const initialstate = {
   error: null,
 };
 
+// const [confirm, setConfirm] = useState(null);
+
 export const SignupwithEmail = createAsyncThunk(
   'auth/SignupwithEmail',
 
@@ -189,6 +191,15 @@ export const facebboklogin = createAsyncThunk(
     }
   },
 );
+
+export const LoginwithOtp = createAsyncThunk (
+  'auth/LoginwithOtp',
+
+  async (number) => {
+    const confirmation = await auth().signInWithPhoneNumber(number);
+    setConfirm(confirmation);
+  }
+)
 
 const AuthSlice = createSlice({
   name: 'auth',
