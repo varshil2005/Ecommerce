@@ -2,16 +2,16 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import firestore, {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
+import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 
 import AsyncStorage from '@react-native-community/async-storage';
-import { LogBox } from 'react-native';
+import {LogBox} from 'react-native';
 
 const initialstate = {
   isLoading: false,
   auth: null,
   error: null,
-  confirmation : null
+  confirmation: null,
 };
 
 // const [confirm, setConfirm] = useState(null);
@@ -34,6 +34,7 @@ export const SignupwithEmail = createAsyncThunk(
               email: data.email,
               name: data.name,
               emailVerified: false,
+              LoginType: 'EmailPass',
             })
             .then(() => {
               console.log('User added!');
@@ -113,6 +114,9 @@ export const SignoutUser = createAsyncThunk(
       await auth()
         .signOut()
         .then(() => console.log('User signed out!'));
+
+      await GoogleSignin.revokeAccess();
+
       await AsyncStorage.clear();
       return null;
     } catch (error) {
@@ -139,10 +143,28 @@ export const googleLogin = createAsyncThunk('auth/googleLogin', async () => {
 
     const x = await auth().signInWithCredential(googleCredential);
 
-    console.log('xxxxxxxxxxxxxxxxxxxx', x.user.uid);
+    console.log('xxxxxxxxxxxxxxxxxxxx', x);
 
     // Sign-in the user with the credential
-    return x;
+    await firestore()
+      .collection('Users')
+      .doc(x.user.uid)
+      .set({
+        email: x.user.email,
+        name: x.user.displayName,
+        emailVerified: True,
+        LoginType: 'Google',
+      })
+      .then(() => {
+        console.log('User added!');
+      });
+    return {
+      email: x.user.email,
+      name: x.user.displayName,
+      emailVerified: true,
+      LoginType: 'Google',
+      uid: x.user.uid,
+    };
   } catch (error) {
     console.log('error google login: ', error);
   }
@@ -165,8 +187,7 @@ export const facebboklogin = createAsyncThunk(
       // Once signed in, get the users AccessToken
       const data = await AccessToken.getCurrentAccessToken();
 
-      console.log("dddddddddddddd", data);
-      
+      console.log('dddddddddddddd', data);
 
       if (!data) {
         throw 'Something went wrong obtaining access token';
@@ -177,58 +198,89 @@ export const facebboklogin = createAsyncThunk(
         data.accessToken,
       );
 
-      console.log("facebookCredential", facebookCredential);
-      
+      console.log('facebookCredential', facebookCredential);
 
       const x = await auth().signInWithCredential(facebookCredential);
 
-      console.log("ccccccccccccccc", x);
-      
+      console.log('ccccccccccccccc', x);
 
-      // Sign-in the user with the credential
-      return x
+      await firestore()
+        .collection('Users')
+        .doc(x.user.uid)
+        .set({
+          email: x.user.email,
+          name: x.user.displayName,
+          emailVerified: true,
+          LoginType: 'Facebook',
+        })
+        .then(() => {
+          console.log('User added!');
+        });
+      return {
+        email: x.user.email,
+        name: x.user.displayName,
+        emailVerified: true,
+        LoginType: 'Facebook',
+        uid: x.user.uid,
+      };
     } catch (error) {
-      console.log("eeeeeeeeeee", error);
-      
+      console.log('eeeeeeeeeee', error);
     }
   },
 );
 
-export const LoginPhone = createAsyncThunk (
+export const LoginPhone = createAsyncThunk(
   'auth/LoginwithOtp',
 
-  async (data) => {
+  async data => {
     try {
-      console.log("datatattaaaa",data);
-      
-      const confirmation = await auth().signInWithPhoneNumber(data.phoneNo);
-      console.log("confirmation",confirmation);
-      return confirmation
-    } catch (error) {
-      console.log("errrrr",error);
-      
-    }
-   
-  }
-)
+      console.log('datatattaaaa', data);
 
-export const VerifyOtp = createAsyncThunk (
+      const confirmation = await auth().signInWithPhoneNumber(data.phoneNo);
+      console.log('confirmation', confirmation);
+
+      return confirmation;
+    } catch (error) {
+      console.log('errrrr', error);
+    }
+  },
+);
+
+export const VerifyOtp = createAsyncThunk(
   'auth/VerifyOtp',
 
-  async (data) => {
+  async data => {
     try {
-      console.log("daatsdtdaystd",data);
-      
-      let code = data.code
+      console.log('daatsdtdaystd', data);
+
+      let code = data.code;
       const VerfityOtp = await data.confirm.confirm(code);
-      console.log("VerfityOtpVerfityOtpVerfityOtp",VerfityOtp);
-      
-      return VerfityOtp
+      console.log('VerfityOtpVerfityOtpVerfityOtp', VerfityOtp);
+      await firestore()
+        .collection('Users')
+        .doc(VerfityOtp.user.uid)
+        .set({
+          name: null,
+          email: null,
+          phoneNumber: VerfityOtp.user.phoneNumber,
+          emailVerified: true,
+          LoginType: 'PhoneOtp',
+        })
+        .then(() => {
+          console.log('User added!');
+        });
+      return {
+        name: null,
+        email: null,
+        phoneNumber: VerfityOtp.user.phoneNumber,
+        emailVerified: true,
+        LoginType: 'PhoneOtp',
+      };
     } catch (error) {
       console.log('Invalid code.');
     }
-  }
-)
+  },
+);
 
 const AuthSlice = createSlice({
   name: 'auth',
