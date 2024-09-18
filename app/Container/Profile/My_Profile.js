@@ -269,12 +269,12 @@ export default function My_profile( {route , navigation}) {
             source={require('../../../assets/image/my_orders_girl_profile_img.png')}
           />
 
-          <View style={Styles.matildabrownTextMAin}>
+          <TouchableOpacity style={Styles.matildabrownTextMAin} onPress={() => navigation.navigate("Profile_Set")}>
             <Text style={Styles.matildabrownText}>Matilda Brown</Text>
             <Text style={Styles.matildabrowngmailText}>
               matildabrown@mail.com
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         <View style={Styles.datamain}>

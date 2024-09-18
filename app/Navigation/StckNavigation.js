@@ -25,6 +25,7 @@ import shop from '../Container/Shop/shop';
 import SignUp from '../Container/SignUp/SignUp';
 import Login from '../Container/Login/Login';
 import LoginwithOtp from '../Container/Login/LoginwithOtp';
+import Profile_Set from '../Container/Profile/Profile_Set';
 
 const Stack = createNativeStackNavigator();
 
@@ -649,7 +650,7 @@ export const profilestack = () => {
         })}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Signup"
         component={SignUp}
         options={({navigation}) => ({
@@ -679,7 +680,24 @@ export const profilestack = () => {
           // },
           headerLeft: () => <Letfbutton nav={navigation} />,
         })}
+      /> */}
+
+<Stack.Screen
+        name="Profile_Set"
+        component={Profile_Set}
+        options={({navigation}) => ({
+          title: 'Profile_Set',
+          headerStyle: {
+            backgroundColor: 'transparent',
+          },
+          headerTintColor: '#000',
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
+          headerLeft: () => <Letfbutton nav={navigation} />,
+        })}
       />
+
 
 
     </Stack.Navigator>
