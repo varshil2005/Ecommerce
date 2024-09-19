@@ -1,11 +1,11 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import firestore, {firebase} from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
-
+import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-community/async-storage';
-import {LogBox} from 'react-native';
+
 
 const initialstate = {
   isLoading: false,
@@ -282,6 +282,33 @@ export const VerifyOtp = createAsyncThunk(
   },
 );
 
+export const Storegaedata = createAsyncThunk(
+  'auth/Storegaedata',
+
+  async (data) => {
+    console.log("dtatattatattatatata",data);
+    
+    const arr = data.split("/")
+
+    console.log(arr[arr.length - 1]);
+    
+    const Rno = Math.floor(Math.random() * 10000);
+
+    const filename = Rno + arr[arr.length - 1]
+    console.log("finamjaisfhasf",filename);
+    
+    const reference = await storage().ref('/users/' + filename);
+    console.log("referrrr",reference);
+
+    const task =await  reference.putFile(data);
+
+    const url = await storage().ref('/users/' + filename).getDownloadURL();
+    console.log("urlurlrurl",url);
+    
+    
+  }
+)
+
 const AuthSlice = createSlice({
   name: 'auth',
   initialState: initialstate,
@@ -311,6 +338,7 @@ const AuthSlice = createSlice({
       console.log('actfacebookkkkkk', action.payload);
       state.auth = action.payload;
     });
+
   },
 });
 

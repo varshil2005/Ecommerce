@@ -6,7 +6,7 @@ import {
   FlatList,
   TextInput,
 } from 'react-native';
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -14,34 +14,81 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Feather from 'react-native-vector-icons/Feather';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {horizontalScale, moderateScale} from '../../../assets/metrics/Metrics';
+import {
+  horizontalScale,
+  moderateScale,
+  verticalScale,
+} from '../../../assets/metrics/Metrics';
 import ImagePicker from 'react-native-image-crop-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {Storegaedata} from '../Redux/Slice/auth.slice';
+import {useFormik} from 'formik';
+import {object, string} from 'yup';
 
 const items = [''];
 
 export default function Profile_Set() {
   const refRBSheet = useRef([]);
   const refVBSheet = useRef([]);
+  const[image,setimage] = useState()
 
-  const handleCamera = () =>{
+  const auth = useSelector(state => state.auth);
+  console.log('authhhhhhhhhhhhhhhhhhhhhh', auth);
+
+  let userSchema = object({
+    name: string().email().required(),
+    phoneNumber: string().required(),
+    about: string().required(),
+  });
+
+  let formik = useFormik({
+    initialValues: {
+      name:'',
+      phoneNumber:'',
+      about:'',
+    },
+
+    validationSchema: userSchema,
+    onSubmit: (values) => {
+      console.log('welcomassfe');
+      console.log('dsdd', values);
+      //   hanldesave(values)
+      dispatch(Storegaedata({...values,path:image.path,uid:auth.auth?.uid}))
+    },
+  });
+  const {
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    errors,
+    values,
+    touched,
+    setValues,
+  } = formik;
+
+  const dispatch = useDispatch();
+
+  const handleCamera = () => {
     ImagePicker.openCamera({
-        width: 300,
-        height: 400,
-        cropping: true,
-      }).then(image => {
-        console.log(image);
-      });
-  }
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      setimage(image.path)
+    });
+  };
 
   const handleGallery = () => {
     ImagePicker.openPicker({
-        width: 300,
-        height: 400,
-        cropping: true
-      }).then(image => {
-        console.log(image);
-      });
-  }
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      setimage(image.path)
+    });
+  };
 
   const renderItem = ({item, index, refRBSheet}) => {
     return (
@@ -63,7 +110,9 @@ export default function Profile_Set() {
 
                 <View style={styles.bottomiconhead}>
                   <View>
-                    <TouchableOpacity style={styles.imagecircle2} onPress={() => handleCamera()}>
+                    <TouchableOpacity
+                      style={styles.imagecircle2}
+                      onPress={() => handleCamera()}>
                       <Feather name="camera" size={24} color="#DB3022" />
                       <View style={{marginTop: 10}}>
                         <Text>Camera</Text>
@@ -71,7 +120,9 @@ export default function Profile_Set() {
                     </TouchableOpacity>
                   </View>
                   <View>
-                    <TouchableOpacity style={styles.imagecircle2} onPress={() => handleGallery()}>
+                    <TouchableOpacity
+                      style={styles.imagecircle2}
+                      onPress={() => handleGallery()}>
                       <MaterialCommunityIcons
                         name="image-outline"
                         size={24}
@@ -167,19 +218,25 @@ export default function Profile_Set() {
             <View style={{width: '85%'}}>
               <TextInput
                 style={styles.input}
+                name="name"
                 placeholder="name"
                 autoCapitalize="none"
                 placeholderTextColor="#9B9B9B"
-                // onChangeText={handleChange('email')}
-                // value={values.email}
-                // onBlur={handleBlur('email')}
+                onChangeText={handleChange('name')}
+                value={auth.auth?.name}
+                onBlur={handleBlur('name')}
               />
             </View>
+
+           
             <View style={{width: '10%'}}>
               <TouchableOpacity onPress={() => refVBSheet.current[0]?.open()}>
                 {/* <MaterialIcons name="edit" size={23} color="#DB3022" /> */}
               </TouchableOpacity>
             </View>
+            <Text style={{color: 'red'}}>
+              {errors.name && touched.name ? errors.name : ''}
+            </Text>
           </View>
         </TouchableOpacity>
         <View
@@ -198,17 +255,23 @@ export default function Profile_Set() {
             </View>
             <View style={{width: '85%'}}>
               <TextInput
+                values={auth.auth?.about}
                 style={styles.input}
                 placeholder="about"
                 autoCapitalize="none"
                 placeholderTextColor="#9B9B9B"
-                // onChangeText={handleChange('email')}
-                // value={values.email}
-                // onBlur={handleBlur('email')}
+                 name="about"
+                onChangeText={handleChange('about')}
+                value={values.about}
+                onBlur={handleBlur('about')}
               />
+               
             </View>
             {/* <View style={{ width: '10%' }}><TouchableOpacity><MaterialIcons name="edit" size={23} color="#DB3022" /></TouchableOpacity></View> */}
           </View>
+          <Text style={{color: 'red'}}>
+              {errors.about && touched.about ? errors.about : ''}
+            </Text>
         </TouchableOpacity>
         {/* <View
           style={{
@@ -225,15 +288,19 @@ export default function Profile_Set() {
               </TouchableOpacity>
             </View>
             <View style={{width: '85%'}}>
-            <TextInput
+              <TextInput
+                value={auth.auth?.phoneNumber}
                 style={styles.input}
                 placeholder="Phone"
                 autoCapitalize="none"
+                name="phoneNumber"
                 placeholderTextColor="#9B9B9B"
-                // onChangeText={handleChange('email')}
-                // value={values.email}
-                // onBlur={handleBlur('email')}
+                onChangeText={handleChange('phoneNumber')}
+                onBlur={handleBlur('phoneNumber')}
               />
+               <Text style={{color: 'red'}}>
+              {errors.phoneNumber && touched.phoneNumber ? errors.phoneNumber : ''}
+            </Text>
             </View>
             {/* <View style={{ width: '10%' }}><TouchableOpacity><MaterialIcons name="edit" size={23} color="#DB3022" /></TouchableOpacity></View> */}
           </View>
@@ -261,6 +328,12 @@ export default function Profile_Set() {
           />
         </View>
       </View>
+
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <Text style={{fontSize: moderateScale(17), color: 'white'}}>
+          Submit
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -351,6 +424,16 @@ const styles = StyleSheet.create({
   cancelText: {
     color: '#DB3022',
   },
+  button: {
+    // width: 350,
+    height: verticalScale(55),
+    backgroundColor: '#DB3022',
+    color: 'white',
+    borderRadius: moderateScale(50),
+    alignItems: 'center',
+    elevation: 2,
+    justifyContent: 'center',
+  },
   input: {
     // width: 350,
 
@@ -363,6 +446,5 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(14),
     fontWeight: '500',
     elevation: 1,
-
   },
 });
