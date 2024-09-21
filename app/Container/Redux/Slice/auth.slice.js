@@ -6,7 +6,6 @@ import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import storage from '@react-native-firebase/storage';
 import AsyncStorage from '@react-native-community/async-storage';
 
-
 const initialstate = {
   isLoading: false,
   auth: null,
@@ -265,6 +264,7 @@ export const VerifyOtp = createAsyncThunk(
           phoneNumber: VerfityOtp.user.phoneNumber,
           emailVerified: true,
           LoginType: 'PhoneOtp',
+          uid: VerfityOtp.user.uid,
         })
         .then(() => {
           console.log('User added!');
@@ -275,6 +275,7 @@ export const VerifyOtp = createAsyncThunk(
         phoneNumber: VerfityOtp.user.phoneNumber,
         emailVerified: true,
         LoginType: 'PhoneOtp',
+        uid: VerfityOtp.user.uid,
       };
     } catch (error) {
       console.log('Invalid code.');
@@ -285,29 +286,97 @@ export const VerifyOtp = createAsyncThunk(
 export const Storegaedata = createAsyncThunk(
   'auth/Storegaedata',
 
-  async (data) => {
-    console.log("dtatattatattatatata",data);
-    
-    const arr = data.split("/")
+  async (data, {getState}) => {
+    console.log('dtatattatattatatata', data);
+    const {auth} = getState();
+    console.log('authhhhhhh', auth);
+
+    if (data.url === '') {
+      await firestore()
+        .collection('Users')
+        .doc(auth.auth?.uid)
+        .update({
+          url: data.url,
+          name: data.name,
+          about: data.about,
+        })
+        .then(() => {
+          console.log('User updated!');
+        });
+
+      return {
+        ...auth.auth,
+        url: data.url,
+        name: data.name,
+        about: data.about,
+      };
+    } else {
+        const arr = data.url.split('/');
 
     console.log(arr[arr.length - 1]);
-    
+
     const Rno = Math.floor(Math.random() * 10000);
 
-    const filename = Rno + arr[arr.length - 1]
-    console.log("finamjaisfhasf",filename);
-    
+    const filename = Rno + arr[arr.length - 1];
+    console.log('finamjaisfhasf', filename);
+
     const reference = await storage().ref('/users/' + filename);
-    console.log("referrrr",reference);
+    console.log('referrrr', reference);
 
-    const task =await  reference.putFile(data);
+    const task = await reference.putFile(data.path);
 
-    const url = await storage().ref('/users/' + filename).getDownloadURL();
-    console.log("urlurlrurl",url);
-    
-    
+    const url = await storage()
+      .ref('/users/' + filename)
+      .getDownloadURL();
+    console.log('urlurlrurl', url);
+
+    await firestore()
+      .collection('Users')
+      .doc(auth.auth?.uid)
+      .update({
+        url: data.url,
+        name: data.name,
+        about: data.about,
+      })
+      .then(() => {
+        console.log('User updated!');
+      });
+
+    return {
+      url: data.url,
+      name: data.name,
+      about: data.about,
+    };
   }
-)
+    }
+
+
+  
+);
+
+export const Getuserdata = createAsyncThunk(
+  'auth/Getuserdata',
+
+  async (_,{getState}) => {
+
+    try {
+      const { auth } = getState();
+      console.log("ahhsvfsdf",auth);
+  
+      const user = await firestore().collection('Users').doc(auth.auth?.uid).get();
+      console.log("usereurueru",user);
+  
+      return user.data()
+    } catch (error) {
+        console.log(error);
+        
+    }
+   
+    
+    
+  } 
+
+);
 
 const AuthSlice = createSlice({
   name: 'auth',
@@ -338,7 +407,14 @@ const AuthSlice = createSlice({
       console.log('actfacebookkkkkk', action.payload);
       state.auth = action.payload;
     });
-
+    builder.addCase(Storegaedata.fulfilled, (state, action) => {
+      console.log('actfacebookkkkkk', action.payload);
+      state.auth = action.payload;
+    });
+    builder.addCase(Getuserdata.fulfilled, (state, action) => {
+      console.log('actfacebookkkkkk', action.payload);
+      state.auth = action.payload;
+    });
   },
 });
 

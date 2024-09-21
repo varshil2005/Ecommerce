@@ -6,7 +6,7 @@ import {
   FlatList,
   TextInput,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -21,22 +21,33 @@ import {
 } from '../../../assets/metrics/Metrics';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useDispatch, useSelector} from 'react-redux';
-import {Storegaedata} from '../Redux/Slice/auth.slice';
+import {Getuserdata, Storegaedata} from '../Redux/Slice/auth.slice';
 import {useFormik} from 'formik';
 import {object, string} from 'yup';
+import { Image } from 'react-native';
 
 const items = [''];
+
 
 export default function Profile_Set() {
   const refRBSheet = useRef([]);
   const refVBSheet = useRef([]);
-  const[image,setimage] = useState()
+  const[image,setimage] = useState('')
+  useEffect(() => {
+    dispatch(Getuserdata())
+  },[])
 
   const auth = useSelector(state => state.auth);
   console.log('authhhhhhhhhhhhhhhhhhhhhh', auth);
 
+  useEffect(() => {
+    if (auth.auth) {
+      setValues(auth.auth)
+    }
+  },[])
+
   let userSchema = object({
-    name: string().email().required(),
+    name: string().required(),
     phoneNumber: string().required(),
     about: string().required(),
   });
@@ -53,7 +64,17 @@ export default function Profile_Set() {
       console.log('welcomassfe');
       console.log('dsdd', values);
       //   hanldesave(values)
-      dispatch(Storegaedata({...values,path:image.path,uid:auth.auth?.uid}))
+
+      let usedata =''
+
+      if (image === '') {
+        if (auth.auth?.url) {
+          usedata = auth.auth?.url
+        }
+      } else {
+        usedata = image
+      }
+      dispatch(Storegaedata({...values , url:usedata,uid:auth.auth?.uid}))
     },
   });
   const {
@@ -66,6 +87,9 @@ export default function Profile_Set() {
     setValues,
   } = formik;
 
+  console.log("errroororor",errors);
+  
+
   const dispatch = useDispatch();
 
   const handleCamera = () => {
@@ -74,8 +98,9 @@ export default function Profile_Set() {
       height: 400,
       cropping: true,
     }).then(image => {
-      console.log(image);
+      console.log("lsdfksndfs",image);
       setimage(image.path)
+      dispatch(Storegaedata(image.path))
     });
   };
 
@@ -100,7 +125,14 @@ export default function Profile_Set() {
                 <View style={{flexDirection: 'row'}}>
                   <View style={{marginTop: 10, marginLeft: 10}}>
                     <TouchableOpacity>
+                    {
+                      auth.auth?.url ? 
+                      <Image source={{uri: auth.auth?.url}} style={styles.profilecircle} />
+                      :
+
                       <Fontisto name="close-a" size={15} color="#A9AEB1" />
+                    }
+                      
                     </TouchableOpacity>
                   </View>
                   <View style={{marginLeft: 80}}>
@@ -223,7 +255,7 @@ export default function Profile_Set() {
                 autoCapitalize="none"
                 placeholderTextColor="#9B9B9B"
                 onChangeText={handleChange('name')}
-                value={auth.auth?.name}
+                value={values.name}
                 onBlur={handleBlur('name')}
               />
             </View>
@@ -289,7 +321,7 @@ export default function Profile_Set() {
             </View>
             <View style={{width: '85%'}}>
               <TextInput
-                value={auth.auth?.phoneNumber}
+               value={values.phoneNumber}
                 style={styles.input}
                 placeholder="Phone"
                 autoCapitalize="none"
