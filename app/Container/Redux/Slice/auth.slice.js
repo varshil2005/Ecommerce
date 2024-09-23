@@ -299,6 +299,7 @@ export const Storegaedata = createAsyncThunk(
           url: data.url,
           name: data.name,
           about: data.about,
+          phoneNumber : data.phoneNumber
         })
         .then(() => {
           console.log('User updated!');
@@ -309,73 +310,106 @@ export const Storegaedata = createAsyncThunk(
         url: data.url,
         name: data.name,
         about: data.about,
+        phoneNumber : data.phoneNumber
       };
     } else {
+      let check = data.url.split("/")[0];
+      console.log("checkcjffsda",check);
+
+      console.log("AFAFASDFASDF",data?.imagename);
+      
+      if (check === "https") {
+        
+    
+        await firestore()
+          .collection('Users')
+          .doc(auth.auth?.uid)
+          .update({
+            url: data.url,
+            name: data.name,
+            about: data.about,
+           
+          })
+          .then(() => {
+            console.log('User updated!');
+          });
+
+        return {
+          url: data.url,
+          name: data.name,
+          about: data.about,
+         
+        };
+      } else {
+
+        if (data?.imagename) {
+          const reference = await storage().ref('/users/' + data?.imagename);
+          reference.delete();
+        }
         const arr = data.url.split('/');
 
-    console.log(arr[arr.length - 1]);
+        console.log(arr[arr.length - 1]);
 
-    const Rno = Math.floor(Math.random() * 10000);
+        const Rno = Math.floor(Math.random() * 10000);
 
-    const filename = Rno + arr[arr.length - 1];
-    console.log('finamjaisfhasf', filename);
+        const filename = Rno + arr[arr.length - 1];
+        console.log('finamjaisfhasf', filename);
 
-    const reference = await storage().ref('/users/' + filename);
-    console.log('referrrr', reference);
+        const reference = await storage().ref('/users/' + filename);
+        console.log('referrrr', reference);
 
-    const task = await reference.putFile(data.path);
+        const task = await reference.putFile(data.url);
 
-    const url = await storage()
-      .ref('/users/' + filename)
-      .getDownloadURL();
-    console.log('urlurlrurl', url);
+        const url = await storage()
+          .ref('/users/' + filename)
+          .getDownloadURL();
+        console.log('urlurlrurl', url);
 
-    await firestore()
-      .collection('Users')
-      .doc(auth.auth?.uid)
-      .update({
-        url: data.url,
-        name: data.name,
-        about: data.about,
-      })
-      .then(() => {
-        console.log('User updated!');
-      });
+        await firestore()
+          .collection('Users')
+          .doc(auth.auth?.uid)
+          .update({
+            url: url,
+            name: data.name,
+            about: data.about,
+            imagename : filename,
+            phoneNumber : data.phoneNumber
+          })
+          .then(() => {
+            console.log('User updated!');
+          });
 
-    return {
-      url: data.url,
-      name: data.name,
-      about: data.about,
-    };
-  }
+        return {
+          url: url,
+          name: data.name,
+          about: data.about,
+          imagename : filename,
+          phoneNumber : data.phoneNumber
+        };
+      }
     }
-
-
-  
+  },
 );
 
 export const Getuserdata = createAsyncThunk(
   'auth/Getuserdata',
 
-  async (_,{getState}) => {
-
+  async (_, {getState}) => {
     try {
-      const { auth } = getState();
-      console.log("ahhsvfsdf",auth);
-  
-      const user = await firestore().collection('Users').doc(auth.auth?.uid).get();
-      console.log("usereurueru",user);
-  
-      return user.data()
-    } catch (error) {
-        console.log(error);
-        
-    }
-   
-    
-    
-  } 
+      const {auth} = getState();
+      console.log('ahhsvfsdf', auth);
 
+      const user = await firestore()
+        .collection('Users')
+        .doc(auth.auth?.uid)
+        .get();
+      console.log('usereurueru', user);
+
+      return {...user.data(), uid: auth.auth?.uid};
+    } catch (error) {
+      console.log(error);
+    }
+  },
 );
 
 const AuthSlice = createSlice({

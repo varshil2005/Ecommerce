@@ -232,24 +232,31 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   horizontalScale,
   moderateScale,
   verticalScale,
 } from '../../../assets/metrics/Metrics';
-import { useDispatch } from 'react-redux';
-import { SignoutUser } from '../Redux/Slice/auth.slice';
+import {useDispatch, useSelector} from 'react-redux';
+import {Getuserdata, SignoutUser} from '../Redux/Slice/auth.slice';
 
-export default function My_profile( {route , navigation}) {
- const dispatch = useDispatch();
- 
+export default function My_profile({route, navigation}) {
+  const dispatch = useDispatch();
+
   const handleSignOut = () => {
-    dispatch(SignoutUser())
-    navigation.navigate("Signup")
-  }
+    dispatch(SignoutUser());
+    navigation.navigate('Signup');
+  };
+
+  useEffect(() => {
+    dispatch(Getuserdata());
+  }, []);
+
+  const auth = useSelector(state => state.auth);
+  console.log('authhhhhhhhhhhhhhhhhhhhhh', auth.auth?.url);
   return (
     <ScrollView>
       <StatusBar backgroundColor="#fff" barStyle="dark-content" />
@@ -264,22 +271,25 @@ export default function My_profile( {route , navigation}) {
         <Text style={Styles.myProfile}>My Profile</Text> */}
 
         <View style={Styles.profileHead}>
-          <Image
-            style={Styles.Profileimg}
-            source={require('../../../assets/image/my_orders_girl_profile_img.png')}
-          />
+          {auth.auth?.url ? (
+            <Image source={{uri: auth.auth?.url}} style={Styles.Profileimg} />
+          ) : (
+            <FontAwesome name="user" size={100} color="#A9AEB1" />
+          )}
 
-          <TouchableOpacity style={Styles.matildabrownTextMAin} onPress={() => navigation.navigate("Profile_Set")}>
-            <Text style={Styles.matildabrownText}>Matilda Brown</Text>
+          <TouchableOpacity
+            style={Styles.matildabrownTextMAin}
+            onPress={() => navigation.navigate('Profile_Set')}>
+            <Text style={Styles.matildabrownText}>{auth.auth?.name}</Text>
             <Text style={Styles.matildabrowngmailText}>
-              matildabrown@mail.com
+             {auth.auth?.email}
             </Text>
           </TouchableOpacity>
         </View>
 
         <View style={Styles.datamain}>
           <View style={Styles.dataHead}>
-            <TouchableOpacity onPress={() => navigation.navigate("My_Order")}>
+            <TouchableOpacity onPress={() => navigation.navigate('My_Order')}>
               <Text style={Styles.data1}>My orders</Text>
               <Text style={Styles.data2}>Already have 12 orders</Text>
             </TouchableOpacity>
@@ -296,7 +306,8 @@ export default function My_profile( {route , navigation}) {
           </View>
 
           <View style={Styles.dataHead}>
-            <TouchableOpacity onPress={() => navigation.navigate("shippingaddress")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('shippingaddress')}>
               <Text style={Styles.data1}>Shipping addresses</Text>
               <Text style={Styles.data2}>3 ddresses</Text>
             </TouchableOpacity>
@@ -347,10 +358,10 @@ export default function My_profile( {route , navigation}) {
           </View>
 
           <View style={Styles.dataHead}>
-            <TouchableOpacity onPress={() => navigation.navigate("rating")}>
+            <TouchableOpacity onPress={() => navigation.navigate('rating')}>
               <Text style={Styles.data1}>My reviews</Text>
               <Text style={Styles.data2}>Reviews for 4 items</Text>
-            </TouchableOpacity >
+            </TouchableOpacity>
 
             <View>
               <TouchableOpacity>
@@ -364,7 +375,6 @@ export default function My_profile( {route , navigation}) {
           </View>
 
           <View style={Styles.dataHead}>
-
             <TouchableOpacity onPress={() => handleSignOut()}>
               <Text style={Styles.data1}>Sign Out</Text>
               <Text style={Styles.data2}>Notifications, password</Text>
@@ -390,7 +400,6 @@ const Styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: horizontalScale(15),
-
   },
   search: {
     flexDirection: 'row',
@@ -423,15 +432,15 @@ const Styles = StyleSheet.create({
   },
   matildabrowngmailText: {
     fontFamily: 'Metropolis-Bold',
-    fontSize: moderateScale(14),
+    fontSize: moderateScale(13),
     color: '#9B9B9B',
   },
   dataHead: {
-    paddingVertical:verticalScale(10),
+    paddingVertical: verticalScale(10),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-   elevation: 0.2,
+    elevation: 0.2,
   },
   data1: {
     fontFamily: 'Metropolis-Bold',
@@ -450,4 +459,3 @@ const Styles = StyleSheet.create({
     marginTop: verticalScale(25),
   },
 });
-

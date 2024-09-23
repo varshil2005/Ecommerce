@@ -38,13 +38,13 @@ export default function Profile_Set() {
   },[])
 
   const auth = useSelector(state => state.auth);
-  console.log('authhhhhhhhhhhhhhhhhhhhhh', auth);
+  console.log('authhhhhhhhhhhhhhhhhhhhhh', auth.auth?.url);
 
   useEffect(() => {
     if (auth.auth) {
       setValues(auth.auth)
     }
-  },[])
+  },[auth.auth])
 
   let userSchema = object({
     name: string().required(),
@@ -100,7 +100,9 @@ export default function Profile_Set() {
     }).then(image => {
       console.log("lsdfksndfs",image);
       setimage(image.path)
-      dispatch(Storegaedata(image.path))
+      let usedata = image.path
+      dispatch(Storegaedata({...values , url:usedata,uid:auth.auth?.uid}))
+      refRBSheet.current[0]?.close()
     });
   };
 
@@ -112,6 +114,9 @@ export default function Profile_Set() {
     }).then(image => {
       console.log(image);
       setimage(image.path)
+      let usedata = image.path
+      dispatch(Storegaedata({...values , url:usedata,uid:auth.auth?.uid}))
+      refRBSheet.current[0]?.close()
     });
   };
 
@@ -125,14 +130,8 @@ export default function Profile_Set() {
                 <View style={{flexDirection: 'row'}}>
                   <View style={{marginTop: 10, marginLeft: 10}}>
                     <TouchableOpacity>
-                    {
-                      auth.auth?.url ? 
-                      <Image source={{uri: auth.auth?.url}} style={styles.profilecircle} />
-                      :
-
+                   
                       <Fontisto name="close-a" size={15} color="#A9AEB1" />
-                    }
-                      
                     </TouchableOpacity>
                   </View>
                   <View style={{marginLeft: 80}}>
@@ -230,7 +229,13 @@ export default function Profile_Set() {
         <TouchableOpacity
           style={styles.profilecircle}
           onPress={() => refRBSheet.current[0]?.open()}>
-          <FontAwesome name="user" size={100} color="#A9AEB1" />
+             {
+                      auth.auth?.url? 
+                      <Image source={{uri: auth.auth?.url}} style={styles.profilecircle} />
+                      :
+                      <FontAwesome name="user" size={100} color="#A9AEB1" />
+                    }
+         
         </TouchableOpacity>
         <View style={styles.cameracircle}>
           <TouchableOpacity onPress={() => refRBSheet.current[0]?.open()}>
