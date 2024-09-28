@@ -26,6 +26,7 @@ import {useFormik} from 'formik';
 import {object, string} from 'yup';
 import { Image } from 'react-native';
 
+
 const items = [''];
 
 
@@ -70,7 +71,7 @@ export default function Profile_Set() {
       if (image === '') {
         if (auth.auth?.url) {
           usedata = auth.auth?.url
-        }
+        } 
       } else {
         usedata = image
       }

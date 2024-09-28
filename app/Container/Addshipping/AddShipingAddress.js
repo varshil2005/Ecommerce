@@ -16,7 +16,7 @@ import {
 import {useFormik, validateYupSchema, yupToFormErrors} from 'formik';
 import React, { useEffect } from 'react';
 import { number, object, string } from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Addaddress, UpdateAddress } from '../Redux/Slice/Address.Slice';
 
 export default function AddShipingAddress({route, navigation}) {
@@ -66,6 +66,9 @@ export default function AddShipingAddress({route, navigation}) {
   },[route.params])
 
 
+  const auth =  useSelector(state => state.auth)
+  console.log("asdasas",auth);
+  
 
   const dispatch = useDispatch();
 
@@ -74,9 +77,9 @@ export default function AddShipingAddress({route, navigation}) {
     console.log("datatatatatta",data);
 
     if (route.params) {
-      dispatch(UpdateAddress({newData : {...data,uid : 'varshil'} , OldData:route.params}))
+      dispatch(UpdateAddress({newData : {...data,uid : auth?.auth?.uid} , OldData:route.params}))
     } else {
-      dispatch(Addaddress({...data,uid : 'varshil'}));
+      dispatch(Addaddress({...data,uid : auth?.auth?.uid}));
     }
 
     navigation.navigate('shippingaddress')

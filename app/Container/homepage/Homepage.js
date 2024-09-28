@@ -19,41 +19,9 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchcategory} from '../Redux/Slice/category.slice';
+import {getPrdouct} from '../Redux/Slice/Product.slice';
 
-const Data = [
-  {
-    id: 1,
-    title: 'Dorothy Perkins',
-    subtitle: 'Evening  Dress',
-    image: require('../../../assets/image/imges2.webp'),
-    price: 20,
-    disscount: 10,
-  },
-  {
-    id: 2,
-    title: 'Dorothy Perkins',
-    subtitle: 'Evening  Dress',
-    image: require('../../../assets/image/imges2.webp'),
-    price: 20,
-    disscount: 10,
-  },
-  {
-    id: 3,
-    title: 'Dorothy Perkins',
-    subtitle: 'Evening  Dress',
-    image: require('../../../assets/image/imges2.webp'),
-    price: 20,
-    disscount: 10,
-  },
-  {
-    id: 4,
-    title: 'Dorothy Perkins',
-    subtitle: 'Evening  Dress',
-    image: require('../../../assets/image/imges2.webp'),
-    price: 20,
-    disscount: 10,
-  },
-];
+
 
 const newData = [
   {
@@ -90,19 +58,66 @@ const newData = [
   },
 ];
 
-export default function Homepage( {route , navigation}) {
+export default function Homepage({route, navigation}) {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchcategory());
+    dispatch(getPrdouct());
   }, []);
+
+  const productdata = useSelector(state => state.Product);
+  console.log('mil gaya', productdata.productdata);
 
   const category = useSelector(state => state.category);
   console.log(category.categorydata);
 
   const ProductCart = ({v}) => (
     <View>
-      <TouchableOpacity style={{marginHorizontal: horizontalScale(14)}} onPress={() => navigation.navigate("Product")}>
+      <TouchableOpacity
+        style={{marginHorizontal: horizontalScale(14)}}
+        onPress={() => navigation.navigate('Product',{
+          id : v.id
+        })}>
+        <Image source={{uri : v?.url}} style={style.product}></Image>
+        <View style={style.rating}>
+          <MaterialIcons
+            name="star-rate"
+            size={20}
+            color="#FFBA49"></MaterialIcons>
+          <MaterialIcons
+            name="star-rate"
+            size={20}
+            color="#FFBA49"></MaterialIcons>
+          <MaterialIcons
+            name="star-rate"
+            size={20}
+            color="#FFBA49"></MaterialIcons>
+          <MaterialIcons
+            name="star-rate"
+            size={20}
+            color="#FFBA49"></MaterialIcons>
+          <MaterialIcons
+            name="star-rate"
+            size={20}
+            color="#FFBA49"></MaterialIcons>
+        </View>
+        <Text style={{fontSize: 11}}>{v.name}</Text>
+        <Text style={{fontSize: 16, color: 'black'}}>{v.desc}</Text>
+        <View style={style.priceview}>
+          <Text style={style.pricetext}>{v.price}$</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const NewProductCart = ({v}) => (
+    <View>
+      <TouchableOpacity
+        style={{marginHorizontal: horizontalScale(14)}}
+        onPress={() => navigation.navigate('Product',{
+          id : v.id
+        })}>
         <Image source={v.image} style={style.product}></Image>
         <View style={style.rating}>
           <MaterialIcons
@@ -130,11 +145,11 @@ export default function Homepage( {route , navigation}) {
         <Text style={{fontSize: 16, color: 'black'}}>{v.subtitle}</Text>
         <View style={style.priceview}>
           <Text style={style.pricetext}>{v.price}$</Text>
-          <Text style={style.disscounttext}>{v.disscount}$</Text>
         </View>
       </TouchableOpacity>
     </View>
   );
+
 
   return (
     <ScrollView
@@ -152,7 +167,9 @@ export default function Homepage( {route , navigation}) {
       <View style={{width: '70%'}}>
         <Text style={style.title}>Fashion Sale</Text>
 
-        <TouchableOpacity style={style.checkbutton} onPress={() => navigation.navigate("Subcategory")}>
+        <TouchableOpacity
+          style={style.checkbutton}
+          onPress={() => navigation.navigate('Subcategory')}>
           <Text style={style.checktext}>Check</Text>
         </TouchableOpacity>
       </View>
@@ -170,7 +187,7 @@ export default function Homepage( {route , navigation}) {
         </View>
 
         <FlatList
-          data={Data}
+          data={productdata.productdata}
           renderItem={({item}) => <ProductCart v={item} />}
           keyExtractor={item => item.id}
           horizontal={true}
@@ -191,115 +208,113 @@ export default function Homepage( {route , navigation}) {
 
         <FlatList
           data={newData}
-          renderItem={({item}) => <ProductCart v={item} />}
+          renderItem={({item}) => <NewProductCart v={item} />}
           keyExtractor={item => item.id}
           horizontal={true}
         />
       </View>
-      
-    {
-      category.categorydata.map((v,i) => (
-<View style = {{marginTop : verticalScale(40)}}>
-  
-  <View>
-         
-       <TouchableOpacity onPress={() => navigation.navigate("Subcategory" , {
-         cate_id : v.id
-       })}>
-          <ImageBackground source={require('../../../assets/image/newcollection.png')} style={style.backgroundimage2}></ImageBackground>
+
+      {category.categorydata.map((v, i) => (
+        <View style={{marginTop: verticalScale(40)}}>
+          <View>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('Subcategory', {
+                  cate_id: v.id,
+                })
+              }>
+              <ImageBackground
+                source={require('../../../assets/image/newcollection.png')}
+                style={style.backgroundimage2}></ImageBackground>
+
+              <View>
+                <Text style={style.collectiontext}>{v.name}</Text>
+              </View>
+            </TouchableOpacity>
+
+            <View style={style.collectionview}>
+              <View style={{width: '50%'}}>
+                <View style={{height: '50%'}}>
+                  <TouchableOpacity>
+                    <ImageBackground
+                      source={require('../../../assets/image/summersale.png')}
+                      style={style.summerimage}></ImageBackground>
+                  </TouchableOpacity>
+                  <View>
+                    <Text style={style.summertext}>{v.name}</Text>
+                  </View>
+                </View>
+
+                <View style={{height: '50%'}}>
+                  <TouchableOpacity>
+                    <ImageBackground
+                      source={require('../../../assets/image/Blackimage.png')}
+                      style={style.blackImage}></ImageBackground>
+                  </TouchableOpacity>
+                  <View>
+                    <Text style={style.blacktext}>Black</Text>
+                  </View>
+                </View>
+              </View>
+
+              <View style={{width: '50%'}}>
+                <ImageBackground
+                  source={require('../../../assets/image/menhoodies.png')}
+                  style={style.menhoddies}></ImageBackground>
+                <View>
+                  <Text>Men's hoodies</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      ))}
+      <View style={{marginTop: verticalScale(40)}}>
+        <View>
+          <ImageBackground
+            source={require('../../../assets/image/newcollection.png')}
+            style={style.backgroundimage2}></ImageBackground>
 
           <View>
-              <Text style={style.collectiontext}>{v.name}</Text>
+            <Text style={style.collectiontext}>New Collection</Text>
           </View>
+        </View>
 
-
-      </TouchableOpacity>
-    
-
-      <View style = {style.collectionview}>
-          <View style = {{width : '50%'}}>
-              <View style = {{height : '50%'}}>
-              <TouchableOpacity><ImageBackground source={require('../../../assets/image/summersale.png')} style={style.summerimage}></ImageBackground></TouchableOpacity>
+        <View style={style.collectionview}>
+          <View style={{width: '50%'}}>
+            <View style={{height: '50%'}}>
+              <TouchableOpacity>
+                <ImageBackground
+                  source={require('../../../assets/image/summersale.png')}
+                  style={style.summerimage}></ImageBackground>
+              </TouchableOpacity>
               <View>
-                  <Text style={style.summertext}>{v.name}</Text>
+                <Text style={style.summertext}>Summer Sale</Text>
               </View>
+            </View>
 
-              </View>
-              
-              <View style = {{height : '50%'}}>                       
-                  <TouchableOpacity><ImageBackground source={require('../../../assets/image/Blackimage.png')} style = {style.blackImage}></ImageBackground></TouchableOpacity>
-                  <View>
-                      <Text style = {style.blacktext}>Black</Text>
-                  </View>
-              </View>
-          </View>
-
-          
-          <View style = {{width : '50%'}}>
-              <ImageBackground source={require('../../../assets/image/menhoodies.png')} style = {style.menhoddies}></ImageBackground>
+            <View style={{height: '50%'}}>
+              <TouchableOpacity>
+                <ImageBackground
+                  source={require('../../../assets/image/Blackimage.png')}
+                  style={style.blackImage}></ImageBackground>
+              </TouchableOpacity>
               <View>
-                  <Text>Men's hoodies</Text>
+                <Text style={style.blacktext}>Black</Text>
               </View>
-          </View>
-    
-      
-          </View>
+            </View>
           </View>
 
-
+          <View style={{width: '50%'}}>
+            <ImageBackground
+              source={require('../../../assets/image/menhoodies.png')}
+              style={style.menhoddies}></ImageBackground>
+            <View>
+              <Text>Men's hoodies</Text>
+            </View>
+          </View>
+        </View>
       </View>
-  
-
-      ))
-    }
-       <View style = {{marginTop : verticalScale(40)}}>
-       <View>
-          <ImageBackground source={require('../../../assets/image/newcollection.png')} style={style.backgroundimage2}></ImageBackground>
-
-          <View>
-              <Text style={style.collectiontext}>New Collection</Text>
-          </View>
-
-
-      </View>
-    
-
-      <View style = {style.collectionview}>
-          <View style = {{width : '50%'}}>
-              <View style = {{height : '50%'}}>
-              <TouchableOpacity><ImageBackground source={require('../../../assets/image/summersale.png')} style={style.summerimage}></ImageBackground></TouchableOpacity>
-              <View>
-                  <Text style={style.summertext}>Summer Sale</Text>
-              </View>
-
-              </View>
-              
-              <View style = {{height : '50%'}}>                       
-                  <TouchableOpacity><ImageBackground source={require('../../../assets/image/Blackimage.png')} style = {style.blackImage}></ImageBackground></TouchableOpacity>
-                  <View>
-                      <Text style = {style.blacktext}>Black</Text>
-                  </View>
-              </View>
-          </View>
-
-          
-          <View style = {{width : '50%'}}>
-              <ImageBackground source={require('../../../assets/image/menhoodies.png')} style = {style.menhoddies}></ImageBackground>
-              <View>
-                  <Text>Men's hoodies</Text>
-              </View>
-          </View>
-    
-      
-          </View>
-
-      </View>
-     
-    
-      
-  
-  
-     
     </ScrollView>
   );
 }
@@ -383,7 +398,7 @@ const style = StyleSheet.create({
   },
 
   pricetext: {
-    textDecorationLine: 'line-through',
+    color : 'red',
     fontFamily: 'Metropolis-Regular',
   },
 

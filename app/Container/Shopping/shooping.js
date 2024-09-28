@@ -155,7 +155,7 @@ export default function shooping({route, navigation}) {
         <View style={styles.productMainView}>
           <View style={styles.productImg}>
             <Image
-              source={require('../../../assets/image/newproduct.jpg')}
+              source={{uri:v.url}}
               style={{
                 width: '100%',
                 height: '100%',
@@ -164,16 +164,7 @@ export default function shooping({route, navigation}) {
               }}
             />
           </View>
-          <View>
-            <TouchableOpacity>
-              <FontAwesome
-                name="heart-o"
-                size={20}
-                color="black"
-                style={styles.heart}
-              />
-            </TouchableOpacity>
-          </View>
+        
           <View style={styles.productText}>
             <View style={styles.iconview}>
               <FontAwesome name="star" size={20} style={{color: '#FFBA49'}} />

@@ -21,35 +21,12 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import { AddToCart, DecQty, DeleteCart, getBag, IncQty } from '../Redux/Slice/Cart.Slice';
 import { getPrdouct } from '../Redux/Slice/Product.slice';
+import { getAuth } from '@react-native-firebase/auth';
 
-const data = [
-  {
-    id: 0,
-    title: 'Pullover',
-    color: 'Black',
-    size: 'L',
-    image: require('../../../assets/image/newproduct.jpg'),
-    price: 51,
-  },
-  {
-    id: 1,
-    title: 'T-Shirt',
-    color: 'Gray',
-    image: require('../../../assets/image/newproduct.jpg'),
-    size: 'L',
-    price: 30,
-  },
-  {
-    id: 1,
-    title: 'Sport Dress',
-    color: 'Black',
-    image: require('../../../assets/image/newproduct.jpg'),
-    size: 'M',
-    price: 43,
-  },
-];
 
 export default function My_Bag({route, navigation}) {
+
+
   const Cart = useSelector(state => state.cart);
   console.log('carttcatatatata', Cart?.Cart[0]?.cart);
 
@@ -75,33 +52,40 @@ export default function My_Bag({route, navigation}) {
   
 const dispatch = useDispatch();
 
- useEffect (() => {
-    dispatch(getBag('varshil'))
-    dispatch(getPrdouct())
+const auth = useSelector(state => state.auth)
+console.log("ghjkl",auth);
 
+ useEffect (() => {
+    dispatch(getBag(auth?.auth?.uid))
+    dispatch(getPrdouct())
  },[])
+
+
+ 
   const handleInc =(id) => {
-    dispatch(IncQty({id,uid : 'varshil'}))
+    dispatch(IncQty({id,uid : auth?.auth?.uid}))
   }
 
   const handleDec = (id) => { 
-    dispatch(DecQty({id,uid : 'varshil'}))
+    dispatch(DecQty({id,uid : auth?.auth?.uid}))
   }
 
   const handleDelete = (id) => {
     console.log("idiidididid",id);
     
-    dispatch(DeleteCart({id,uid :'varshil'}))
+    dispatch(DeleteCart({id,uid :auth?.auth?.uid}))
   }
 
 // const totalamount = filterbag.reduce((sum,item) => sum + (item?.price || 0 )* (item?.qtn || 0), 0) 
 
   const DataCity = ({v}) => (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={(() => navigation.navigate("Product",{
+      id : v.id
+    }))}>
       <View style={{paddingHorizontal: 26, marginVertical: 15}}>
         <View style={Styles.img_main_view}>
           <View>
-            <Image style={Styles.img} source={ require('../../../assets/image/newproduct.jpg')} />
+            <Image style={Styles.img} source={ {uri : v.url}} />
           </View>
           <View style={{padding: 4, marginHorizontal: 10}}>
             <View style={Styles.dotshead}>
@@ -179,19 +163,10 @@ const dispatch = useDispatch();
       <View>
         <StatusBar backgroundColor="transparent" barStyle="dark-content" />
 
-        {/* <View style={Styles.feather}>
-          <TouchableOpacity>
-            <Feather name="search" size={25} color="#222222" />
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={Styles.bag}>My Bag</Text>
-        </View> */}
-
         <FlatList
           data={filterbag}
           renderItem={({item}) => <DataCity v={item} />}
-          // keyExtractor={item => item.id}
+          keyExtractor={item => item.id}
         />
 
         <View style={Styles.totalamount}>

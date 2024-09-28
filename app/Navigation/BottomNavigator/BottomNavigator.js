@@ -7,7 +7,7 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import Homepage from '../../Container/homepage/Homepage';
 import Womens_top from '../../Container/Shop/shop';
 import FavoritesPage from '../../Container/Favorite Page/FavoritesPage';
-import { bagstack, favouritestack, homestack, LoginStack, profilestack, shopstack } from '../StckNavigation';
+import { bagstack, favouritestack, homestack, LoginStack, Profilestack, shopstack } from '../StckNavigation';
 import My_Bag from '../../Container/Bag/My_Bag';
 import BottomSheet from '../../Container/BottomSheet/Bottomsheet';
 import SignUp from '../../Container/SignUp/SignUp';
@@ -91,7 +91,7 @@ export default function BottomNavigator() {
           tabBarLabel: 'Favourite',
         }} />
 
-        <Tab.Screen name="ProfileTab" component={profilestack} options={{
+        <Tab.Screen name="ProfileTab" component={Profilestack} options={{
           headerShown: false,
           tabBarLabel: 'Profile',
         }} />

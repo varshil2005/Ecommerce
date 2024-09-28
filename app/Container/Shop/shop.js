@@ -28,54 +28,7 @@ import {getcolor} from '../Redux/Slice/Color.Slice';
 import {getBrand} from '../Redux/Slice/Brand.Slice';
 import {getfavourite, togglefavourite} from '../Redux/Slice/Favourite.Slice';
 
-const data = [
-  {
-    id: 1,
-    title: 'T-shirts',
-  },
-  {
-    id: 2,
-    title: 'Crop tops',
-  },
-  {
-    id: 3,
-    title: 'Blouses',
-  },
-  {
-    id: 4,
-    title: 'Shirt',
-  },
-];
-const Data2 = [
-  {
-    id: 1,
-    img: require('../../../assets/image/See_you.jpeg'),
-    title: 'Mango',
-    SubTitle: 'T-Shirt SPANISH',
-    price: 9,
-  },
-  {
-    id: 2,
-    img: require('../../../assets/image/See_you.jpeg'),
-    title: 'Mango',
-    SubTitle: 'T-Shirt SPANISH',
-    price: 9,
-  },
-  {
-    id: 3,
-    img: require('../../../assets/image/See_you.jpeg'),
-    title: 'Mango',
-    SubTitle: 'T-Shirt SPANISH',
-    price: 9,
-  },
-  {
-    id: 4,
-    img: require('../../../assets/image/See_you.jpeg'),
-    title: 'Mango',
-    SubTitle: 'T-Shirt SPANISH',
-    price: 9,
-  },
-];
+
 
 const items = ['']; // Example items
 
@@ -108,6 +61,8 @@ export default function shop({route, navigation}) {
   console.log('mil gaya', productdata.productdata);
 
   const category = useSelector(state => state.category);
+  console.log("asdasdasdas",category);
+  
   const colordata = useSelector(state => state.Color);
   const Brandata = useSelector(state => state.Brand);
 
@@ -197,7 +152,7 @@ export default function shop({route, navigation}) {
         <View style={styles.productMainView}>
           <View style={styles.productImg}>
             <Image
-              source={require('../../../assets/image/newproduct.jpg')}
+              source={{uri : v.url}}
               style={{
                 width: '100%',
                 height: '100%',

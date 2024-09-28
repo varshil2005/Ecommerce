@@ -50,8 +50,12 @@ export default function ShippingAddresses({route, navigation}) {
   const [selectedId, setSelectedId] = useState();
   const dispatch = useDispatch();
 
+  const auth = useSelector(state=>state.auth)
+  console.log("sadasdasd",auth);
+  
+
   useEffect(() => {
-    dispatch(getAddress('varshil'));
+    dispatch(getAddress(auth?.auth?.uid));
   }, []);
 
   const handleDelete = data => {
