@@ -74,6 +74,8 @@ export const getBag = createAsyncThunk(
   'Cart/getBag',
 
   async id => {
+    console.log('adsasdasdasd', id);
+
     const CartData = [];
     try {
       await firestore()
@@ -81,26 +83,21 @@ export const getBag = createAsyncThunk(
         .doc(id)
         .get()
         .then(documentSnapshot => {
-          console.log(
-            'sdfsdfsdfsdfsdfsdfsdfsdf',
-            'User exists: ',
-            documentSnapshot.exists,
-          );
-
           if (documentSnapshot.exists) {
-            console.log('User data: ', documentSnapshot.data());
+
             CartData.push({
               id: documentSnapshot.id,
               ...documentSnapshot.data(),
             });
+
+            console.log('CartDataCartDataCartData', CartData);
           }
         });
-      console.log('CartDataCartDataCartData', CartData);
+
+      return CartData;
     } catch (error) {
       console.log(error);
     }
-
-    return CartData;
   },
 );
 
@@ -201,7 +198,7 @@ export const DecQty = createAsyncThunk(
 export const DeleteCart = createAsyncThunk(
   'Cart/DeleteCart',
 
-  async( data,{getState}) => {
+  async (data, {getState}) => {
     const {cart} = getState();
 
     console.log('cartcart', cart?.Cart[0]?.cart);
@@ -218,7 +215,6 @@ export const DeleteCart = createAsyncThunk(
           qtn: cart?.Cart[0]?.cart[index].qtn,
         }),
       });
-
 
       let BagData = [];
 
@@ -237,9 +233,6 @@ export const DeleteCart = createAsyncThunk(
       console.log(error);
     }
   },
-
-
-
 );
 
 const CartSlice = createSlice({
@@ -247,10 +240,15 @@ const CartSlice = createSlice({
   initialState: initialstate,
 
   extraReducers: builder => {
-    builder.addCase(getBag.fulfilled, (state, action) => {
+    builder.addCase(AddToCart.fulfilled, (state, action) => {
       console.log('actionactionaction', action);
 
       // Add user to the state array
+      state.Cart = action.payload;
+    });
+    
+    builder.addCase(getBag.fulfilled, (state, action) => {
+      console.log('actionactionactionyyyyy', action);
       state.Cart = action.payload;
     });
     builder.addCase(IncQty.fulfilled, (state, action) => {
@@ -272,35 +270,9 @@ const CartSlice = createSlice({
       // Add user to the state array
       state.Cart = action.payload;
     });
+
+   
   },
 });
-
-// export const {addCart, IncQty, DecQty} = CartSlice.actions;
 export default CartSlice.reducer;
 
-//   reducers: {
-//     addCart: (state, action) => {
-//       console.log('idididiiididiididid', action.payload);
-
-//       const index = state.cart.findIndex(v => v.pid === action.payload);
-//       console.log('indexindexindexindex', index);
-
-//       if (index === -1) {
-//         state.cart.push({pid: action.payload, qtn: 1});
-//       } else {
-//         state.cart[index].qtn++;
-//       }
-//     },
-
-//     IncQty: (state, action) => {
-//       const index = state.cart.findIndex(v => v.pid === action.payload);
-//       state.cart[index].qtn++;
-//     },
-
-//     DecQty: (state, action) => {
-//       const index = state.cart.findIndex(v => v.pid === action.payload);
-//       if (state.cart[index].qtn > 1) {
-//         state.cart[index].qtn--;
-//       }
-//     },
-//   },

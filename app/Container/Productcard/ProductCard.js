@@ -96,7 +96,7 @@ console.log("ghjkl",auth);
   };
   console.log(
     'lllllllll',
-    Fav.Favourite.some(v1 => v1?.pid === filterdata?.id),
+    Fav.Favourite,
   );
 
   const ProductCard = ({v}) => (
@@ -202,7 +202,7 @@ console.log("ghjkl",auth);
                   onPress={() => dispatch(togglefavourite(filterdata.id))}>
                   <FontAwesome
                     name={
-                      Fav.Favourite.some(v1 => v1?.pid === filterdata?.id)
+                      Fav.Favourite.some(v1 => v1.pid === filterdata.id)
                         ? 'heart'
                         : 'heart-o'
                     }

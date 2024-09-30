@@ -36,7 +36,7 @@ export default function Filter({route, navigation}) {
 
 
 
-  console.log("sdfghjk",route.params.brand);
+  console.log("sdfghjk",route?.params?.color );
   
 
   const colordata = useSelector(state => state.Color);
@@ -180,7 +180,16 @@ export default function Filter({route, navigation}) {
 
       <View style={style.applayview}>
         <View style={style.buttonview}>
-          <TouchableOpacity style={style.discardbutton}>
+          <TouchableOpacity style={style.discardbutton}
+          onPress={() =>
+            navigation.navigate('shop', {
+              price : '',
+              color : '',
+              selctbrand : '',
+              checkBoxes :'',
+            })
+          }
+          >
             <Text style={style.buttontext1}>Discard</Text>
           </TouchableOpacity>
           <TouchableOpacity

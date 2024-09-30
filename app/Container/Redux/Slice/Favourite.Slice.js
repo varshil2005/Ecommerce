@@ -9,9 +9,12 @@ const initialstate = {
 
 export const togglefavourite = createAsyncThunk(
   'Favourite/togglefavourite',
-  async id => {
+  async( id,{getState}) => {
     console.log('fevefgefgf', id);
 
+    const { auth } = getState();
+    console.log("tytuty",auth.auth);
+    
     const favdata = [];
     await firestore()
       .collection('Fav')
@@ -27,6 +30,8 @@ export const togglefavourite = createAsyncThunk(
         });
       });
 
+      console.log("asduasdjiasd",favdata);
+      
     const alvfav = favdata.find(v => v.pid === id);
     console.log('favdatafavdata', alvfav);
 
@@ -39,7 +44,7 @@ export const togglefavourite = createAsyncThunk(
         .collection('Fav')
         .add({
           pid: id,
-          uid: 1,
+          uid: auth.auth?.uid,
         })
         .then(doc => {
           favId = doc.id;
@@ -49,7 +54,7 @@ export const togglefavourite = createAsyncThunk(
 
       return favdata.concat({
         pid: id,
-        uid: 1,
+        uid: auth.auth?.uid,
         id: favId,
       });
     }

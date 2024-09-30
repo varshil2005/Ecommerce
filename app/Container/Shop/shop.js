@@ -239,7 +239,7 @@ export default function shop({route, navigation}) {
     if (selectat != '') {
       filterdata = filterdata.filter(v => v.category_id === selectat);
       return filterdata;
-    }
+    } 
 
     return filterdata;
   };

@@ -10,9 +10,10 @@ import ProductSlice from "../Slice/Product.slice";
 import BrandSlice from "../Slice/Brand.Slice";
 import ColorSlice from "../Slice/Color.Slice";
 import FavouriteSlice from "../Slice/Favourite.Slice";
-import CartSlice from "../Slice/Cart.Slice";
+
 import AddressSlice from "../Slice/Address.Slice";
 import authSlice from "../Slice/auth.slice";
+import CartSlice from "../Slice/Cart.Slice";
 
 
 export const rootReducer = combineReducers ({

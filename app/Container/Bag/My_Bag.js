@@ -22,13 +22,28 @@ import {useDispatch, useSelector} from 'react-redux';
 import { AddToCart, DecQty, DeleteCart, getBag, IncQty } from '../Redux/Slice/Cart.Slice';
 import { getPrdouct } from '../Redux/Slice/Product.slice';
 import { getAuth } from '@react-native-firebase/auth';
+import { createDraftSafeSelector } from '@reduxjs/toolkit';
 
 
 export default function My_Bag({route, navigation}) {
 
+  useEffect (() => {
+    dispatch(getPrdouct())
+    dispatch(getBag(auth?.auth?.uid))
+     
+   },[])
+
+  const auth = useSelector(state => state.auth)
+  console.log("ghjkl",auth);
+  
+
+
+   const dispatch = useDispatch()
+
+   
 
   const Cart = useSelector(state => state.cart);
-  console.log('carttcatatatata', Cart?.Cart[0]?.cart);
+  console.log('carttcatatatata', Cart.Cart[0].cart);
 
   const productdata = useSelector(state => state.Product);
   console.log('Kkkkkkk', productdata.productdata);
@@ -37,7 +52,11 @@ export default function My_Bag({route, navigation}) {
 
   const colordata = useSelector(state => state.Color);
 
-  const filterbag = Cart?.Cart[0]?.cart.map((v) => {
+  const cart = Cart?.Cart[0]?.cart || []
+  console.log("yuuyuyuyuyuyu",cart);
+  
+
+  const filterbag = cart.map((v) => {
     const c =  productdata.productdata.find((v1) => v1.id === v.pid);
     console.log("cccccccccccccccccccccccc",c);
 
@@ -50,24 +69,18 @@ export default function My_Bag({route, navigation}) {
 
   console.log("filterbagfilterbagfilterbag",filterbag);
   
-const dispatch = useDispatch();
 
-const auth = useSelector(state => state.auth)
-console.log("ghjkl",auth);
-
- useEffect (() => {
-    dispatch(getBag(auth?.auth?.uid))
-    dispatch(getPrdouct())
- },[])
 
 
  
   const handleInc =(id) => {
     dispatch(IncQty({id,uid : auth?.auth?.uid}))
+
   }
 
   const handleDec = (id) => { 
     dispatch(DecQty({id,uid : auth?.auth?.uid}))
+ 
   }
 
   const handleDelete = (id) => {

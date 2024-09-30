@@ -32,7 +32,7 @@ export default function AddShipingAddress({route, navigation}) {
       address : string().required('Please Enter Address'),
       city : string().required('Please Enter City name'),
       state : string().required('Please Enter State'),
-      zipcode : string().required().matches(/^\d{5}(?:[-\s]\d{4})?$/,'Please Enter Vaild Zip Code'),
+      zipcode : string().required(),
       country : string().required('Please Enter Country')
   });
 
