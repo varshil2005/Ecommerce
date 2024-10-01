@@ -8,17 +8,19 @@ const initialstate = {
 };
 
 export const AddToCart = createAsyncThunk('Cart/AddToCart', async data => {
-  console.log('datatadattada', data);
+  console.log('datatadattada', data.uid);
   let BagData = [];
 
   const userDoc = await firestore().collection('Cart').doc(data.uid);
-  await userDoc.get().then(documentSnapshot => {
+  console.log("asdasdasdas",userDoc);
+  
+     await userDoc.get().then(documentSnapshot => {
     console.log('User exists: ', documentSnapshot.exists);
 
     if (documentSnapshot.exists) {
       console.log('User data: ', documentSnapshot.data());
       BagData.push(documentSnapshot.data());
-      console.log('BagDataBagDataBagData', BagData);
+      console.log('BagDataBagDataBagData', BagData[0].cart);
     }
   });
   if (BagData.length > 0) {
@@ -52,9 +54,27 @@ export const AddToCart = createAsyncThunk('Cart/AddToCart', async data => {
           }),
         });
       }
+
+      BagData = []
+
+      await userDoc.get().then(documentSnapshot => {
+        console.log('User exists: ', documentSnapshot.exists);
+      
+        
+        if (documentSnapshot.exists) {
+          console.log('User data: ', documentSnapshot.data());
+          BagData.push(documentSnapshot.data());
+          console.log('BagDataBagDataBagData', BagData[0].cart);
+        }
+      });
+    
+      console.log("adagsdagsdacsdgacsdgascd",BagData[0].cart);
     } catch (error) {
-      console.log(error);
+      console.log("kkkkkkkkkkgggg",error);
     }
+
+  
+    return BagData
   } else {
     console.log('First Time when Cart is empty');
 
@@ -68,6 +88,7 @@ export const AddToCart = createAsyncThunk('Cart/AddToCart', async data => {
         console.log('User added!');
       });
   }
+
 });
 
 export const getBag = createAsyncThunk(
@@ -78,26 +99,29 @@ export const getBag = createAsyncThunk(
 
     const CartData = [];
     try {
-      await firestore()
-        .collection('Cart')
-        .doc(id)
-        .get()
-        .then(documentSnapshot => {
-          if (documentSnapshot.exists) {
+     await firestore()
+      .collection('Cart')
+      .doc(id)
+      .get()
+      .then(documentSnapshot => {
+        console.log('User exists: ', documentSnapshot.exists);
+    console.log("asadfghhjj",documentSnapshot.data());
+    
+        if (documentSnapshot.exists) {
+          console.log('User data: ', documentSnapshot.data());
+          CartData.push({id : documentSnapshot.id,...documentSnapshot.data()});
+        }
+      });
 
-            CartData.push({
-              id: documentSnapshot.id,
-              ...documentSnapshot.data(),
-            });
-
-            console.log('CartDataCartDataCartData', CartData);
-          }
-        });
-
-      return CartData;
+    console.log("asdasddddddddddd",CartData);
+    
     } catch (error) {
       console.log(error);
     }
+    console.log("asdasdasDASD",CartData);
+    
+
+    return CartData;
   },
 );
 
@@ -240,15 +264,10 @@ const CartSlice = createSlice({
   initialState: initialstate,
 
   extraReducers: builder => {
-    builder.addCase(AddToCart.fulfilled, (state, action) => {
-      console.log('actionactionaction', action);
-
-      // Add user to the state array
-      state.Cart = action.payload;
-    });
+   
     
     builder.addCase(getBag.fulfilled, (state, action) => {
-      console.log('actionactionactionyyyyy', action);
+      console.log('actionactionactionyyyyy', action.payload);
       state.Cart = action.payload;
     });
     builder.addCase(IncQty.fulfilled, (state, action) => {
@@ -268,6 +287,11 @@ const CartSlice = createSlice({
       console.log('actionactionaction', action);
 
       // Add user to the state array
+      state.Cart = action.payload;
+    });
+
+    builder.addCase(AddToCart.fulfilled, (state, action) => {
+      console.log('actionactionaction', action.payload[0].cart);
       state.Cart = action.payload;
     });
 

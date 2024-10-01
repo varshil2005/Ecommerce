@@ -43,7 +43,7 @@ export default function My_Bag({route, navigation}) {
    
 
   const Cart = useSelector(state => state.cart);
-  console.log('carttcatatatata', Cart.Cart[0].cart);
+  console.log('carttcatatatata', Cart.Cart[0]);
 
   const productdata = useSelector(state => state.Product);
   console.log('Kkkkkkk', productdata.productdata);
@@ -67,19 +67,23 @@ export default function My_Bag({route, navigation}) {
     
   }).sort((a,b) => a.name.localeCompare(b.name))
 
-  console.log("filterbagfilterbagfilterbag",filterbag);
+  // console.log("filterbagfilterbagfilterbag",filterbag?.qtn);
   
 
 
 
  
   const handleInc =(id) => {
+  
     dispatch(IncQty({id,uid : auth?.auth?.uid}))
 
   }
 
   const handleDec = (id) => { 
-    dispatch(DecQty({id,uid : auth?.auth?.uid}))
+    
+      dispatch(DecQty({id,uid : auth?.auth?.uid}))
+    
+   
  
   }
 
@@ -89,7 +93,9 @@ export default function My_Bag({route, navigation}) {
     dispatch(DeleteCart({id,uid :auth?.auth?.uid}))
   }
 
-// const totalamount = filterbag.reduce((sum,item) => sum + (item?.price || 0 )* (item?.qtn || 0), 0) 
+const totalamount = filterbag.reduce((sum,item) => sum + (item?.price || 0 )* (item?.qtn || 0), 0) 
+console.log("ewwerwer",totalamount);
+
 
   const DataCity = ({v}) => (
     <TouchableOpacity onPress={(() => navigation.navigate("Product",{
@@ -184,7 +190,7 @@ export default function My_Bag({route, navigation}) {
 
         <View style={Styles.totalamount}>
           <Text style={Styles.totalamountText}>Total Amount:</Text>
-          <Text style={Styles.Text}>0$</Text>
+          <Text style={Styles.Text}>{totalamount}$</Text>
         </View>
 
         <View style={Styles.checkoutBtn}>
