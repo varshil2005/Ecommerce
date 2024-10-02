@@ -38,7 +38,7 @@ const YourOwnComponent = () => (
   </View>
 );
 
-export default function shop({route, navigation}) {
+export default function Shop({route, navigation}) {
   const [sort, setsort] = useState('');
   const [search, setsearch] = useState('');
   const [selectat, setselectcat] = useState('');
@@ -265,7 +265,8 @@ export default function shop({route, navigation}) {
         <FlatList
           data={category.categorydata}
           renderItem={({item, index}) => <ProductCard v={item} i={index} />}
-          keyExtractor={item => item.id}
+          keyExtractor={(item,index) => String(index)}
+          scrollEnabled = {false}
           horizontal={true}
         />
 
@@ -310,7 +311,8 @@ export default function shop({route, navigation}) {
             <ProductData v={item} />
           </TouchableOpacity>
         )}
-        keyExtractor={item => item.id}
+        keyExtractor={(item,index) => String(index)}
+        scrollEnabled = {false}
         // horizontal={true}
       />
 
@@ -318,32 +320,14 @@ export default function shop({route, navigation}) {
         <FlatList
           data={items}
           renderItem={props => renderItem({...props, refRBSheet})}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item,index) => index.toString()}
+          scrollEnabled = {false}
         />
         {/* <Button
         title="OPEN BOTTOM SHEET"
         onPress={() => refRBSheet.current[0].open()} // Example of opening the first item bottom sheet
       /> */}
-        <RBSheet
-          ref={refRBSheet.current[0]}
-          useNativeDriver={true}
-          customStyles={{
-            wrapper: {
-              backgroundColor: 'transparent',
-            },
-            draggableIcon: {
-              backgroundColor: '#000',
-            },
-          }}
-          customModalProps={{
-            animationType: 'slide',
-            statusBarTranslucent: true,
-          }}
-          customAvoidingViewProps={{
-            enabled: false,
-          }}>
-          <YourOwnComponent />
-        </RBSheet>
+        
       </View>
     </ScrollView>
   );

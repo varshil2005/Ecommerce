@@ -73,7 +73,7 @@ export default function Homepage({route, navigation}) {
   console.log(category.categorydata);
 
   const ProductCart = ({v}) => (
-    <View>
+    <View key={v.id}>
       <TouchableOpacity
         style={{marginHorizontal: horizontalScale(14)}}
         onPress={() => navigation.navigate('Product',{
@@ -112,7 +112,7 @@ export default function Homepage({route, navigation}) {
   );
 
   const NewProductCart = ({v}) => (
-    <View>
+    <View key={v.id}>
       <TouchableOpacity
         style={{marginHorizontal: horizontalScale(14)}}
         onPress={() => navigation.navigate('Product',{
@@ -215,7 +215,7 @@ export default function Homepage({route, navigation}) {
       </View>
 
       {category.categorydata.map((v, i) => (
-        <View style={{marginTop: verticalScale(40)}}>
+        <View style={{marginTop: verticalScale(40)}} key={v.id}>
           <View>
             <TouchableOpacity
               onPress={() =>

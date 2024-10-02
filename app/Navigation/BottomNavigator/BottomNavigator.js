@@ -7,7 +7,7 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import Homepage from '../../Container/homepage/Homepage';
 import Womens_top from '../../Container/Shop/shop';
 import FavoritesPage from '../../Container/Favorite Page/FavoritesPage';
-import { bagstack, favouritestack, homestack, LoginStack, Profilestack, shopstack } from '../StckNavigation';
+import { Bagstack, bagstack, Favouritestack, favouritestack, Homestack, homestack, LoginStack, Profilestack, Shopstack, shopstack } from '../StckNavigation';
 import My_Bag from '../../Container/Bag/My_Bag';
 import BottomSheet from '../../Container/BottomSheet/Bottomsheet';
 import SignUp from '../../Container/SignUp/SignUp';
@@ -73,20 +73,20 @@ export default function BottomNavigator() {
           headerShown :false,
           tabBarLabel: 'Signup',
         }}/> */}
-        <Tab.Screen name="HomeTab" component={homestack} options={{
+        <Tab.Screen name="HomeTab" component={Homestack} options={{
           headerShown: false,
           tabBarLabel: 'Home',
         }} />
-        <Tab.Screen name="ShopTab" component={shopstack} options={{
+        <Tab.Screen name="ShopTab" component={Shopstack} options={{
           headerShown: false,
           tabBarLabel: 'Shop',
         }} />
-        <Tab.Screen name="BagTab" component={bagstack} options={{
+        <Tab.Screen name="BagTab" component={Bagstack} options={{
           headerShown: false,
           tabBarLabel: 'Bag',
         }} />
         {/* <Tab.Screen name="Bag" component={FavoritesPage} /> */}
-        <Tab.Screen name="FavouriteTab" component={favouritestack} options={{
+        <Tab.Screen name="FavouriteTab" component={Favouritestack} options={{
           headerShown: false,
           tabBarLabel: 'Favourite',
         }} />

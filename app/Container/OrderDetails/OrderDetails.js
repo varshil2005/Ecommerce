@@ -109,7 +109,8 @@ export default function OrderDetails() {
       <FlatList
         data={Orderdata}
         renderItem={({ item }) => <Order v={item} />}
-        keyExtractor={item => item.id}
+        keyExtractor={(item,index) => String(index)}
+        scrollEnabled = {false}
       // horizontal={true}
       />
 
@@ -117,7 +118,8 @@ export default function OrderDetails() {
       <FlatList
         data={data2}
         renderItem={({ item }) => <NewProductCard v={item} />}
-        keyExtractor={item => item.id}
+        keyExtractor={(item,index) => String(index)}
+        scrollEnabled = {false}
       // horizontal={true}
       />
 

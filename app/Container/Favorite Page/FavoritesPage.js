@@ -92,7 +92,8 @@ export default function FavoritesPage({route, navigation}) {
       <FlatList
         data={FavouriteData}
         renderItem={({item}) => <NewProductCard v={item} />}
-        keyExtractor={item => item.id}
+        keyExtractor={(item,index) => String(index)}
+        scrollEnabled = {false}
         // horizontal={true}
       />
     

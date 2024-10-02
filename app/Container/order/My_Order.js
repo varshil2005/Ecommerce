@@ -121,7 +121,8 @@ export default function My_Order({route , navigation}) {
         <FlatList
           data={Data}
           renderItem={({item}) => <DataStructure v={item} n ={navigation} />}
-          keyExtractor={item => item.id}
+          keyExtractor={(item,index) => String(index)}
+          scrollEnabled = {false}
         />
       </View>
     </ScrollView>

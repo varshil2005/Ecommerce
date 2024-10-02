@@ -20,12 +20,12 @@ import {
 import AddShipingAddress from '../Container/Addshipping/AddShipingAddress';
 import CategoriesTwo from '../Container/Category/category';
 import Filter from '../Container/Filter/Filter';
-import shooping from '../Container/Shopping/shooping';
-import shop from '../Container/Shop/shop';
 import SignUp from '../Container/SignUp/SignUp';
 import Login from '../Container/Login/Login';
 import LoginwithOtp from '../Container/Login/LoginwithOtp';
 import Profile_Set from '../Container/Profile/Profile_Set';
+import Shooping from '../Container/Shopping/shooping';
+import Shop from '../Container/Shop/shop';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,13 +55,13 @@ function Rightbutton({nav}) {
   );
 }
 
-export const homestack = () => {
+export const Homestack = () => {
   return (
     <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
       <Stack.Screen name="Home" component={Homepage} />
       <Stack.Screen
         name="Shopping"
-        component={shooping}
+        component={Shooping}
         options={({navigation}) => ({
           title: 'Shopping',
           headerStyle: {
@@ -182,12 +182,12 @@ export const homestack = () => {
     </Stack.Navigator>
   );
 };
-export const shopstack = () => {
+export const Shopstack = () => {
   return (
     <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
       <Stack.Screen
         name="shop"
-        component={shop}
+        component={Shop}
         options={({navigation}) => ({
           title: 'Shop',
           headerStyle: {
@@ -338,7 +338,7 @@ export const shopstack = () => {
   );
 };
 
-export const favouritestack = () => {
+export const Favouritestack = () => {
   return (
     <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
       <Stack.Screen
@@ -454,7 +454,7 @@ export const favouritestack = () => {
   );
 };
 
-export const bagstack = () => {
+export const Bagstack = () => {
   return (
     <Stack.Navigator screenOptions={{headerTitleAlign: 'center'}}>
       <Stack.Screen

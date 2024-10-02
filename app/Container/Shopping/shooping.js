@@ -82,7 +82,7 @@ const YourOwnComponent = () => (
   </View>
 );
 
-export default function shooping({route, navigation}) {
+export default function Shooping({route, navigation}) {
   const refRBSheet = useRef([]);
 
   const dispatch = useDispatch();

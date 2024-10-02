@@ -71,7 +71,7 @@ export default function My_Bag({route, navigation}) {
   
 
 
-
+const CartLength = filterbag.length
  
   const handleInc =(id) => {
   
@@ -126,17 +126,7 @@ console.log("ewwerwer",totalamount);
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={Styles.img_data_view}>
-              <View style={{flexDirection: 'row'}}>
-                <Text style={Styles.color}>Color:</Text>
-                <Text style={Styles.black}>{colordata.colordata.find(v1 => v1.id === v.Color_id)?.name}</Text>
-              </View>
-              <View style={{flexDirection: 'row'}}>
-                <Text style={Styles.size}>Size:</Text>
-                <Text style={Styles.L}>{v?.size}</Text>
-              </View>
-            </View>
-
+           
             <View style={{flexDirection: 'row', columnGap: 6, marginTop: 20}}>
               <TouchableOpacity onPress={() => handleDec(v.id)}>
                 <Text style={Styles.textTouchableminus}>
@@ -178,6 +168,7 @@ console.log("ewwerwer",totalamount);
 
 
   return (
+    CartLength >=1 ?
     <ScrollView>
       <View>
         <StatusBar backgroundColor="transparent" barStyle="dark-content" />
@@ -185,7 +176,8 @@ console.log("ewwerwer",totalamount);
         <FlatList
           data={filterbag}
           renderItem={({item}) => <DataCity v={item} />}
-          keyExtractor={item => item.id}
+          keyExtractor={(item,index) => String(index)}
+          scrollEnabled = {false}
         />
 
         <View style={Styles.totalamount}>
@@ -201,6 +193,11 @@ console.log("ewwerwer",totalamount);
         </View>
       </View>
     </ScrollView>
+
+    :
+    <View style={{flex : 1,justifyContent:'center',alignItems :'center'}}>
+      <Text style ={{color:'red',fontSize:20}}>Your Cart Is empty </Text>
+    </View>
   );
 }
 
@@ -278,8 +275,7 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
   },
   dotsminihead: {
-    marginRight: horizontalScale(10),
-    marginTop: verticalScale(8),
+    marginTop: verticalScale(7),
   },
   dotsminihead3: {
     marginHorizontal: horizontalScale(3),
