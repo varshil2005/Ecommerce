@@ -20,6 +20,7 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from 'react-native-simple-radio-button';
+import Payment from '../Payment/Payment';
 
 const useaddresses = [
   {
@@ -181,13 +182,9 @@ export default function ShippingAddresses({route, navigation}) {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.btnView}>
-          <TouchableOpacity
-            style={styles.orderButton}
-            onPress={() => navigation.navigate('Sucess')}>
-            <Text style={{color: 'white', textAlign: 'center'}}>
-              Place Order
-            </Text>
+        <View >
+          <TouchableOpacity>
+           <Payment/>
           </TouchableOpacity>
         </View>
       </View>
@@ -202,7 +199,6 @@ export default function ShippingAddresses({route, navigation}) {
         radioButtons={radioButtons}
         onPress={setSelectedId}
         selectedId={selectedId}
-        style = {styles.radioButton}
       />
     </ScrollView>
   );
