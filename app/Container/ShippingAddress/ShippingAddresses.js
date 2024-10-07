@@ -22,37 +22,23 @@ import RadioForm, {
 } from 'react-native-simple-radio-button';
 import Payment from '../Payment/Payment';
 
-const useaddresses = [
-  {
-    id: 1,
-    name: 'Jane Doe',
-    Addresses: '3 Newbridge Court',
-    area: 'Chino Hills, CA 91709,',
-    state: 'United States',
-  },
-  {
-    id: 2,
-    name: 'Jane Doe',
-    Addresses: '3 Newbridge Court',
-    area: 'Chino Hills, CA 91709,',
-    state: 'United States',
-  },
-  {
-    id: 3,
-    name: 'Jane Doe',
-    Addresses: '3 Newbridge Court',
-    area: 'Chino Hills, CA 91709,',
-    state: 'United States',
-  },
-];
+
 
 export default function ShippingAddresses({route, navigation}) {
  
-  const [selectedId, setSelectedId] = useState();
+  console.log("asdas",route);
+  
+  const [selectedId, setSelectedId] = useState(0);
+
+  console.log("asdasdasd",selectedId);
+  
   const dispatch = useDispatch();
 
   const auth = useSelector(state=>state.auth)
   console.log("sadasdasd",auth);
+
+  const Cart = useSelector(state => state.cart);
+  console.log('carttcatatatata', Cart.Cart[0]);
   
 
   useEffect(() => {
@@ -184,7 +170,12 @@ export default function ShippingAddresses({route, navigation}) {
 
         <View >
           <TouchableOpacity>
-           <Payment/>
+           <Payment data = {{
+            uid : auth.auth.uid,
+            amt : route.params,
+            cart : Cart.cart,
+            address : ShipData?.[selectedId]
+           }}/>
           </TouchableOpacity>
         </View>
       </View>

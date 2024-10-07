@@ -187,7 +187,9 @@ console.log("ewwerwer",totalamount);
 
         <View style={Styles.checkoutBtn}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('shippingaddress')}>
+            onPress={() => navigation.navigate('shippingaddress',
+              totalamount
+            )}>
             <Text style={Styles.checkoutText}>Check out</Text>
           </TouchableOpacity>
         </View>

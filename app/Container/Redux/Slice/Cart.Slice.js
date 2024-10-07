@@ -34,6 +34,7 @@ export const AddToCart = createAsyncThunk('Cart/AddToCart', async data => {
         await userDoc.update({
           cart: firebase.firestore.FieldValue.arrayRemove({
             pid: data.id,
+            amt : data.amt,
             qtn: BagData[0].cart[index].qtn,
           }),
         });
@@ -41,6 +42,7 @@ export const AddToCart = createAsyncThunk('Cart/AddToCart', async data => {
         await userDoc.update({
           cart: firebase.firestore.FieldValue.arrayUnion({
             pid: data.id,
+            amt : data.amt,
             qtn: BagData[0].cart[index].qtn + 1,
           }),
         });
@@ -50,6 +52,7 @@ export const AddToCart = createAsyncThunk('Cart/AddToCart', async data => {
         await userDoc.update({
           cart: firebase.firestore.FieldValue.arrayUnion({
             pid: data.id,
+            amt : data.amt,
             qtn: 1,
           }),
         });
@@ -82,7 +85,7 @@ export const AddToCart = createAsyncThunk('Cart/AddToCart', async data => {
       .collection('Cart')
       .doc(data.uid)
       .set({
-        cart: [{pid: data.id, qtn: 1}],
+        cart: [{pid: data.id,amt : data.amt, qtn: 1}],
       })
       .then(() => {
         console.log('User added!');
@@ -291,7 +294,7 @@ const CartSlice = createSlice({
     });
 
     builder.addCase(AddToCart.fulfilled, (state, action) => {
-      console.log('actionactionaction', action.payload[0].cart);
+      // console.log('actionactionaction', action.payload[0].cart);
       state.Cart = action.payload;
     });
 

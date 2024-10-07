@@ -152,8 +152,8 @@ console.log("ghjkl",auth);
     </View>
   );
 
-  const handleCart = id => {
-    dispatch(AddToCart({id, uid: auth?.auth?.uid}));
+  const handleCart = (id,price) => {
+    dispatch(AddToCart({id, uid: auth?.auth?.uid , amt : price}));
     navigation.navigate('Bag');
   };
   return (
@@ -342,7 +342,7 @@ console.log("ghjkl",auth);
       </View>
       <TouchableOpacity
         style={styles.ButtonView}
-        onPress={() => handleCart(filterdata.id)}>
+        onPress={() => handleCart(filterdata.id , filterdata.price)}>
         <View style={styles.ButtonUnderView}>
           <Text style={styles.AddCart}>ADD TO CART</Text>
         </View>
