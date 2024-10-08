@@ -14,6 +14,8 @@ import FavouriteSlice from "../Slice/Favourite.Slice";
 import AddressSlice from "../Slice/Address.Slice";
 import authSlice from "../Slice/auth.slice";
 import CartSlice from "../Slice/Cart.Slice";
+import  OrderDataSlice  from "../Slice/Order.Slice";
+
 
 
 export const rootReducer = combineReducers ({
@@ -27,5 +29,6 @@ export const rootReducer = combineReducers ({
         togglefavourite: FavouriteSlice,
         cart : CartSlice,
         address : AddressSlice,
-        auth :authSlice
+        auth :authSlice,
+        order : OrderDataSlice
 })

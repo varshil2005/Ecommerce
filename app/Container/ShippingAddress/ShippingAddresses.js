@@ -170,10 +170,10 @@ export default function ShippingAddresses({route, navigation}) {
 
         <View >
           <TouchableOpacity>
-           <Payment data = {{
+           <Payment data =  {{
             uid : auth.auth.uid,
             amt : route.params,
-            cart : Cart.cart,
+            cart : Cart.Cart[0],
             address : ShipData?.[selectedId]
            }}/>
           </TouchableOpacity>
