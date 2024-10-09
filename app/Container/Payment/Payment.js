@@ -75,7 +75,7 @@ export default function Payment(props) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
       Alert.alert('Success', 'Your order is confirmed!');
-      dispatch(OrderData({customerId,data : props.data}))
+      dispatch(OrderData({customerId,data : props.data}))     
     }
   };
 

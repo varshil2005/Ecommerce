@@ -8,8 +8,10 @@ import {
   FlatList,
 } from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetOrder } from '../Redux/Slice/Order.Slice';
 
 const Data = [
   {
@@ -51,8 +53,8 @@ const DataStructure = ({v ,n}) => (
     <View style={Styles.orderDatamainBody}>
       <View style={{marginTop: 6}}>
         <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
-          <Text style={Styles.orderData1}>{v.Order_no}</Text>
-          <Text style={Styles.orderData2}>{v.Date}</Text>
+          <Text style={Styles.orderData1}>{v.OrederNo}</Text>
+          <Text style={Styles.orderData2}>{v.orderDate}</Text>
         </View>
 
         <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
@@ -62,13 +64,13 @@ const DataStructure = ({v ,n}) => (
 
         <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
           <View style={{flexDirection: 'row'}}>
-            <Text style={Styles.orderData2}>Quantity:</Text>
-            <Text style={Styles.orderData1}>{v.quantity}</Text>
+            <Text style={Styles.orderData2}>Quantity : </Text>
+            <Text style={Styles.orderData1}>{v?.cart.reduce((sum,v1) => v1.qtn + sum , 0)}</Text>
           </View>
 
           <View style={{flexDirection: 'row',justifyContent:'space-between'}}>
-            <Text style={Styles.orderData2}>Total Amount:</Text>
-            <Text style={Styles.orderData1}>{v.total_amount}$</Text>
+            <Text style={Styles.orderData2}>Total Amount : </Text>
+            <Text style={Styles.orderData1}>{v.totalAmount} rs</Text>
           </View>
         </View>
 
@@ -90,6 +92,21 @@ const DataStructure = ({v ,n}) => (
 );
 
 export default function My_Order({route , navigation}) {
+
+  const dispatch = useDispatch();
+
+
+  const auth = useSelector(state=>state.auth)
+  console.log("sadasdasd",auth);
+
+  useEffect(() => {
+    dispatch(GetOrder(auth?.auth?.uid))
+  },[])
+  const OrderDetails = useSelector(state => state.order);
+  console.log("qwerfgsd",OrderDetails?.Order[0]?.Order);
+
+  console.log("sasdsfdsfvvv",OrderDetails?.Order[0]?.Order[0]?.cart[0]?.qtn);
+  
   return (
     <ScrollView>
       <StatusBar backgroundColor="#F4F4F4" barStyle="dark-content" />
@@ -119,7 +136,7 @@ export default function My_Order({route , navigation}) {
         </View>
 
         <FlatList
-          data={Data}
+          data={OrderDetails?.Order[0]?.Order}
           renderItem={({item}) => <DataStructure v={item} n ={navigation} />}
           keyExtractor={(item,index) => String(index)}
           scrollEnabled = {false}

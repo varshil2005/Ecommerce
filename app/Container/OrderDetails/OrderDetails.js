@@ -1,8 +1,10 @@
 import { View, Text, ScrollView, StatusBar, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetOrder } from '../Redux/Slice/Order.Slice';
 
 const data2 = [
   {
@@ -49,6 +51,8 @@ const Orderdata = [
 
 ]
 export default function OrderDetails() {
+  
+  
   const Order = ({ v }) => (
     <View style={styles.ViewOrder}>
       <View>
