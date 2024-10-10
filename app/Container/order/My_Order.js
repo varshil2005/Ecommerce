@@ -74,15 +74,24 @@ const DataStructure = ({v ,n}) => (
           </View>
         </View>
 
+
+         <View style={{flexDirection: 'row'}}>
+            <Text style={Styles.orderData2}>Address : </Text>
+            <Text style={Styles.orderData1}>{v.address.address}</Text>
+          </View>
+      
+
         <View style={Styles.detailBtnHead}>
           <View style={Styles.detaildBtn}>
-            <TouchableOpacity onPress={() => n.navigate("OrderDetails")}>
+            <TouchableOpacity onPress={() => n.navigate("OrderDetails",
+              v
+            )}>
               <Text style={Styles.detaildBtnText}>Details</Text>
             </TouchableOpacity>
           </View>
           <View>
             <TouchableOpacity>
-              <Text style={Styles.delieverdText}>Delievered</Text>
+              <Text style={Styles.delieverdText}>{v.status}</Text>
             </TouchableOpacity>
           </View>
         </View>

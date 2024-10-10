@@ -5,6 +5,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { horizontalScale, moderateScale, verticalScale } from '../../../assets/metrics/Metrics';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetOrder } from '../Redux/Slice/Order.Slice';
+import { getBag } from '../Redux/Slice/Cart.Slice';
+import { getPrdouct } from '../Redux/Slice/Product.slice';
+import { getcolor } from '../Redux/Slice/Color.Slice';
 
 const data2 = [
   {
@@ -50,46 +53,64 @@ const Orderdata = [
   },
 
 ]
-export default function OrderDetails() {
+export default function OrderDetails({route,navigation}) {
   
-  
-  const Order = ({ v }) => (
-    <View style={styles.ViewOrder}>
-      <View>
-        <Text style={styles.Order0}>OrderNo: <Text>{v.OrderNo}</Text></Text>
-        <Text style={styles.Order2}>Trackingnumber: <Text style={styles.Order}>{v.Trackingnumber}</Text></Text>
-      </View>
-      <View>
-        <Text style={styles.Order2}>{v.date}</Text>
-        <Text style={styles.Order3}>{v.Delivered}</Text>
-      </View>
+  console.log("klklklklklk",route.params);
 
-    </View>
-  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPrdouct())
+    dispatch(getcolor())
+  },[])
+     
+
+  const productdata = useSelector(state => state.Product);
+  console.log('Kkkkkkk', productdata.productdata);
+
+  const colordata = useSelector(state => state.Color);
+  console.log('kkkkkkkk', colordata.colordata);
+
+  const FilterCart = productdata.productdata.filter((v) => route.params.cart.some((v1) => v1.pid === v.id))
+
+  console.log("dsaeee",FilterCart);
+
+  
+  
+  
+//   
+//   const Order = ({ v }) => (
+//     <View style={styles.ViewOrder}>
+//       <View>
+//         <Text style={styles.Order0}>OrderNo: <Text>{route.params.OrederNo}</Text></Text>
+//         <Text style={styles.Order2}>Trackingnumber: <Text style={styles.Order}>{route.params.Trackingnumber}</Text></Text>
+//       </View>
+//       <View>
+//         <Text style={styles.Order2}>{route.params.orderDate}</Text>
+//         <Text style={styles.Order3}>{route.params.status}</Text>
+//       </View>
+// 
+//     </View>
+//   );
 
 
   const NewProductCard = ({ v }) => (
 
     <TouchableOpacity style={styles.olldeta}>
 
-      <Image source={v.image} style={styles.img} />
+      <Image source={{uri : v.url}} style={styles.img} />
       <View style={styles.pullovertext}>
 
-        <Text style={styles.protext}>{v.title}</Text>
+        <Text style={styles.protext}>{v?.name}</Text>
 
-        <Text style={styles.protext2}>{v.subtitle}</Text>
+        <Text style={styles.protext2}>{v?.desc}</Text>
 
         <View style={styles.Color}>
-          <Text style={styles.Colortext}>color:<Text style={styles.colorsize}>{v.color}</Text></Text>
-          <Text style={styles.Colortext}>Size:<Text style={styles.colorsize}>{v.Size}</Text></Text>
+          <Text style={styles.Colortext}>color:<Text style={styles.colorsize}>  {colordata.colordata.find((v1) => v1.id === v.Color_id)?.name}</Text></Text>
         </View>
 
-
-
         <View style={styles.OrderDetails}>
-          <Text style={styles.Colortext}>Units:<Text style={styles.colorsize}>{v.Units}</Text></Text>
-
-          <TouchableOpacity><Text style={styles.colorsize}>{v.price}$</Text></TouchableOpacity>
+          <TouchableOpacity><Text style={styles.colorsize}>{v?.price}$</Text></TouchableOpacity>
         </View>
       </View>
 
@@ -102,6 +123,17 @@ export default function OrderDetails() {
         backgroundColor={'transparent'}
       />
 
+<View style={styles.ViewOrder}>
+      <View>
+        <Text style={styles.Order0}>OrderNo: <Text>{route.params.OrederNo}</Text></Text>
+        <Text style={styles.Order2}>Trackingnumber: <Text style={styles.Order}>{route.params.Trackingnumber}</Text></Text>
+      </View>
+      <View>
+        <Text style={styles.Order2}>{route.params.orderDate}</Text>
+        <Text style={styles.Order3}>{route.params.status}</Text>
+      </View>
+
+    </View>
       {/* <View style={styles.Ordertext}>
       <TouchableOpacity><FontAwesome name="angle-left" size={45} color="black" /></TouchableOpacity>
         <Text style={styles.Ordertext2}>Order Details</Text>
@@ -110,18 +142,18 @@ export default function OrderDetails() {
 
 
 
-      <FlatList
+      {/* <FlatList
         data={Orderdata}
         renderItem={({ item }) => <Order v={item} />}
         keyExtractor={(item,index) => String(index)}
         scrollEnabled = {false}
       // horizontal={true}
-      />
+      /> */}
 
-      <View><Text style={{ color: 'black' }}>3 item</Text></View>
+      <View><Text style={{ color: 'black' }}>{FilterCart?.length} item</Text></View>
       <FlatList
-        data={data2}
-        renderItem={({ item }) => <NewProductCard v={item} />}
+        data={FilterCart}
+        renderItem={({ item }) => <NewProductCard v = {item} />}
         keyExtractor={(item,index) => String(index)}
         scrollEnabled = {false}
       // horizontal={true}
